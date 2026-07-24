@@ -70,6 +70,24 @@ new class () extends Component {
         unset($this->promiseItems);
     }
 
+    #[On('promise-added.{campaignId}')]
+    public function refreshAfterPromiseAdded(): void
+    {
+        if (! $this->itemId) {
+            return;
+        }
+
+        $selectedItem = Item::query()
+            ->select(['promised_quantity', 'received_quantity'])
+            ->where('campaign_id', $this->campaignId)
+            ->findOrFail($this->itemId);
+
+        $this->itemPromisedQuantity = $selectedItem->promised_quantity;
+        $this->itemReceivedQuantity = $selectedItem->received_quantity;
+
+        unset($this->promiseItems);
+    }
+
     public function confirm(int $promiseItem): void
     {
         $promiseItem = $this->findPromiseItem($promiseItem);

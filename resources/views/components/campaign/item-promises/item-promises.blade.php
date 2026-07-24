@@ -1,5 +1,5 @@
 <div>
-    <x-slide wire title="Promessas de doação" persistent size="xl">
+    <x-slide wire title="Promessas de doação" id="promises-slide" persistent size="xl">
         <div class="space-y-5">
             @if ($itemName)
                 <div class="space-y-1">
