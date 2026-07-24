@@ -38,6 +38,7 @@
                         wire:model="delivery_date"
                         name="delivery_date"
                         format="DD/MM/YYYY"
+                        :min-date="now()->addDay()"
                         hint="Informe se este item precisar ser entregue antes dos demais" />
 
                 <x-textarea label="Observações" placeholder="Ex.: Manter congelado até a entrega." wire:model="note" />

@@ -12,12 +12,14 @@
                         wire:model="confirmation_deadline"
                         name="confirmation_deadline"
                         format="DD/MM/YYYY"
+                        :min-date="now()->addDay()"
                         required />
 
                 <x-date label="Data limite de entrega *"
                         wire:model="delivery_deadline"
                         name="delivery_deadline"
                         format="DD/MM/YYYY"
+                        :min-date="now()->addDay()"
                         required />
             </div>
         </form>

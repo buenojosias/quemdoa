@@ -2,6 +2,7 @@
 @import '../../vendor/tallstackui/tallstackui/css/v4.css';
 
 @source '../views';
+@source '../../config/tallstackui.php';
 @source '../../vendor/tallstackui/tallstackui/**/*.php';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 
@@ -47,6 +48,9 @@
     --color-neutral-800: #87610e;
     --color-neutral-900: #62460a;
     --color-neutral-950: #3d2c07;
+
+    --z-index-60: 60;
+    --z-index-70: 70;
 }
 
 .header {
