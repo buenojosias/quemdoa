@@ -1,5 +1,5 @@
 <div>
-    <x-slide wire title="Promessas de doação" size="2xl">
+    <x-slide wire title="Promessas de doação" persistent size="xl">
         <div class="space-y-5">
             @if ($itemName)
                 <div class="space-y-1">
@@ -70,5 +70,9 @@
                 </x-slot:empty>
             </x-table>
         </div>
+
+        @if ($itemId)
+            <livewire:promise.add-promise :itemId="$itemId" />
+        @endif
     </x-slide>
 </div>
