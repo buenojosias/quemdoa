@@ -48,21 +48,19 @@
                 @endinteract
 
                 @interact('column_actions', $row)
-                    <div class="flex flex-wrap justify-end gap-1" wire:key="promise-item-actions-{{ $row->id }}">
-                        @if ($row->status === \App\Enums\PromiseItemStatusEnum::PENDING)
-                            <x-button icon="check" text="Confirmar" color="cyan" xs flat
-                                wire:click="confirm({{ $row->id }})"
-                                loading="confirm({{ $row->id }})" />
+                    <x-dropdown icon="bars-3">
+                        <x-slot:header>
+                            <p class="text-sm text-center">Ações</p>
+                        </x-slot:header>
+                        @if ($row->status->value === 'pending')
+                            <x-dropdown.items text="Confirmar" wire:click="confirm({{ $row->id }})" />
                         @endif
-
-                        <x-button icon="archive-box-arrow-down" text="Recebido" color="green" xs flat
-                            wire:click="receive({{ $row->id }})"
-                            loading="receive({{ $row->id }})" />
-
-                        <x-button icon="trash" text="Excluir" color="red" xs flat
-                            wire:click="askToDelete({{ $row->id }})"
-                            loading="askToDelete({{ $row->id }})" />
-                    </div>
+                        @if (in_array($row->status->value, ['pending', 'promised']))
+                            <x-dropdown.items text="Confirmar recebimento" wire:click="receive({{ $row->id }})" />
+                        @endif
+                        <x-dropdown.items text="Alterar quantidade" />
+                        <x-dropdown.items text="Excluir" wire:click="askToDelete({{ $row->id }})" separator />
+                    </x-dropdown>
                 @endinteract
 
                 <x-slot:empty>

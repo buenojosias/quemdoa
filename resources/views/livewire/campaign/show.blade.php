@@ -32,6 +32,16 @@
             <p class="text-sm text-gray-500 dark:text-gray-400">Envie este link para o grupo de sua pastoral ou comunidade.</p>
             <x-clipboard :text="$this->campaignUrl" />
         </div>
+        <x-slot:footer>
+            <div class="flex items-center justify-between gap-4">
+            <x-link text="Listar doadores" href="#" />
+            <x-dropdown text="Mais ações" position="bottom-end">
+                <x-dropdown.items text="Editar campanha" />
+                <x-dropdown.items text="Desativar campanha" />
+                <x-dropdown.items text="Excluir campanha" separator />
+            </x-dropdown>
+            </div>
+        </x-slot>
     </x-card>
 
     <div class="flex justify-between items-center my-6 gap-4">
