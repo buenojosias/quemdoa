@@ -52,8 +52,8 @@ class User extends Authenticatable
         return $this->hasMany(Campaign::class);
     }
 
-    public function promises(): HasMany
+    public function bags(): HasMany
     {
-        return $this->hasMany(Promise::class);
+        return $this->hasMany(Bag::class);
     }
 }

@@ -6,7 +6,7 @@ use App\Models\Campaign;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class PromiseSeeder extends Seeder
+class BagSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,36 +17,39 @@ class PromiseSeeder extends Seeder
 
         foreach ($campaigns as $campaign) {
             $items = $campaign->items;
-            $promises = $campaign->promises()->createMany([
+            $bags = $campaign->bags()->createMany([
                 [
+                    'code' => 'BA6506',
                     'user_id' => 1,
-                    'donor_name' => 'John Doe',
+                    'participant_name' => 'John Doe',
                     'confirmed_at' => now(),
                 ],
                 [
-                    'donor_name' => 'Jane Smith',
-                    'donor_whatsapp' => '0987654321',
+                    'code' => 'BA6507',
+                    'participant_name' => 'Jane Smith',
+                    'participant_whatsapp' => '0987654321',
                     'confirmation_code' => 'XYZ789',
                     'confirmed_at' => now(),
                 ],
                 [
-                    'donor_name' => 'Lorem Ipsum',
-                    'donor_whatsapp' => '4136853359',
+                    'code' => 'BA6508',
+                    'participant_name' => 'Lorem Ipsum',
+                    'participant_whatsapp' => '4136853359',
                     'confirmation_code' => 'ABC123',
                 ],
             ]);
 
-            foreach ($promises as $promise) {
+            foreach ($bags as $bag) {
                 $randomItems = $items->random(3);
                 foreach ($randomItems as $item) {
-                    $promised_quantity = rand(1, $item->required_quantity);
-                    $promise->items()->create([
+                    $quantity = rand(1, $item->required_quantity);
+                    $bag->items()->create([
                         'item_id' => $item->id,
-                        'promised_quantity' => $promised_quantity,
-                        'status' => $promise->confirmed_at ? 'promised' : 'pending',
+                        'quantity' => $quantity,
+                        'status' => $bag->confirmed_at ? 'confirmed' : 'pending',
                     ]);
                     $item->update([
-                        'promised_quantity' => $item->promised_quantity + $promised_quantity,
+                        'bagged_quantity' => $item->bagged_quantity + $quantity,
                     ]);
                 }
             }

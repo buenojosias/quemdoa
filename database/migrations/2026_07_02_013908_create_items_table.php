@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('name'); // Nome do item necessário
             $table->string('complement')->nullable(); // Complemento do item (ex: marca, tipo, sabor)
             $table->string('unit', 20); // Unidade de medida (ex: kg, un, l) - virá de class Enum
-            $table->integer('required_quantity'); // Quantidade necessária do item
-            $table->integer('promised_quantity')->default(0); // Quantidade prometida do item
-            $table->integer('received_quantity')->default(0); // Quantidade recebida do item
+            $table->decimal('required_quantity', 4, 1); // Quantidade necessária do item
+            $table->decimal('bagged_quantity', 4, 1)->default(0); // Quantidade ensacada do item
+            $table->decimal('received_quantity', 4, 1)->default(0); // Quantidade recebida do item
             $table->date('delivery_date')->nullable(); // Data limite para entrega do item específico
             $table->mediumText('note')->nullable(); // Observações adicionais sobre o item
             $table->timestamps();

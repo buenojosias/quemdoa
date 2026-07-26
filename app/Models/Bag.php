@@ -5,15 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Promise extends Model
+class Bag extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'campaign_id',
+        'code',
         'user_id',
-        'donor_name',
-        'donor_whatsapp',
+        'participant_name',
+        'participant_whatsapp',
         'confirmation_code',
+        'confirmed_by',
         'confirmed_at',
     ];
 
@@ -36,6 +41,6 @@ class Promise extends Model
 
     public function items(): HasMany
     {
-        return $this->hasMany(PromiseItem::class);
+        return $this->hasMany(BagItem::class);
     }
 }

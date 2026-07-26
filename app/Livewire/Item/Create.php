@@ -20,6 +20,7 @@ class Create extends Component
     public ?string $category = null;
 
     public ?string $name = null;
+    
     public ?string $complement = null;
 
     public ?string $unit = null;

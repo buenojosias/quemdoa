@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CampaignSeeder::class,
             ItemSeeder::class,
-            PromiseSeeder::class,
+            BagSeeder::class,
         ]);
     }
 }

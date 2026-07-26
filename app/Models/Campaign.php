@@ -41,13 +41,13 @@ class Campaign extends Model
         return $this->hasMany(Item::class);
     }
 
-    public function promises(): HasMany
+    public function bags(): HasMany
     {
-        return $this->hasMany(Promise::class);
+        return $this->hasMany(Bag::class);
     }
 
-    public function promiseItems(): HasManyThrough
+    public function bagItems(): HasManyThrough
     {
-        return $this->hasManyThrough(PromiseItem::class, Item::class);
+        return $this->hasManyThrough(BagItem::class, Item::class);
     }
 }

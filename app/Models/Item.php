@@ -20,7 +20,7 @@ class Item extends Model
         'complement',
         'unit',
         'required_quantity',
-        'promised_quantity',
+        'bagged_quantity',
         'received_quantity',
         'delivery_date',
         'note',
@@ -31,9 +31,9 @@ class Item extends Model
         return [
             'category' => CategoryEnum::class,
             'unit' => UnitEnum::class,
-            'required_quantity' => 'integer',
-            'promised_quantity' => 'integer',
-            'received_quantity' => 'integer',
+            'required_quantity' => 'decimal:1',
+            'bagged_quantity' => 'decimal:1',
+            'received_quantity' => 'decimal:1',
             'delivery_date' => 'date',
         ];
     }
@@ -43,8 +43,8 @@ class Item extends Model
         return $this->belongsTo(Campaign::class);
     }
 
-    public function promisses(): HasMany
+    public function bags(): HasMany
     {
-        return $this->hasMany(PromiseItem::class);
+        return $this->hasMany(BagItem::class);
     }
 }

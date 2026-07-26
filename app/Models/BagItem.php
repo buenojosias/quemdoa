@@ -2,30 +2,30 @@
 
 namespace App\Models;
 
-use App\Enums\PromiseItemStatusEnum;
+use App\Enums\BagItemStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class PromiseItem extends Model
+class BagItem extends Model
 {
     protected $fillable = [
-        'promise_id',
+        'bag_id',
         'item_id',
-        'promised_quantity',
+        'quantity',
         'status',
     ];
 
     protected function casts(): array
     {
         return [
-            'promised_quantity' => 'integer',
-            'status' => PromiseItemStatusEnum::class,
+            'quantity' => 'integer',
+            'status' => BagItemStatusEnum::class,
         ];
     }
 
-    public function promise(): BelongsTo
+    public function bag(): BelongsTo
     {
-        return $this->belongsTo(Promise::class);
+        return $this->belongsTo(Bag::class);
     }
 
     public function item(): BelongsTo

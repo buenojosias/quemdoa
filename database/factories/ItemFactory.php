@@ -26,7 +26,7 @@ class ItemFactory extends Factory
             'complement' => $this->faker->optional()->sentence(3),
             'unit' => $this->faker->randomElement(array_map(fn($case) => $case->value, \App\Enums\UnitEnum::cases())),
             'required_quantity' => $required_quantity,
-            'promised_quantity' => 0,
+            'bagged_quantity' => 0,
             'received_quantity' => 0,
             'delivery_date' => $this->faker->optional()->dateTimeBetween('+1 week', '+2 week'),
             'note' => $this->faker->optional()->sentence()

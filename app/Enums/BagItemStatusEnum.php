@@ -2,11 +2,10 @@
 
 namespace App\Enums;
 
-enum PromiseItemStatusEnum: string
+enum BagItemStatusEnum: string
 {
     case PENDING = 'pending';
-    case PROMISED = 'promised';
+    case CONFIRMED = 'confirmed';
     case RECEIVED = 'received';
-    case DELIVERED = 'delivered';
     case CANCELED = 'canceled';
 }
