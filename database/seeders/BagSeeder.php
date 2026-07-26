@@ -44,7 +44,7 @@ class BagSeeder extends Seeder
                 foreach ($randomItems as $item) {
                     $quantity = rand(1, $item->required_quantity);
                     $bag->items()->create([
-                        'item_id' => $item->id,
+                        'campaign_item_id' => $item->id,
                         'quantity' => $quantity,
                         'status' => $bag->confirmed_at ? 'confirmed' : 'pending',
                     ]);

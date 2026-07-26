@@ -38,7 +38,7 @@ class Campaign extends Model
 
     public function items(): HasMany
     {
-        return $this->hasMany(Item::class);
+        return $this->hasMany(CampaignItem::class);
     }
 
     public function bags(): HasMany
@@ -48,6 +48,6 @@ class Campaign extends Model
 
     public function bagItems(): HasManyThrough
     {
-        return $this->hasManyThrough(BagItem::class, Item::class);
+        return $this->hasManyThrough(BagItem::class, CampaignItem::class);
     }
 }

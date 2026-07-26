@@ -3,13 +3,13 @@
 namespace Database\Factories;
 
 use App\Enums\CategoryEnum;
-use App\Models\Item;
+use App\Models\CampaignItem;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Item>
+ * @extends Factory<CampaignItem>
  */
-class ItemFactory extends Factory
+class CampaignItemFactory extends Factory
 {
     /**
      * Define the model's default state.

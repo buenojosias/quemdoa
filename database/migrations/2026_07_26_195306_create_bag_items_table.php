@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('bag_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('bag_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('item_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('campaign_item_id')->constrained()->cascadeOnDelete();
             $table->decimal('quantity', 4, 1);
             $table->string('status', 20)->default('pending')->index(); // Muda para confirmed automaticamente com o confirmed de bag
             $table->timestamps();
