@@ -43,7 +43,7 @@ class CampaignItem extends Model
         return $this->belongsTo(Campaign::class);
     }
 
-    public function bags(): HasMany
+    public function bagItems(): HasMany
     {
         return $this->hasMany(BagItem::class);
     }

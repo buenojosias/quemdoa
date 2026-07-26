@@ -54,8 +54,8 @@
     @island('items-table')
         <livewire:campaign.items-table :campaign-id="$this->campaign->id" />
     @endisland
-    @island('item-promises')
-        <livewire:campaign.item-promises :campaign-id="$this->campaign->id" />
+    @island('item-bags')
+        <livewire:campaign.item-bags :campaign-id="$this->campaign->id" />
     @endisland
 
 </div>

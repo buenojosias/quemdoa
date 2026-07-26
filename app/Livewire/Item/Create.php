@@ -20,12 +20,12 @@ class Create extends Component
     public ?string $category = null;
 
     public ?string $name = null;
-    
+
     public ?string $complement = null;
 
     public ?string $unit = null;
 
-    public ?int $required_quantity = null;
+    public ?float $required_quantity = null;
 
     public ?string $delivery_date = null;
 
@@ -68,8 +68,8 @@ class Create extends Component
             ],
             'required_quantity' => [
                 'required',
-                'integer',
-                'min:1',
+                'numeric',
+                'min:0.1',
             ],
             'delivery_date' => [
                 'nullable',

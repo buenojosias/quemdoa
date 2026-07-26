@@ -10,7 +10,7 @@ class BagItem extends Model
 {
     protected $fillable = [
         'bag_id',
-        'item_id',
+        'campaign_item_id',
         'quantity',
         'status',
     ];
@@ -18,7 +18,7 @@ class BagItem extends Model
     protected function casts(): array
     {
         return [
-            'quantity' => 'integer',
+            'quantity' => 'decimal:1',
             'status' => BagItemStatusEnum::class,
         ];
     }
@@ -30,6 +30,6 @@ class BagItem extends Model
 
     public function item(): BelongsTo
     {
-        return $this->belongsTo(CampaignItem::class);
+        return $this->belongsTo(CampaignItem::class, 'campaign_item_id');
     }
 }

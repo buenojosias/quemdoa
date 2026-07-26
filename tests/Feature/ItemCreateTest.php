@@ -71,7 +71,7 @@ it('creates an item, keeps the modal open, resets fields except category, and di
         ->assertSet('successMessage', 'Item adicionado com sucesso!')
         ->assertDispatched("item-created.{$campaign->id}");
 
-    assertDatabaseHas('items', [
+    assertDatabaseHas('campaign_items', [
         'campaign_id' => $campaign->id,
         'category' => CategoryEnum::FOODS->value,
         'name' => 'Arroz',
@@ -116,5 +116,5 @@ it('refreshes the campaign items table when an item is created', function () {
         ->dispatch("item-created.{$campaign->id}")
         ->assertSee('Arroz')
         ->assertSee('Comidas')
-        ->assertSee('10 kg');
+        ->assertSee('10.0 kg');
 });

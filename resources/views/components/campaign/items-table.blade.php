@@ -1,7 +1,7 @@
 <?php
 
 use App\Enums\CategoryEnum;
-use App\Models\Item;
+use App\Models\CampaignItem;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
@@ -26,7 +26,7 @@ new class extends Component
     #[Computed]
     public function items()
     {
-        $query = Item::query()
+        $query = CampaignItem::query()
             ->where('campaign_id', $this->campaignId)
             ->orderBy('name');
 
@@ -104,8 +104,8 @@ new class extends Component
         @endinteract
         @interact('column_quantity', $row)
             <div class="space-y-0.5">
-                {{ $row->required_quantity }} {{ $row->unit->abbreviation() }}
-                <x-progress :percent="$row->promised_quantity / $row->required_quantity * 100" color="cyan" sm />
+                {{ number_format($row->required_quantity, 0) }} {{ $row->unit->abbreviation() }}
+                <x-progress :percent="$row->bagged_quantity / $row->required_quantity * 100" color="cyan" sm />
                 <x-progress :percent="$row->received_quantity / $row->required_quantity * 100" color="green" sm />
             </div>
         @endinteract
@@ -115,8 +115,8 @@ new class extends Component
         @interact('column_actions', $row)
             <div class="flex">
                 <x-button icon="pencil-square" title="Editar" flat />
-                <x-button icon="list-bullet" title="Promessas de doação" flat
-                    wire:click="$dispatch('open-item-promises.{{ $this->campaignId }}', { item: {{ $row->id }} })" />
+                <x-button icon="list-bullet" title="Sacolas" flat
+                    wire:click="$dispatch('open-item-bags.{{ $this->campaignId }}', { item: {{ $row->id }} })" />
             </div>
         @endinteract
     </x-table>
