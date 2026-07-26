@@ -34,7 +34,7 @@
         </div>
         <x-slot:footer>
             <div class="flex items-center justify-between gap-4">
-            <x-link text="Listar doadores" href="#" />
+            <x-link text="Listar sacolas" href="#" />
             <x-dropdown text="Mais ações" position="bottom-end">
                 <x-dropdown.items text="Editar campanha" />
                 <x-dropdown.items text="Desativar campanha" />
