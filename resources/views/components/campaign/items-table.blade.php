@@ -104,7 +104,7 @@ new class extends Component
         @endinteract
         @interact('column_quantity', $row)
             <div class="space-y-0.5">
-                {{ number_format($row->required_quantity, 0) }} {{ $row->unit->abbreviation() }}
+                {{ number_format($row->required_quantity, 0) }} {{ $row->unit->label() }}
                 <x-progress :percent="$row->bagged_quantity / $row->required_quantity * 100" color="cyan" sm />
                 <x-progress :percent="$row->received_quantity / $row->required_quantity * 100" color="green" sm />
             </div>

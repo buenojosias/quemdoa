@@ -9,11 +9,33 @@
     <div class="space-y-4">
         @forelse ($this->campaigns as $campaign)
             {{-- <livewire:campaign.card :campaign="$campaign" :wire:key="$campaign->id" /> --}}
-            <x-card>
-                <small class="text-gray-500">{{ $campaign->created_at->format('d/m/Y') }}</small>
-                <p>
-                    <a href="{{ route('campaigns.show', $campaign) }}">{{ $campaign->name }}</a>
-                </p>
+            <x-card class="space-y-3">
+                <div class="flex justify-between items-start gap-4">
+                    <a href="{{ route('campaigns.show', $campaign) }}" class="font-semibold flex-1 pb-1">{{ $campaign->name }}</a>
+                    <x-badge
+                        :text="$campaign->is_active ? 'Ativa' : 'Inativa'"
+                        :color="$campaign->is_active ? 'primary' : 'neutral'"
+                        light />
+                </div>
+                <p class="text-gray-500 text-sm">{{ $campaign->description }}</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 text-sm gap-3">
+                    <div class="flex flex-col">
+                        <span class="font-semibold text-gray-700">Prazo de confirmação</span>
+                        <span class="text-gray-500">{{ $campaign->confirmation_deadline->format('d/m/Y') }}</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-semibold text-gray-700">Prazo de entrega</span>
+                        <span class="text-gray-500">{{ $campaign->delivery_deadline->format('d/m/Y') }}</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-semibold text-gray-700">Itens</span>
+                        <span class="text-gray-500">{{ $campaign->items_count }}</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="font-semibold text-gray-700">Sacolas</span>
+                        <span class="text-gray-500">{{ $campaign->bags_count }}</span>
+                    </div>
+                </div>
             </x-card>
         @empty
             <div class="col-span-full">

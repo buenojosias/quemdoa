@@ -13,7 +13,7 @@ class Index extends Component
     #[Computed]
     public function campaigns()
     {
-        return auth()->user()->campaigns()->latest()->paginate(10);
+        return auth()->user()->campaigns()->withCount(['items', 'bags'])->latest()->paginate(10);
     }
 
     public function render()
