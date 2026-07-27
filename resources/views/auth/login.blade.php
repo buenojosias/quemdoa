@@ -60,7 +60,7 @@
                             </div>
                         </div>
 
-                        <x-button type="submit" class="h-14 w-full justify-center bg-secondary-600 text-base font-bold shadow-lg shadow-secondary-900/10 hover:bg-secondary-700">
+                        <x-button type="submit" lg block>
                             <x-slot:left>
                                 <x-icon name="lock-closed" class="h-5 w-5" />
                             </x-slot:left>
