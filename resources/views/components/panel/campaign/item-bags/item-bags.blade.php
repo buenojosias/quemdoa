@@ -10,12 +10,12 @@
                 <div class="my-6 flex gap-4">
                     <div class="w-1/2 flex flex-col items-center">
                         <x-label label="Quantidade prometida" />
-                        <x-label :label="$itemBaggedQuantity . '/' . $itemRequiredQuantity . ' ' . $itemUnitLabel" />
+                        <x-label :label="$formattedItemBaggedQuantity . '/' . $itemRequiredQuantity . ' ' . $itemUnitLabel" />
                         <x-progress.circle :percent="$itemBaggedQuantity / $itemRequiredQuantity * 100" color="cyan" />
                     </div>
                     <div class="w-1/2 flex flex-col items-center">
                         <x-label label="Quantidade recebida" />
-                        <x-label :label="$itemReceivedQuantity . '/' . $itemRequiredQuantity . ' ' . $itemUnitLabel" />
+                        <x-label :label="$formattedItemReceivedQuantity . '/' . $itemRequiredQuantity . ' ' . $itemUnitLabel" />
                         <x-progress.circle :percent="$itemReceivedQuantity / $itemRequiredQuantity * 100" color="green" />
                     </div>
                 </div>

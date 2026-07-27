@@ -31,16 +31,16 @@ class Show extends Component
     #[Computed]
     public function campaign(): Campaign
     {
-        return Campaign::query()
-            ->where('user_id', auth()->id())
-            ->findOrFail($this->campaignId);
+        return $this->bag->campaign;
     }
 
     #[Computed]
     public function bag(): Bag
     {
         return Bag::query()
-            ->whereBelongsTo($this->campaign)
+            ->with('campaign')
+            ->where('campaign_id', $this->campaignId)
+            ->whereHas('campaign', fn ($query) => $query->where('user_id', auth()->id()))
             ->findOrFail($this->bagId);
     }
 

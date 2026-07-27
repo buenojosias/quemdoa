@@ -28,6 +28,10 @@ new class () extends Component {
 
     public float $itemReceivedQuantity = 0;
 
+    public string $formattedItemBaggedQuantity = '';
+
+    public string $formattedItemReceivedQuantity = '';
+
     public ?string $itemUnitLabel = null;
 
     public function mount(int|string $campaignId): void
@@ -63,6 +67,8 @@ new class () extends Component {
         $this->itemRequiredQuantity = $selectedItem->required_quantity;
         $this->itemBaggedQuantity = $selectedItem->bagged_quantity;
         $this->itemReceivedQuantity = $selectedItem->received_quantity;
+        $this->formattedItemBaggedQuantity = $selectedItem->formattedBaggedQuantity;
+        $this->formattedItemReceivedQuantity = $selectedItem->formattedReceivedQuantity;
         $this->itemUnitLabel = $selectedItem->unit->label();
 
         $this->slide = true;

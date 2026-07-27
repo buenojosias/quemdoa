@@ -1,7 +1,6 @@
 <?php
 
 use App\Enums\CategoryEnum;
-use App\Models\Bag;
 use App\Models\BagItem;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
@@ -19,19 +18,13 @@ new class extends Component
     #[Locked]
     public string $bagId;
 
-    public function mount(Bag|int|string|null $bag = null, int|string|null $bagId = null): void
-    {
-        $this->bagId = $bag instanceof Bag
-            ? (string) $bag->getKey()
-            : (string) ($bag ?? $bagId);
-    }
+    #[Locked]
+    public string $campaignId;
 
-    #[Computed]
-    public function bag(): Bag
+    public function mount(int|string $bagId, int|string $campaignId): void
     {
-        return Bag::query()
-            ->whereHas('campaign', fn ($query) => $query->where('user_id', auth()->id()))
-            ->findOrFail($this->bagId);
+        $this->bagId = (string) $bagId;
+        $this->campaignId = (string) $campaignId;
     }
 
     #[Computed]
@@ -39,7 +32,10 @@ new class extends Component
     {
         return BagItem::query()
             ->with('item')
-            ->whereBelongsTo($this->bag)
+            ->where('bag_id', $this->bagId)
+            ->whereHas('bag', fn ($query) => $query
+                ->where('campaign_id', $this->campaignId)
+                ->whereHas('campaign', fn ($query) => $query->where('user_id', auth()->id())))
             ->when($this->category !== '', fn ($query) => $query->whereHas('item', fn ($query) => $query->where('category', $this->category)))
             ->latest()
             ->paginate($this->quantity);
@@ -95,6 +91,9 @@ new class extends Component
     </div>
 
     <x-table :$headers :$rows paginate>
+        @interact('column_quantity', $row)
+            {{ $row->formatted_quantity }} {{ $row->item->unit->abbreviation() }}
+        @endinteract
         @interact('column_status', $row)
             <x-badge :text="$row->status->label()" :color="$row->status->color()" light />
         @endinteract

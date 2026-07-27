@@ -7,7 +7,7 @@
     <div class="flex-1">
         <p class="font-semibold">Código: {{ $item->bag->code }}</p>
         Participante: {{ $item->bag->participant_name }}<br>
-        Quantidade: {{ $item->quantity }} {{  $unit }}
+        Quantidade: {{ $item->formatted_quantity }} {{ $unit }}
     </div>
     <div>
         <x-badge :text="$this->statusLabel($item)" :color="$this->statusColor($item)" light />    
