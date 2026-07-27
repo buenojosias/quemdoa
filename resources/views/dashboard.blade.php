@@ -128,12 +128,12 @@
             @endforeach
         </div>
 
-        <div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1.45fr)_minmax(360px,0.95fr)]">
-            <x-card class="shadow-sm">
-                <div class="mb-4 flex flex-col gap-3 border-b border-slate-200 pb-4 dark:border-slate-700 sm:flex-row sm:items-center sm:justify-between">
-                    <h2 class="text-lg font-bold text-slate-900 dark:text-white">Campanhas recentes</h2>
-                    <x-button text="Ver todas as campanhas" color="primary" light sm />
-                </div>
+        <div class="grid grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(0,1.45fr)_minmax(360px,0.95fr)]">
+            <x-card>
+                <x-slot:header>
+                    <h2 class="text-medium font-semibold text-slate-900 dark:text-white">Campanhas recentes</h2>
+                    <x-button :href="route('campaigns.index')" text="Ver todas as campanhas" color="primary" flat sm />
+                </x-slot:header>
 
                 <div class="divide-y divide-slate-200 dark:divide-slate-700">
                     @foreach ($campaigns as $campaign)
@@ -146,9 +146,9 @@
                             <div class="min-w-0">
                                 <h3 class="truncate text-sm font-bold text-slate-900 dark:text-white">{{ $campaign['name'] }}</h3>
                                 <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ $campaign['date'] }}</p>
-                                <div class="mt-3 flex items-center gap-3">
-                                    <x-progress :percent="$campaign['progress']" color="primary" sm without-text class="w-full" />
-                                    <span class="w-10 text-sm font-semibold text-slate-700 dark:text-slate-200">{{ $campaign['progress'] }}%</span>
+                                <div class="mt-3 items-center gap-3 w-full">
+                                    <x-progress :percent="$campaign['progress']" color="primary" sm class="w-full" />
+                                    {{-- <span class="w-10 text-sm font-semibold text-slate-700 dark:text-slate-200">{{ $campaign['progress'] }}%</span> --}}
                                 </div>
                             </div>
                             <div class="col-start-2 lg:col-start-auto">
@@ -163,11 +163,11 @@
             </x-card>
 
             <div class="space-y-6">
-                <x-card class="shadow-sm">
-                    <div class="mb-4 flex items-center justify-between gap-4">
-                        <h2 class="text-lg font-bold text-slate-900 dark:text-white">Próximos vencimentos</h2>
+                <x-card>
+                    <x-slot:header>
+                        <h2 class="text-medium font-semibold text-slate-900 dark:text-white">Próximos vencimentos</h2>
                         <x-icon name="calendar-days" class="h-5 w-5 text-slate-500 dark:text-slate-300" />
-                    </div>
+                    </x-slot:header>
 
                     <div class="space-y-4">
                         @foreach ($deadlines as $deadline)
@@ -186,12 +186,14 @@
                     </div>
                 </x-card>
 
-                <x-card class="shadow-sm">
-                    <h2 class="mb-4 text-lg font-bold text-slate-900 dark:text-white">Atividade recente</h2>
+                <x-card>
+                    <x-slot:header>
+                        <h2 class="text-medium font-semibold text-slate-900 dark:text-white">Atividade recente</h2>
+                    </x-slot:header>
 
                     <div class="space-y-4">
                         @foreach ($activities as $activity)
-                            <div class="grid grid-cols-[44px_minmax(0,1fr)_88px] items-start gap-3">
+                            <div class="grid grid-cols-[44px_minmax(0,1fr)_88px] items-center gap-3">
                                 <div class="flex h-10 w-10 items-center justify-center rounded-full bg-teal-50 text-teal-700 dark:bg-teal-500/10 dark:text-teal-300">
                                     <x-icon :name="$activity['icon']" class="h-5 w-5" />
                                 </div>

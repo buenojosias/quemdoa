@@ -18,5 +18,16 @@ class AppServiceProvider extends ServiceProvider
             ->layout()
             ->block('main')
             ->replace('p-10', 'p-6 sm:p-8 lg:p-10');
+
+        TallStackUi::customize()
+            ->card()
+            ->block('header.text.size', 'text-md font-semibold');
+        TallStackUi::customize()
+            ->card()
+            ->block('header.text.color', 'text-red-900 dark:text-white underline decoration-red-900 dark:decoration-white');
+        TallStackUi::customize()
+            ->card()
+            ->block('body')
+            ->replace('text-secondary-700', 'text-slate-900');
     }
 }
