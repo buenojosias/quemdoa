@@ -1,23 +1,29 @@
 <?php
 
-use App\Enums\BagItemStatusEnum;
+use App\Enums\CategoryEnum;
 use App\Models\Bag;
 use App\Models\BagItem;
-use Illuminate\Database\Eloquent\Collection;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 new class extends Component
 {
+    use WithPagination;
+
+    public int $quantity = 10;
+
+    public string $category = '';
+
     #[Locked]
     public string $bagId;
 
-    public function mount(Bag|int|string $bag): void
+    public function mount(Bag|int|string|null $bag = null, int|string|null $bagId = null): void
     {
         $this->bagId = $bag instanceof Bag
             ? (string) $bag->getKey()
-            : (string) $bag;
+            : (string) ($bag ?? $bagId);
     }
 
     #[Computed]
@@ -29,71 +35,68 @@ new class extends Component
     }
 
     #[Computed]
-    public function bagItems(): Collection
+    public function items()
     {
         return BagItem::query()
             ->with('item')
             ->whereBelongsTo($this->bag)
+            ->when($this->category !== '', fn ($query) => $query->whereHas('item', fn ($query) => $query->where('category', $this->category)))
             ->latest()
-            ->get();
+            ->paginate($this->quantity);
     }
 
-    public function statusLabel(BagItem $bagItem): string
+    #[Computed]
+    public function categoryOptions(): array
     {
-        return match ($bagItem->status) {
-            BagItemStatusEnum::PENDING => 'Pendente',
-            BagItemStatusEnum::CONFIRMED => 'Confirmada',
-            BagItemStatusEnum::RECEIVED => 'Recebida',
-            BagItemStatusEnum::CANCELED => 'Cancelada',
-        };
+        return [
+            [
+                'label' => 'Todas',
+                'value' => '',
+            ],
+            ...array_map(
+                fn (CategoryEnum $category): array => [
+                    'label' => $category->value,
+                    'value' => $category->value,
+                ],
+                CategoryEnum::cases(),
+            ),
+        ];
     }
 
-    public function statusColor(BagItem $bagItem): string
+    public function with(): array
     {
-        return match ($bagItem->status) {
-            BagItemStatusEnum::PENDING => 'yellow',
-            BagItemStatusEnum::CONFIRMED => 'cyan',
-            BagItemStatusEnum::RECEIVED => 'green',
-            BagItemStatusEnum::CANCELED => 'red',
-        };
+        return [
+            'headers' => [
+                ['index' => 'item.name', 'label' => 'Item'],
+                ['index' => 'item.category', 'label' => 'Categoria'],
+                ['index' => 'quantity', 'label' => 'Quantidade'],
+                ['index' => 'status', 'label' => 'Status'],
+                ['index' => 'actions'],
+            ],
+            'rows' => $this->items,
+        ];
     }
 };
 ?>
 
-<x-card>
-    @if ($this->bagItems->isEmpty())
-        <x-alert color="secondary" light icon="archive-box" title="Esta sacola ainda não possui itens">
-            Adicione o primeiro item para acompanhar a confirmação e o recebimento da doação.
-        </x-alert>
-    @else
-        <div class="overflow-x-auto">
-            <table class="w-full text-left text-sm">
-                <thead class="text-xs uppercase text-gray-500 dark:text-gray-400">
-                    <tr class="border-b border-gray-200 dark:border-gray-700">
-                        <th class="px-3 py-3 font-semibold">Item</th>
-                        <th class="px-3 py-3 font-semibold">Quantidade</th>
-                        <th class="px-3 py-3 font-semibold">Status</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                    @foreach ($this->bagItems as $bagItem)
-                        <tr wire:key="bag-item-{{ $bagItem->id }}">
-                            <td class="px-3 py-3">
-                                <p class="font-medium text-gray-900 dark:text-gray-100">{{ $bagItem->item->name }}</p>
-                                @if ($bagItem->item->complement)
-                                    <p class="text-gray-500 dark:text-gray-400">{{ $bagItem->item->complement }}</p>
-                                @endif
-                            </td>
-                            <td class="px-3 py-3 text-gray-700 dark:text-gray-300">
-                                {{ number_format((float) $bagItem->quantity, 1, ',', '.') }} {{ $bagItem->item->unit->abbreviation() }}
-                            </td>
-                            <td class="px-3 py-3">
-                                <x-badge :text="$this->statusLabel($bagItem)" :color="$this->statusColor($bagItem)" light />
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    @endif
-</x-card>
+<div class="space-y-4">
+    <div class="flex justify-between items-center gap-4">
+        <x-select.native wire:model.live="quantity" label="Itens por página">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="25">25</option>
+            <option value="50">50</option>
+        </x-select>
+
+        <x-select.native label="Categoria"
+            wire:model.live="category"
+            :options="$this->categoryOptions()"
+            select="label:label|value:value" />
+    </div>
+
+    <x-table :$headers :$rows paginate>
+        @interact('column_status', $row)
+            <x-badge :text="$row->status->label()" :color="$row->status->color()" light />
+        @endinteract
+    </x-table>
+</div>

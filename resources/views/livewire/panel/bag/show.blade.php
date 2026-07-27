@@ -77,10 +77,12 @@
         </x-slot>
     </x-card>
 
-    {{-- <div class="flex justify-between items-center my-6 gap-4">
+    <div class="flex justify-between items-center my-6 gap-4">
         <h2 class="text-xl font-semibold dark:text-gray-300">Itens da sacola</h2>
         <livewire:panel.bag.add-item :bag="$this->bag" :key="'bag-add-item-'.$this->bag->id" />
-    </div> --}}
+    </div>
 
-    {{-- <livewire:panel.tables.bag-items :bag="$this->bag" :key="'bag-items-'.$this->bag->id" /> --}}
+    @island('bag-items')
+        <livewire:panel.tables.bag-items :bag="$this->bag" :key="'bag-items-'.$this->bag->id" />
+    @endisland
 </div>
