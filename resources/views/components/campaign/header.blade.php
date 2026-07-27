@@ -7,7 +7,7 @@
 <x-card class="flex flex-col sm:flex-row justify-between items-center gap-4">
     <div class="w-full sm:w-3/5 space-y-4">
         <div>
-            <h3 class="text-xs font-semibold">Campanha</h3>
+            <x-label label="Campanha" />
             <p class="text-xl font-semibold text-gray-700 dark:text-gray-200">{{ $this->campaign->name }}</p>
             <p class="text-sm text-gray-500 my-3">{{ $this->campaign->description }}</p>
         </div>
@@ -17,7 +17,7 @@
                     <x-icon name="calendar" class="w-4 h-4" />
                 </div>
                 <div class="text-gray-600 dark:text-gray-300 font-medium">
-                    <p class="text-sm">Prazo para confirmação</p>
+                    <p class="text-sm">Prazo de confirmação</p>
                     <p class="text-md">{{ $this->campaign->confirmation_deadline->translatedFormat('d \d\e F \d\e Y') }}</p>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                     <x-icon name="calendar" class="w-4 h-4" />
                 </div>
                 <div class="text-gray-600 dark:text-gray-300 font-medium">
-                    <p class="text-sm">Prazo para entrega</p>
+                    <p class="text-sm">Prazo de entrega</p>
                     <p class="text-md">{{ $this->campaign->delivery_deadline->translatedFormat('d \d\e F \d\e Y') }}</p>
                 </div>
             </div>

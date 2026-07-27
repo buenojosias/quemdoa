@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Campaign;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class BagSeeder extends Seeder
@@ -13,34 +12,32 @@ class BagSeeder extends Seeder
      */
     public function run(): void
     {
-        $campaigns = Campaign::with('items')->limit(1)->get();
+        $campaigns = Campaign::query()
+            ->whereHas('items')
+            ->with('items')
+            ->get();
 
         foreach ($campaigns as $campaign) {
             $items = $campaign->items;
-            $bags = $campaign->bags()->createMany([
-                [
-                    'code' => 'BA6506',
-                    'user_id' => 1,
-                    'participant_name' => 'John Doe',
-                    'confirmed_at' => now(),
-                ],
-                [
-                    'code' => 'BA6507',
-                    'participant_name' => 'Jane Smith',
-                    'participant_whatsapp' => '0987654321',
-                    'confirmation_code' => 'XYZ789',
-                    'confirmed_at' => now(),
-                ],
-                [
-                    'code' => 'BA6508',
-                    'participant_name' => 'Lorem Ipsum',
-                    'participant_whatsapp' => '4136853359',
-                    'confirmation_code' => 'ABC123',
-                ],
-            ]);
+            $bags = [];
+            for ($i = 0; $i < rand(1, 5); $i++) {
+                $userId = array_rand([null, 1]);
+                $confirmed = fake()->boolean();
+                $bags[] = [
+                    'campaign_id' => $campaign->id,
+                    'code' => 'BA' . rand(1000, 9999),
+                    'user_id' => $userId ? $userId : null,
+                    'participant_name' => fake()->name(),
+                    'participant_whatsapp' => '419' . rand(10000000, 99999999),
+                    'confirmation_code' => rand(100000, 999999),
+                    'confirmed_at' => $confirmed ? now() : null,
+                    'confirmed_by' => $confirmed ? ($userId ? 'organizer' : 'participant') : null,
+                ];
+            }
+            $createdBags = $campaign->bags()->createMany($bags);
 
-            foreach ($bags as $bag) {
-                $randomItems = $items->random(3);
+            foreach ($createdBags as $bag) {
+                $randomItems = $items->random(rand(1, min(3, $items->count())));
                 foreach ($randomItems as $item) {
                     $quantity = rand(1, $item->required_quantity);
                     $bag->items()->create([

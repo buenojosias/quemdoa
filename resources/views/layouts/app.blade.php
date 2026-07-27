@@ -60,7 +60,7 @@
                     </div>
                 </x-slot:brand-collapsed>
                 <x-side-bar.item text="Dashboard" icon="home" :current="request()->routeIs('dashboard')" :route="route('dashboard')" />
-                <x-side-bar.item text="Campanhas" icon="flag" :current="request()->routeIs('campaigns.*')" :route="route('campaigns.index')" />
+                <x-side-bar.item text="Campanhas" icon="megaphone" :current="request()->routeIs('campaigns.*')" :route="route('campaigns.index')" />
                 <x-side-bar.item text="Users" icon="users" :current="request()->routeIs('users.*')" :route="route('users.index')" />
             </x-side-bar>
         </x-slot:menu>
