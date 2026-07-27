@@ -3,12 +3,11 @@
 namespace App\Livewire\Campaign;
 
 use App\Models\Campaign;
-use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 
-class Show extends Component
+class Bags extends Component
 {
     #[Locked]
     public string $campaignId;
@@ -27,10 +26,9 @@ class Show extends Component
             ->where('user_id', auth()->id())
             ->findOrFail($this->campaignId);
     }
-
-
-    public function render(): View
+    
+    public function render()
     {
-        return view('livewire.campaign.show');
+        return view('livewire.campaign.bags');
     }
 }
