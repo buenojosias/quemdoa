@@ -24,7 +24,7 @@
             <h3 class="font-semibold">Sacolas</h3>
             <div class="space-y-2">
                 @forelse ($this->bagItems as $item)
-                    <x-bag.list-item :item="$item" :unit="$itemUnitLabel" />
+                    <x-panel.bag.list-item :item="$item" :unit="$itemUnitLabel" />
                 @empty
                     <p class="text-sm font-semibold text-gray-500 dark:text-gray-400">Nenhuma sacola de doação encontrada para este item.</p>
                 @endforelse

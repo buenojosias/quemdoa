@@ -23,7 +23,9 @@
             <x-dropdown.items text="Confirmar recebimento" wire:click="receive({{ $item->id }})" />
         @endif
         <x-dropdown.items text="Alterar quantidade" />
-        <x-dropdown.items text="Ver sacola completa" />
+        <a href="{{ route('panel.campaigns.bags.show', [$item->bag->campaign_id, $item->bag]) }}">
+            <x-dropdown.items text="Ver sacola completa" />
+        </a>
         <x-dropdown.items text="Excluir" wire:click="askToDelete({{ $item->id }})" separator />
     </x-dropdown>
 

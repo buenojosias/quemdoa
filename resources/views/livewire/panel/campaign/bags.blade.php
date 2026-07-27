@@ -9,7 +9,7 @@
     </div>
 
     @island('bags-table')
-        <livewire:panel.campaign.bags-table :campaign-id="$this->campaign->id" />
+        <livewire:panel.tables.campaign-bags :campaign-id="$this->campaign->id" />
     @endisland
     {{-- @island('item-bags')
         <livewire:panel.campaign.item-bags :campaign-id="$this->campaign->id" />
