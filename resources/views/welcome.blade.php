@@ -11,57 +11,50 @@
 <body class="font-sans antialiased text-slate-900 bg-white selection:bg-teal-100 selection:text-teal-900">
 
     <!-- Header -->
-    <header class="container mx-auto px-6 py-6 flex items-center justify-between">
+    <header class="w-full px-6 md:px-14 py-6 flex items-center justify-between">
         <div class="flex items-center gap-2">
-            <img src="{{ asset('assets/images/logomarca.png') }}" alt="QuemLeva" class="h-8 md:h-10">
+            <img src="{{ asset('assets/images/logomarca.png') }}" alt="QuemLeva" class="h-10 sm:h-12">
         </div>
         <nav class="hidden md:flex items-center gap-8">
             <a href="#" class="text-sm font-semibold text-slate-600 hover:text-slate-900 transition">Recursos</a>
             <a href="#" class="text-sm font-semibold text-slate-600 hover:text-slate-900 transition">Como funciona</a>
-            <a href="#" class="text-sm font-semibold text-slate-600 hover:text-slate-900 transition">Preços</a>
-            <a href="#" class="text-sm font-semibold text-slate-600 hover:text-slate-900 transition">Dúvidas</a>
         </nav>
         <div class="flex items-center gap-6">
-            <a href="/login" class="text-sm font-semibold text-teal-600 hover:text-teal-700 transition hidden sm:block">Entrar</a>
-            <a href="/register" class="bg-teal-600 text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-teal-700 transition shadow-sm">Criar campanha</a>
+            <a href="{{ route('login') }}" class="text-sm font-semibold text-teal-600 hover:text-teal-700 transition hidden sm:block">Entrar</a>
+            <a href="{{ route('register') }}" class="bg-teal-600 text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-teal-700 transition shadow-sm">Criar campanha</a>
         </div>
     </header>
 
     <!-- Hero Section -->
-    <section class="relative pt-12 pb-24 md:pt-20 md:pb-32 overflow-hidden">
-        <div class="container mx-auto px-6">
-            <div class="lg:w-[50%] xl:w-[45%] space-y-8 relative z-10">
-                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 text-teal-700 text-xs font-semibold uppercase tracking-wider">
-                    Organize doações com facilidade
-                </div>
-                <h1 class="text-5xl md:text-6xl lg:text-[4rem] font-extrabold text-slate-900 leading-[1.1] tracking-tight">
-                    Menos bagunça<br>
-                    no grupo, <span class="text-teal-600">mais<br>união</span> na missão.
-                </h1>
-                <p class="text-lg md:text-xl text-slate-600 max-w-lg leading-relaxed">
-                    O QuemLeva é a plataforma que ajuda igrejas e pastorais a organizarem doações para eventos e campanhas de forma simples e transparente.
-                </p>
-                <div class="flex flex-col sm:flex-row items-center gap-4 pt-2">
-                    <a href="#" class="w-full sm:w-auto bg-teal-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-teal-700 transition flex items-center justify-center gap-2 shadow-lg shadow-teal-600/20">
-                        Criar minha campanha
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                    </a>
-                    <a href="#" class="w-full sm:w-auto px-8 py-4 rounded-full font-semibold text-teal-700 hover:bg-teal-50 transition flex items-center justify-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        Ver como funciona
-                    </a>
-                </div>
-                <div class="flex items-center gap-2 text-sm text-slate-500 font-medium">
-                    <svg class="w-5 h-5 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    Grátis para começar. Sem cartão de crédito.
-                </div>
+    <section class="w-full my-6 flex flex-col sm:flex-row sm:items-center gap-6 overflow-hidden">
+        <div class="flex-1 pl-6 pr-6 md:pl-14 space-y-4">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 text-teal-700 text-xs font-semibold uppercase tracking-wider">
+                Organize doações com facilidade
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 leading-[1.1] tracking-tight">
+                Menos bagunça no grupo, <span class="text-teal-600">mais união</span> na missão.
+            </h1>
+            <p class="text-lg md:text-xl text-slate-600 max-w-lg leading-relaxed">
+                O QuemLeva é a plataforma que ajuda igrejas e pastorais a organizarem doações para eventos e campanhas de forma simples e transparente.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center gap-4 pt-2">
+                <a href="{{ route('dashboard') }}" class="w-full sm:w-auto bg-teal-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-teal-700 transition flex items-center justify-center gap-2 shadow-lg shadow-teal-600/20">
+                    Criar minha campanha
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                </a>
+                <a href="#" class="w-full sm:w-auto px-8 py-4 rounded-full font-semibold text-teal-700 hover:bg-teal-50 transition flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Ver como funciona
+                </a>
+            </div>
+            <div class="flex items-center gap-2 text-sm text-slate-500 font-medium">
+                <svg class="w-5 h-5 text-teal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Totalmente gratuito.
             </div>
         </div>
         
-        <div class="mt-12 lg:mt-0 lg:absolute lg:inset-y-0 lg:right-0 lg:w-[50%] xl:w-[55%] flex items-center justify-end">
-            <div class="absolute inset-0 bg-teal-50 rounded-full blur-3xl opacity-50 transform translate-x-20 translate-y-20 lg:translate-x-1/4 pointer-events-none"></div>
-
-            <img src="{{ asset('assets/images/lp-preview.png') }}" alt="Preview da plataforma QuemLeva" class="relative z-10 object-contain object-right drop-shadow-2xl pointer-events-none pr-6 lg:pr-0">
+        <div class="w-full sm:w-4/12 pl-8 sm:pl-0 flex justify-end">
+            <img src="{{ asset('assets/images/lp-preview.png') }}" alt="Preview da plataforma QuemLeva" class="">
         </div>
     </section>
 
@@ -79,7 +72,7 @@
     </section>
 
     <!-- Features Section -->
-    <section class="container mx-auto px-6 py-24 text-center">
+    <section class="w-full px-6 md:px-14 py-18 text-center">
         <h2 class="text-3xl font-extrabold text-slate-900 mb-16 tracking-tight">Tudo que você precisa para organizar doações</h2>
         
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
@@ -127,12 +120,12 @@
     </section>
 
     <!-- How it works (Timeline) -->
-    <section class="container mx-auto px-6 py-24 bg-white relative">
+    <section class="w-full px-6 md:px-14 py-8 bg-white relative">
         <h2 class="text-3xl font-extrabold text-slate-900 text-center mb-16 tracking-tight">Como funciona</h2>
         
-        <div class="flex flex-col lg:flex-row items-start justify-between relative max-w-6xl mx-auto">
+        <div class="flex flex-col md:flex-row items-start justify-between relative max-w-6xl mx-auto">
             <!-- Connecting Line (Desktop) -->
-            <div class="hidden lg:block absolute top-12 left-[10%] right-[10%] h-[2px] border-t-2 border-dashed border-slate-200"></div>
+            <div class="hidden md:block absolute top-4 left-[10%] right-[10%] h-[2px] border-t-2 border-dashed border-slate-200"></div>
             
             <!-- Step 1 -->
             <div class="relative z-10 flex flex-col items-center text-center w-full lg:w-1/5 mb-12 lg:mb-0">
@@ -187,12 +180,12 @@
     </section>
 
     <!-- CTA Section -->
-    <section class="container mx-auto px-6 py-24 text-center">
+    <section class="w-full px-6 md:px-14 py-12 text-center">
         <div class="max-w-4xl mx-auto flex flex-col items-center relative">
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-50 text-teal-700 text-sm font-semibold mb-8 uppercase tracking-wider">
-                Chega de planilha e pergunta no grupo!
+                Chega de planilha e perguntas no grupo!
             </div>
-            <h2 class="text-4xl md:text-5xl font-extrabold text-slate-900 leading-tight mb-6 relative tracking-tight">
+            <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 leading-tight mb-6 relative tracking-tight">
                 Crie sua campanha agora e <span class="text-teal-600">facilite sua organização.</span>
                 <!-- Accents -->
                 <svg class="absolute -right-8 md:-right-16 -top-4 md:top-0 w-10 h-10 text-yellow-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
@@ -201,7 +194,7 @@
                 É rápido, gratuito e vai transformar a forma como sua comunidade se organiza para fazer o bem.
             </p>
             <div class="flex flex-col items-center gap-5">
-                <a href="/register" class="bg-teal-600 text-white px-10 py-4 rounded-full font-bold hover:bg-teal-700 transition flex items-center gap-2 shadow-xl shadow-teal-600/20 text-lg">
+                <a href="{{ route('dashboard') }}" class="bg-teal-600 text-white px-10 py-4 rounded-full font-bold hover:bg-teal-700 transition flex items-center gap-2 shadow-xl shadow-teal-600/20 text-lg">
                     Criar minha campanha
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </a>
@@ -214,12 +207,12 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-slate-50 pt-16 pb-8 border-t border-slate-200">
-        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-12">
+    <footer class="bg-slate-50 pt-16 pb-4 border-t border-slate-200">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8 mb-12">
             <!-- Column 1: Logo & Info -->
-            <div class="lg:col-span-2">
-                <div class="flex items-center gap-2 mb-6">
-                    <img src="{{ asset('assets/images/logomarca.png') }}" alt="QuemLeva" class="h-8 md:h-10">
+            <div class="md:col-span-2 lg:col-span-1">
+                <div class="flex items-center gap-1 mb-4">
+                    <img src="{{ asset('assets/images/logomarca.png') }}" alt="QuemLeva" class="h-10 md:h-12">
                 </div>
                 <p class="text-sm text-slate-500 mb-6 font-medium max-w-xs leading-relaxed">A plataforma que conecta pessoas para fazer o bem, com organização e transparência.</p>
                 <div class="flex items-center gap-4 text-slate-400">
@@ -241,8 +234,7 @@
                 <ul class="space-y-3.5 text-sm text-slate-500 font-medium">
                     <li><a href="#" class="hover:text-teal-600 transition">Recursos</a></li>
                     <li><a href="#" class="hover:text-teal-600 transition">Como funciona</a></li>
-                    <li><a href="#" class="hover:text-teal-600 transition">Planos</a></li>
-                    <li><a href="#" class="hover:text-teal-600 transition">Dúvidas</a></li>
+                    {{-- <li><a href="#" class="hover:text-teal-600 transition">Dúvidas</a></li> --}}
                     <li><a href="#" class="hover:text-teal-600 transition">Contato</a></li>
                 </ul>
             </div>
@@ -251,15 +243,15 @@
             <div class="lg:col-span-1">
                 <h4 class="font-bold text-slate-900 mb-5 text-sm uppercase tracking-wider">Para organizadores</h4>
                 <ul class="space-y-3.5 text-sm text-slate-500 font-medium">
-                    <li><a href="#" class="hover:text-teal-600 transition">Criar campanha</a></li>
-                    <li><a href="#" class="hover:text-teal-600 transition">Gerenciar campanhas</a></li>
-                    <li><a href="#" class="hover:text-teal-600 transition">Modelos de campanhas</a></li>
-                    <li><a href="#" class="hover:text-teal-600 transition">Dicas e boas práticas</a></li>
+                    <li><a href="{{ route('campaigns.index') }}" class="hover:text-teal-600 transition">Criar campanha</a></li>
+                    {{-- <li><a href="#" class="hover:text-teal-600 transition">Gerenciar campanhas</a></li> --}}
+                    {{-- <li><a href="#" class="hover:text-teal-600 transition">Modelos de campanhas</a></li> --}}
+                    {{-- <li><a href="#" class="hover:text-teal-600 transition">Dicas e boas práticas</a></li> --}}
                 </ul>
             </div>
             
             <!-- Column 4: Newsletter -->
-            <div class="lg:col-span-1">
+            {{-- <div class="lg:col-span-1">
                 <h4 class="font-bold text-slate-900 mb-5 text-sm uppercase tracking-wider">Receba dicas e novidades</h4>
                 <form class="flex gap-2">
                     <input type="email" placeholder="Insira seu melhor e-mail" class="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-teal-600 focus:ring-1 focus:ring-teal-600 font-medium text-slate-900 placeholder:text-slate-400">
@@ -268,10 +260,10 @@
                     </button>
                 </form>
                 <p class="text-xs text-slate-400 mt-4 leading-relaxed font-medium">Ao se cadastrar, você concorda com nossos Termos de Uso e Política de Privacidade.</p>
-            </div>
+            </div> --}}
         </div>
         
-        <div class="container mx-auto px-6 pt-8 border-t border-slate-200 text-center text-xs text-slate-400 font-medium">
+        <div class="container mx-auto px-6 pt-4 border-t border-slate-200 text-center text-xs text-slate-400 font-medium">
             © {{ date('Y') }} QuemLeva. Todos os direitos reservados.
         </div>
     </footer>
