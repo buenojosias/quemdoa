@@ -32,7 +32,7 @@
         </div>
 
         @if ($itemId)
-            <livewire:bag.add-bag :itemId="$itemId" />
+            <livewire:panel.bag.add-bag :itemId="$itemId" />
         @endif
     </x-slide>
 </div>

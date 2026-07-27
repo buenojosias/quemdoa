@@ -1,6 +1,6 @@
 <?php
 
-use App\Livewire\Users\Index;
+use App\Livewire\Panel\Users\Index;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Arr;
@@ -18,7 +18,7 @@ beforeEach(function () {
 it('renders the users index component', function () {
     Livewire::test(Index::class)
         ->assertOk()
-        ->assertViewIs('livewire.users.index');
+        ->assertViewIs('livewire.panel.users.index');
 });
 
 it('initializes with default settings', function () {

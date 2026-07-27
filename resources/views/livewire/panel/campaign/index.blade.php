@@ -2,16 +2,16 @@
     <div class="header">
         <h1>Minhas campanhas</h1>
         <div>
-            <livewire:campaign.create />
+            <livewire:panel.campaign.create />
         </div>
     </div>
     
     <div class="space-y-4">
         @forelse ($this->campaigns as $campaign)
-            {{-- <livewire:campaign.card :campaign="$campaign" :wire:key="$campaign->id" /> --}}
+            {{-- <livewire:panel.campaign.card :campaign="$campaign" :wire:key="$campaign->id" /> --}}
             <x-card class="space-y-3">
                 <div class="flex justify-between items-start gap-4">
-                    <a href="{{ route('campaigns.show', $campaign) }}" class="font-semibold flex-1 pb-1">{{ $campaign->name }}</a>
+                    <a href="{{ route('panel.campaigns.show', $campaign) }}" class="font-semibold flex-1 pb-1">{{ $campaign->name }}</a>
                     <x-badge
                         :text="$campaign->is_active ? 'Ativa' : 'Inativa'"
                         :color="$campaign->is_active ? 'green' : 'neutral'"

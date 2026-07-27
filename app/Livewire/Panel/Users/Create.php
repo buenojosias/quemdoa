@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Users;
+namespace App\Livewire\Panel\Users;
 
 use App\Livewire\Traits\Alert;
 use App\Models\User;
@@ -27,7 +27,7 @@ class Create extends Component
 
     public function render(): View
     {
-        return view('livewire.users.create');
+        return view('livewire.panel.users.create');
     }
 
     public function rules(): array

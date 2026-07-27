@@ -132,7 +132,7 @@
             <x-card>
                 <x-slot:header>
                     <h2 class="text-medium font-semibold text-slate-900 dark:text-white">Campanhas recentes</h2>
-                    <x-button :href="route('campaigns.index')" text="Ver todas as campanhas" color="primary" flat sm />
+                    <x-button :href="route('panel.campaigns.index')" text="Ver todas as campanhas" color="primary" flat sm />
                 </x-slot:header>
 
                 <div class="divide-y divide-slate-200 dark:divide-slate-700">

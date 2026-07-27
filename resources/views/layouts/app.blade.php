@@ -40,7 +40,7 @@
                         </x-slot:header>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <x-dropdown.items :text="__('Profile')" :href="route('user.profile')" />
+                            <x-dropdown.items :text="__('Profile')" :href="route('panel.user.profile')" />
                             <x-dropdown.items :text="__('Logout')" onclick="event.preventDefault(); this.closest('form').submit();" separator />
                         </form>
                     </x-dropdown>
@@ -59,9 +59,9 @@
                         <img src="{{ asset('/assets/images/quemleva.png') }}" width="20" height="20" />
                     </div>
                 </x-slot:brand-collapsed>
-                <x-side-bar.item text="Dashboard" icon="home" :current="request()->routeIs('dashboard')" :route="route('dashboard')" />
-                <x-side-bar.item text="Campanhas" icon="megaphone" :current="request()->routeIs('campaigns.*')" :route="route('campaigns.index')" />
-                <x-side-bar.item text="Users" icon="users" :current="request()->routeIs('users.*')" :route="route('users.index')" />
+                <x-side-bar.item text="Dashboard" icon="home" :current="request()->routeIs('panel.dashboard')" :route="route('panel.dashboard')" />
+                <x-side-bar.item text="Campanhas" icon="megaphone" :current="request()->routeIs('panel.campaigns.*')" :route="route('panel.campaigns.index')" />
+                <x-side-bar.item text="Users" icon="users" :current="request()->routeIs('panel.users.*')" :route="route('panel.users.index')" />
             </x-side-bar>
         </x-slot:menu>
         {{ $slot }}

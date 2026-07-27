@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Campaign;
+namespace App\Livewire\Panel\Campaign;
 
 use App\Models\Campaign;
 use Illuminate\Contracts\View\View;
@@ -11,7 +11,7 @@ use TallStackUi\Traits\Interactions;
 class Create extends Component
 {
     use Interactions;
-    
+
     public ?string $name = null;
 
     public ?string $description = null;
@@ -26,7 +26,7 @@ class Create extends Component
 
     public function render(): View
     {
-        return view('livewire.campaign.create');
+        return view('livewire.panel.campaign.create');
     }
 
     public function rules(): array
@@ -85,6 +85,6 @@ class Create extends Component
             ->flash()
             ->send();
 
-        $this->redirectRoute('campaigns.show', [$campaign]);
+        $this->redirectRoute('panel.campaigns.show', [$campaign]);
     }
 }

@@ -1,7 +1,7 @@
 @props([
     'campaign',
     'route' => null,
-    'campaignUrl' => route('campaigns.show', $campaign)
+    'campaignUrl' => route('panel.campaigns.show', $campaign)
 ])
 
 <x-card class="flex flex-col sm:flex-row justify-between items-center gap-4">
@@ -42,7 +42,7 @@
             <div class="flex items-center justify-between gap-4">
                 <x-link
                     :text="$route === 'show' ? 'Listar sacolas' : 'Listar itens'"
-                    :href="route($route === 'show' ? 'campaigns.bags' : 'campaigns.show', $this->campaign)"
+                    :href="route($route === 'show' ? 'panel.campaigns.bags' : 'panel.campaigns.show', $this->campaign)"
                     sm />
                 <x-dropdown text="Mais ações" position="bottom-end">
                     <x-dropdown.items text="Editar campanha" />

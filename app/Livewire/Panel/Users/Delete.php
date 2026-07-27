@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Users;
+namespace App\Livewire\Panel\Users;
 
 use App\Livewire\Traits\Alert;
 use App\Models\User;

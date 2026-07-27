@@ -1,6 +1,6 @@
 <?php
 
-use App\Livewire\User\Profile;
+use App\Livewire\Panel\User\Profile;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Livewire\Livewire;
@@ -14,7 +14,7 @@ beforeEach(function () {
 it('renders successfully', function () {
     Livewire::test(Profile::class)
         ->assertStatus(200)
-        ->assertViewIs('livewire.user.profile');
+        ->assertViewIs('livewire.panel.user.profile');
 });
 
 it('mounts with authenticated user data', function () {

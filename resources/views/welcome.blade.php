@@ -38,7 +38,7 @@
                 O QuemLeva é a plataforma que ajuda igrejas e pastorais a organizarem doações para eventos e campanhas de forma simples e transparente.
             </p>
             <div class="flex flex-col sm:flex-row items-center gap-4 pt-2">
-                <a href="{{ route('dashboard') }}" class="w-full sm:w-auto bg-teal-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-teal-700 transition flex items-center justify-center gap-2 shadow-lg shadow-teal-600/20">
+                <a href="{{ route('panel.dashboard') }}" class="w-full sm:w-auto bg-teal-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-teal-700 transition flex items-center justify-center gap-2 shadow-lg shadow-teal-600/20">
                     Criar minha campanha
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </a>
@@ -194,7 +194,7 @@
                 É rápido, gratuito e vai transformar a forma como sua comunidade se organiza para fazer o bem.
             </p>
             <div class="flex flex-col items-center gap-5">
-                <a href="{{ route('dashboard') }}" class="bg-teal-600 text-white px-10 py-4 rounded-full font-bold hover:bg-teal-700 transition flex items-center gap-2 shadow-xl shadow-teal-600/20 text-lg">
+                <a href="{{ route('panel.dashboard') }}" class="bg-teal-600 text-white px-10 py-4 rounded-full font-bold hover:bg-teal-700 transition flex items-center gap-2 shadow-xl shadow-teal-600/20 text-lg">
                     Criar minha campanha
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                 </a>
@@ -243,7 +243,7 @@
             <div class="lg:col-span-1">
                 <h4 class="font-bold text-slate-900 mb-5 text-sm uppercase tracking-wider">Para organizadores</h4>
                 <ul class="space-y-3.5 text-sm text-slate-500 font-medium">
-                    <li><a href="{{ route('campaigns.index') }}" class="hover:text-teal-600 transition">Criar campanha</a></li>
+                    <li><a href="{{ route('panel.campaigns.index') }}" class="hover:text-teal-600 transition">Criar campanha</a></li>
                     {{-- <li><a href="#" class="hover:text-teal-600 transition">Gerenciar campanhas</a></li> --}}
                     {{-- <li><a href="#" class="hover:text-teal-600 transition">Modelos de campanhas</a></li> --}}
                     {{-- <li><a href="#" class="hover:text-teal-600 transition">Dicas e boas práticas</a></li> --}}

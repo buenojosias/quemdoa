@@ -1,6 +1,6 @@
 <?php
 
-use App\Livewire\Campaign\Create;
+use App\Livewire\Panel\Campaign\Create;
 use App\Models\User;
 use Livewire\Livewire;
 
@@ -10,7 +10,7 @@ use function Pest\Laravel\assertDatabaseHas;
 it('renders the create campaign component', function () {
     Livewire::test(Create::class)
         ->assertOk()
-        ->assertViewIs('livewire.campaign.create')
+        ->assertViewIs('livewire.panel.campaign.create')
         ->assertSeeHtml('$wire.$errors.has(\'confirmation_deadline\')')
         ->assertSeeHtml('$wire.$errors.has(\'delivery_deadline\')');
 });

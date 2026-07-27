@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Campaign;
+namespace App\Livewire\Panel\Campaign;
 
 use App\Models\Campaign;
 use Illuminate\Contracts\View\View;
@@ -31,6 +31,6 @@ class Show extends Component
 
     public function render(): View
     {
-        return view('livewire.campaign.show');
+        return view('livewire.panel.campaign.show');
     }
 }

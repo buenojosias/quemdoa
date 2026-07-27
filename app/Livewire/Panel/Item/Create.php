@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Item;
+namespace App\Livewire\Panel\Item;
 
 use App\Enums\CategoryEnum;
 use App\Enums\UnitEnum;
@@ -42,7 +42,7 @@ class Create extends Component
 
     public function render(): View
     {
-        return view('livewire.item.create');
+        return view('livewire.panel.item.create');
     }
 
     public function rules(): array

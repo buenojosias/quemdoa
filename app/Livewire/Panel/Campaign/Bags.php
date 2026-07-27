@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Campaign;
+namespace App\Livewire\Panel\Campaign;
 
 use App\Models\Campaign;
 use Livewire\Attributes\Computed;
@@ -26,9 +26,9 @@ class Bags extends Component
             ->where('user_id', auth()->id())
             ->findOrFail($this->campaignId);
     }
-    
+
     public function render()
     {
-        return view('livewire.campaign.bags');
+        return view('livewire.panel.campaign.bags');
     }
 }

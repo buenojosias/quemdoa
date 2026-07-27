@@ -38,7 +38,7 @@ it('renders status filter options and maps bag status and confirmer labels', fun
     bagForBagsTable($campaign, 'Joao', 'organizer');
     bagForBagsTable($campaign, 'Ana', 'participant');
 
-    Livewire::test('campaign.bags-table', ['campaignId' => $campaign->id])
+    Livewire::test('panel.campaign.bags-table', ['campaignId' => $campaign->id])
         ->assertOk()
         ->assertSee('Todos')
         ->assertSee('Pendente')
@@ -56,7 +56,7 @@ it('filters bags by pending and confirmed status', function () {
     bagForBagsTable($campaign, 'Maria');
     bagForBagsTable($campaign, 'Joao', 'organizer');
 
-    Livewire::test('campaign.bags-table', ['campaignId' => $campaign->id])
+    Livewire::test('panel.campaign.bags-table', ['campaignId' => $campaign->id])
         ->set('status', 'pending')
         ->assertSee('Maria')
         ->assertDontSee('Joao')

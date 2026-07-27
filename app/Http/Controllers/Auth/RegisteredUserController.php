@@ -36,6 +36,6 @@ class RegisteredUserController
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('panel.dashboard', absolute: false));
     }
 }

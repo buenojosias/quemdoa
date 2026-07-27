@@ -1,6 +1,6 @@
 <?php
 
-use App\Livewire\Campaign\Show;
+use App\Livewire\Panel\Campaign\Show;
 use App\Models\Campaign;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;

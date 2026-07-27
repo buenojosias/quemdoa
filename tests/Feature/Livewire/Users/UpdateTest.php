@@ -1,6 +1,6 @@
 <?php
 
-use App\Livewire\Users\Update;
+use App\Livewire\Panel\Users\Update;
 use App\Models\User;
 use Livewire\Livewire;
 
@@ -14,7 +14,7 @@ beforeEach(function () {
 it('renders the update user component', function () {
     Livewire::test(Update::class, ['user' => $this->original])
         ->assertOk()
-        ->assertViewIs('livewire.users.update');
+        ->assertViewIs('livewire.panel.users.update');
 });
 
 it('initializes with existing user data', function () {

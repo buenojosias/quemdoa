@@ -1,6 +1,6 @@
 <?php
 
-use App\Livewire\Users\Delete;
+use App\Livewire\Panel\Users\Delete;
 use App\Models\User;
 use Livewire\Livewire;
 

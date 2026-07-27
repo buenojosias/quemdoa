@@ -7,7 +7,7 @@ it('renders the dashboard with fictitious campaign data', function () {
         'name' => 'João Silva',
     ]);
 
-    $response = $this->actingAs($user)->get(route('dashboard'));
+    $response = $this->actingAs($user)->get(route('panel.dashboard'));
 
     $response
         ->assertSuccessful()

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Users;
+namespace App\Livewire\Panel\Users;
 
 use App\Livewire\Traits\Alert;
 use App\Models\User;
@@ -23,7 +23,7 @@ class Update extends Component
 
     public function render(): View
     {
-        return view('livewire.users.update');
+        return view('livewire.panel.users.update');
     }
 
     #[On('load::user')]

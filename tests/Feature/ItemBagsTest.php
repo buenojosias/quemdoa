@@ -57,7 +57,7 @@ it('opens the slide and lists bags for the selected item', function () {
     bagItemForItemBags($selectedItem, 'Maria');
     bagItemForItemBags($otherItem, 'Jose');
 
-    Livewire::test('campaign.item-bags', ['campaignId' => $campaign->id])
+    Livewire::test('panel.campaign.item-bags', ['campaignId' => $campaign->id])
         ->assertSet('slide', false)
         ->dispatch("open-item-bags.{$campaign->id}", item: $selectedItem->id)
         ->assertSet('slide', true)
@@ -72,7 +72,7 @@ it('adds an item to a new bag', function () {
     $campaign = campaignForItemBags();
     $item = itemForItemBags($campaign);
 
-    Livewire::test('bag.add-bag', ['itemId' => $item->id])
+    Livewire::test('panel.bag.add-bag', ['itemId' => $item->id])
         ->dispatch('open-add-modal')
         ->assertSet('modal', true)
         ->assertSet('campaign_id', $campaign->id)
@@ -117,7 +117,7 @@ it('links an item to an existing bag by participant whatsapp', function () {
         'participant_whatsapp' => '11 99999-9999',
     ]);
 
-    Livewire::test('bag.add-bag', ['itemId' => $item->id])
+    Livewire::test('panel.bag.add-bag', ['itemId' => $item->id])
         ->dispatch('open-add-modal')
         ->set('participant_name', 'Outro Nome')
         ->set('participant_whatsapp', '11 99999-9999')
@@ -144,7 +144,7 @@ it('refreshes item bags after a bag is added', function () {
     $campaign = campaignForItemBags();
     $item = itemForItemBags($campaign);
 
-    $component = Livewire::test('campaign.item-bags', ['campaignId' => $campaign->id])
+    $component = Livewire::test('panel.campaign.item-bags', ['campaignId' => $campaign->id])
         ->dispatch("open-item-bags.{$campaign->id}", item: $item->id)
         ->assertSet('itemBaggedQuantity', 0)
         ->assertDontSee('Maria');
@@ -166,7 +166,7 @@ it('clears add bag modal data when closed', function () {
     $campaign = campaignForItemBags();
     $item = itemForItemBags($campaign);
 
-    Livewire::test('bag.add-bag', ['itemId' => $item->id])
+    Livewire::test('panel.bag.add-bag', ['itemId' => $item->id])
         ->dispatch('open-add-modal')
         ->set('participant_name', 'Maria')
         ->set('participant_whatsapp', '11 99999-9999')
@@ -188,7 +188,7 @@ it('confirms a pending bag item and keeps bagged item totals', function () {
     $bagItem = bagItemForItemBags($item, 'Maria');
     $item->update(['bagged_quantity' => 3]);
 
-    Livewire::test('campaign.item-bags', ['campaignId' => $campaign->id])
+    Livewire::test('panel.campaign.item-bags', ['campaignId' => $campaign->id])
         ->dispatch("open-item-bags.{$campaign->id}", item: $item->id)
         ->call('confirm', $bagItem->id)
         ->assertDispatched("item-created.{$campaign->id}");
@@ -205,7 +205,7 @@ it('marks a bag item as received and updates received item totals', function () 
     $item = itemForItemBags($campaign);
     $bagItem = bagItemForItemBags($item, 'Maria', BagItemStatusEnum::CONFIRMED);
 
-    Livewire::test('campaign.item-bags', ['campaignId' => $campaign->id])
+    Livewire::test('panel.campaign.item-bags', ['campaignId' => $campaign->id])
         ->dispatch("open-item-bags.{$campaign->id}", item: $item->id)
         ->call('receive', $bagItem->id)
         ->assertDispatched("item-created.{$campaign->id}");
@@ -221,7 +221,7 @@ it('deletes a bag item and removes an empty bag', function () {
     $bagItem = bagItemForItemBags($item, 'Maria', BagItemStatusEnum::CONFIRMED);
     $bag = $bagItem->bag;
 
-    Livewire::test('campaign.item-bags', ['campaignId' => $campaign->id])
+    Livewire::test('panel.campaign.item-bags', ['campaignId' => $campaign->id])
         ->dispatch("open-item-bags.{$campaign->id}", item: $item->id)
         ->call('delete', $bagItem->id)
         ->assertDispatched("item-created.{$campaign->id}");

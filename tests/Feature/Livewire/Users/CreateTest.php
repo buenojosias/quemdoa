@@ -1,6 +1,6 @@
 <?php
 
-use App\Livewire\Users\Create;
+use App\Livewire\Panel\Users\Create;
 use App\Models\User;
 use Livewire\Livewire;
 
@@ -11,7 +11,7 @@ beforeEach(fn () => User::query()->delete());
 it('renders the create user component', function () {
     Livewire::test(Create::class)
         ->assertOk()
-        ->assertViewIs('livewire.users.create');
+        ->assertViewIs('livewire.panel.users.create');
 });
 
 it('initializes with a new user', function () {

@@ -2,7 +2,7 @@
 
 use App\Enums\CategoryEnum;
 use App\Enums\UnitEnum;
-use App\Livewire\Item\Create;
+use App\Livewire\Panel\Item\Create;
 use App\Models\Campaign;
 use App\Models\User;
 use Livewire\Livewire;
@@ -27,7 +27,7 @@ function campaignForItemCreate(): Campaign
 it('renders the item create component with a modal', function () {
     Livewire::test(Create::class, ['campaignId' => campaignForItemCreate()->id])
         ->assertOk()
-        ->assertViewIs('livewire.item.create')
+        ->assertViewIs('livewire.panel.item.create')
         ->assertSee('Adicionar item')
         ->assertSet('modal', false);
 });
@@ -100,7 +100,7 @@ it('requires item fields from the schema', function () {
 it('refreshes the campaign items table when an item is created', function () {
     $campaign = campaignForItemCreate();
 
-    $component = Livewire::test('campaign.items-table', ['campaignId' => $campaign->id])
+    $component = Livewire::test('panel.campaign.items-table', ['campaignId' => $campaign->id])
         ->assertDontSee('Arroz');
 
     $campaign->items()->create([

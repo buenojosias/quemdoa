@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\User;
+namespace App\Livewire\Panel\User;
 
 use App\Livewire\Traits\Alert;
 use App\Models\User;
@@ -44,7 +44,7 @@ class Profile extends Component
 
     public function render(): View
     {
-        return view('livewire.user.profile');
+        return view('livewire.panel.user.profile');
     }
 
     public function save(): void
