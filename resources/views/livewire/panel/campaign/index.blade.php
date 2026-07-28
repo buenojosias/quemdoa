@@ -31,10 +31,10 @@
                         <span class="font-semibold text-gray-700 dark:text-gray-200">Itens</span>
                         <span class="text-gray-500 dark:text-gray-300">{{ $campaign->items_count }}</span>
                     </div>
-                    <div class="flex flex-col">
+                    <a href="{{ route('panel.campaigns.bags', $campaign) }}" class="flex flex-col">
                         <span class="font-semibold text-gray-700 dark:text-gray-200">Sacolas</span>
                         <span class="text-gray-500 dark:text-gray-300">{{ $campaign->bags_count }}</span>
-                    </div>
+                    </a>
                 </div>
             </x-card>
         @empty

@@ -55,6 +55,10 @@ new class () extends Component {
 
     public function save(): void
     {
+        if (!is_null($this->participant_whatsapp)) {
+            $this->participant_whatsapp = preg_replace('/\D/', '', $this->participant_whatsapp);
+        }
+
         $validated = $this->validate();
         $validated['participant_whatsapp'] = blank($validated['participant_whatsapp'])
             ? null
@@ -133,7 +137,7 @@ new class () extends Component {
 
         return Bag::query()->create([
             'campaign_id' => $item->campaign_id,
-            'code' => $this->generateBagCode($item->campaign_id),
+            'code' => $this->generateBagCode(),
             'participant_name' => $validated['participant_name'],
             'participant_whatsapp' => $validated['participant_whatsapp'],
             'confirmed_by' => 'organizer',
@@ -163,14 +167,10 @@ new class () extends Component {
         ]);
     }
 
-    private function generateBagCode(int|string $campaignId): string
+    private function generateBagCode(): string
     {
-        do {
-            $code = Str::upper(Str::random(6));
-        } while (Bag::query()
-            ->where('campaign_id', $campaignId)
-            ->where('code', $code)
-            ->exists());
+        $generateBagCodeService = new \App\Services\GenerateBagCodeService();
+        $code = $generateBagCodeService->generateUniqueCode($this->participant_name);
 
         return $code;
     }
