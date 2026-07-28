@@ -4,6 +4,7 @@ use App\Enums\CategoryEnum;
 use App\Models\BagItem;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -25,6 +26,14 @@ new class extends Component
     {
         $this->bagId = (string) $bagId;
         $this->campaignId = (string) $campaignId;
+    }
+
+    #[On('bag-item-added.{bagId}')]
+    public function refreshAfterBagItemAdded(): void
+    {
+        $this->resetPage();
+
+        unset($this->items);
     }
 
     #[Computed]
