@@ -35,4 +35,6 @@
             <livewire:panel.bag.add-bag :itemId="$itemId" />
         @endif
     </x-slide>
+
+    <livewire:panel.bag.set-item-received />
 </div>

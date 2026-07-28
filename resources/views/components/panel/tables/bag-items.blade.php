@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\BagItemStatusEnum;
 use App\Enums\CategoryEnum;
 use App\Models\BagItem;
 use Livewire\Attributes\Computed;
@@ -29,7 +30,8 @@ new class extends Component
     }
 
     #[On('bag-item-added.{bagId}')]
-    public function refreshAfterBagItemAdded(): void
+    #[On('bag-item-received.{bagId}')]
+    public function refreshAfterBagItemChanged(): void
     {
         $this->resetPage();
 
@@ -106,5 +108,16 @@ new class extends Component
         @interact('column_status', $row)
             <x-badge :text="$row->status->label()" :color="$row->status->color()" light />
         @endinteract
+        @interact('column_actions', $row)
+            @if (in_array($row->status, [BagItemStatusEnum::PENDING, BagItemStatusEnum::CONFIRMED], true))
+                <x-button.circle
+                    icon="check"
+                    sm
+                    title="Marcar como recebido"
+                    wire:click="$dispatch('open-set-item-received', { bagItem: {{ $row->id }} })" />
+            @endif
+        @endinteract
     </x-table>
+
+    <livewire:panel.bag.set-item-received />
 </div>

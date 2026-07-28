@@ -200,14 +200,21 @@ it('confirms a pending bag item and keeps bagged item totals', function () {
         ->and($item->received_quantity)->toBe('0.0');
 });
 
-it('marks a bag item as received and updates received item totals', function () {
+it('refreshes totals when a bag item is received by the shared component', function () {
     $campaign = campaignForItemBags();
     $item = itemForItemBags($campaign);
     $bagItem = bagItemForItemBags($item, 'Maria', BagItemStatusEnum::CONFIRMED);
 
-    Livewire::test('panel.campaign.item-bags', ['campaignId' => $campaign->id])
+    $component = Livewire::test('panel.campaign.item-bags', ['campaignId' => $campaign->id])
         ->dispatch("open-item-bags.{$campaign->id}", item: $item->id)
-        ->call('receive', $bagItem->id)
+        ->assertSet('itemReceivedQuantity', 0);
+
+    $bagItem->update(['status' => BagItemStatusEnum::RECEIVED]);
+
+    $component
+        ->dispatch("campaign-bag-item-received.{$campaign->id}", item: $item->id)
+        ->assertSet('itemReceivedQuantity', 3)
+        ->assertSet('formattedItemReceivedQuantity', '3')
         ->assertDispatched("item-created.{$campaign->id}");
 
     expect($bagItem->refresh()->status)->toBe(BagItemStatusEnum::RECEIVED)

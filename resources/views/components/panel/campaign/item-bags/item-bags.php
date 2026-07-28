@@ -111,23 +111,6 @@ new class () extends Component {
         $this->toast()->success('Sacola confirmada com sucesso.')->send();
     }
 
-    public function receive(int $bagItem): void
-    {
-        $bagItem = $this->findBagItem($bagItem);
-
-        $bagItem->update([
-            'status' => BagItemStatusEnum::RECEIVED,
-        ]);
-
-        $bagItem->bag->update([
-            'confirmed_at' => $bagItem->bag->confirmed_at ?? now(),
-            'confirmed_by' => $bagItem->bag->confirmed_by ?? 'organizer',
-        ]);
-
-        $this->refreshItemQuantities();
-        $this->toast()->success('Sacola marcada como recebida.')->send();
-    }
-
     public function askToDelete(int $bagItem): void
     {
         $this->findBagItem($bagItem);
@@ -174,6 +157,16 @@ new class () extends Component {
         };
     }
 
+    #[On('campaign-bag-item-received.{campaignId}')]
+    public function refreshAfterBagItemReceived(int $item): void
+    {
+        if ($this->itemId !== $item) {
+            return;
+        }
+
+        $this->refreshItemQuantities();
+    }
+
     private function findBagItem(int $bagItem): BagItem
     {
         return BagItem::query()
@@ -216,9 +209,20 @@ new class () extends Component {
 
         $this->itemBaggedQuantity = $baggedQuantity;
         $this->itemReceivedQuantity = $receivedQuantity;
+        $this->formattedItemBaggedQuantity = $this->formatQuantity((float) $baggedQuantity);
+        $this->formattedItemReceivedQuantity = $this->formatQuantity((float) $receivedQuantity);
 
         unset($this->bagItems);
 
         $this->dispatch("item-created.{$this->campaignId}");
+    }
+
+    private function formatQuantity(float $quantity): string
+    {
+        if (floor($quantity) === $quantity) {
+            return (string) (int) $quantity;
+        }
+
+        return number_format($quantity, 1, ',', '');
     }
 };
