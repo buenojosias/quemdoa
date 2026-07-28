@@ -29,5 +29,23 @@ class AppServiceProvider extends ServiceProvider
             ->card()
             ->block('body')
             ->replace('text-secondary-700', 'text-slate-900');
+        
+        TallStackUi::customize()
+            ->button()
+            ->block('wrapper.sizes.md')
+            ->replace('text-md', 'text-sm')
+            ->and()
+            ->button()
+            ->block('wrapper.sizes.sm')
+            ->replace('text-md', 'text-xs');
+
+        TallStackUi::customize()
+            ->modal()
+            ->block('title.close')
+            ->replace('text-secondary-300', 'text-secondary-500')
+            ->and()
+            ->slide()
+            ->block('title.close')
+            ->replace('text-secondary-300', 'text-secondary-500');
     }
 }
