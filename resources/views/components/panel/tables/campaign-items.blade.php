@@ -94,9 +94,8 @@ new class extends Component
 
     <x-table :$headers :$rows paginate>
         @interact('column_item', $row)
-            <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+            <div class="text-sm font-medium text-gray-700 dark:text-gray-100">
                 {{ $row->name }}
-
                 @if ($row->complement)
                     <p class="text-sm font-normal text-gray-500 dark:text-gray-400">{{ $row->note }}</p>
                 @endif
@@ -110,7 +109,7 @@ new class extends Component
             </div>
         @endinteract
         @interact('column_date', $row)
-            {{ $row->delivery_date ? $row->delivery_date->format('d/m/Y') : 'Padrão' }}
+            {{ $row->delivery_date ? $row->delivery_date->format('d/m/Y') : '-' }}
         @endinteract
         @interact('column_actions', $row)
             <div class="flex">

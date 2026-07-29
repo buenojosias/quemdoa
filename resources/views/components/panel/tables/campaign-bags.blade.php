@@ -130,7 +130,7 @@ new class extends Component
 
     <x-table :$headers :$rows paginate>
         @interact('column_code', $row)
-            <a href="{{ route('panel.campaigns.bags.show', [$this->campaignId, $row->id]) }}" class="font-semibold text-gray-900 dark:text-gray-100">
+            <a href="{{ route('panel.campaigns.bags.show', [$this->campaignId, $row->id]) }}" class="font-medium text-gray-700 dark:text-gray-100">
                 {{ $row->code }}
             </a>
         @endinteract

@@ -5,48 +5,61 @@
             <livewire:panel.campaign.create />
         </div>
     </div>
-    
-    <div class="space-y-4">
-        @forelse ($this->campaigns as $campaign)
-            {{-- <livewire:panel.campaign.card :campaign="$campaign" :wire:key="$campaign->id" /> --}}
-            <x-card class="space-y-3">
-                <div class="flex justify-between items-start gap-4">
-                    <a href="{{ route('panel.campaigns.show', $campaign) }}" class="font-semibold flex-1 pb-1">{{ $campaign->name }}</a>
-                    <x-badge
-                        :text="$campaign->is_active ? 'Ativa' : 'Inativa'"
-                        :color="$campaign->is_active ? 'green' : 'neutral'"
-                        light />
-                </div>
-                <p class="text-gray-500 dark:text-gray-300 text-sm">{{ $campaign->description }}</p>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 text-sm gap-3">
-                    <div class="flex flex-col">
-                        <span class="font-semibold text-gray-700 dark:text-gray-200">Prazo de confirmação</span>
-                        <span class="text-gray-500 dark:text-gray-300">{{ $campaign->confirmation_deadline->format('d/m/Y') }}</span>
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="font-semibold text-gray-700 dark:text-gray-200">Prazo de entrega</span>
-                        <span class="text-gray-500 dark:text-gray-300">{{ $campaign->delivery_deadline->format('d/m/Y') }}</span>
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="font-semibold text-gray-700 dark:text-gray-200">Itens</span>
-                        <span class="text-gray-500 dark:text-gray-300">{{ $campaign->items_count }}</span>
-                    </div>
-                    <a href="{{ route('panel.campaigns.bags', $campaign) }}" class="flex flex-col">
-                        <span class="font-semibold text-gray-700 dark:text-gray-200">Sacolas</span>
-                        <span class="text-gray-500 dark:text-gray-300">{{ $campaign->bags_count }}</span>
-                    </a>
-                </div>
-            </x-card>
-        @empty
-            <div class="col-span-full">
-                <x-alert color="secondary" light icon="heart" title="Você ainda não tem campanhas">
-                    Que tal criar sua primeira campanha? Clique no botão acima para começar!
-                </x-alert>
-            </div>
-        @endforelse
-        <div class="mt-4">
-            {{ $this->campaigns->links() }}
-        </div>
-    </div>
 
+    @if ($status == '' && $this->campaigns->isEmpty())
+        <div class="mb-4">
+            <x-alert color="secondary" light icon="heart" title="Você ainda não tem campanhas">
+                Que tal criar sua primeira campanha? Clique no botão acima para começar!
+            </x-alert>
+        </div>
+    @else
+        <div class="space-y-4">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <x-select.native wire:model.live="quantity" label="Itens por página">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                </x-select.native>
+
+                <x-select.native label="Status"
+                    wire:model.live="status"
+                    :options="$this->statusOptions()"
+                    select="label:label|value:value" />
+            </div>
+
+            <x-table :$headers :rows="$this->campaigns">
+                @interact('column_name', $row)
+                    <a href="{{ route('panel.campaigns.show', $row) }}" class="font-medium text-gray-700 dark:text-gray-100">
+                        {{ $row->name }}
+                    </a>
+                @endinteract
+
+                @interact('column_confirmation_deadline', $row)
+                    {{ $row->confirmation_deadline->format('d/m/Y') }}
+                @endinteract
+
+                @interact('column_delivery_deadline', $row)
+                    {{ $row->delivery_deadline->format('d/m/Y') }}
+                @endinteract
+
+                @interact('column_bags_count', $row)
+                    <a href="{{ route('panel.campaigns.bags', $row) }}" class="flex items-center gap-1 font-medium text-gray-700 dark:text-gray-100">
+                        {{ $row->bags_count }}
+                        <x-icon name="shopping-bag" class="w-4 h-4" />
+                    </a>
+                @endinteract
+
+                @interact('column_is_active', $row)
+                    <x-badge
+                        :text="$row->is_active ? 'Ativa' : 'Inativa'"
+                        :color="$row->is_active ? 'green' : 'neutral'"
+                        light />
+                @endinteract
+            </x-table>
+            <div>
+                {{ $this->campaigns->links() }}
+            </div>
+        </div>
+    @endif
 </div>
