@@ -24,7 +24,7 @@
                 <div><img src="{{ asset('/assets/images/logomarca.png') }}" class="h-12" /></div>
             </div>
         </div>
-        <div class="mt-8 container mx-auto px-6 lg:px-16">
+        <div class="my-8 container mx-auto px-6 lg:px-16">
             {{ $slot }}
         </div>
 

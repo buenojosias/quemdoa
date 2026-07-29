@@ -18,4 +18,122 @@
             Gratidão pela sua generosidade!
         </div>
     </div>
+
+    <div class="space-y-3">
+        @forelse ($this->itemsByCategory as $category)
+            <div wire:key="public-campaign-category-{{ md5($category['name']) }}">
+                <x-accordion>
+                    <x-accordion.items
+                        :id="'public-campaign-category-'.md5($category['name'])"
+                        >
+                        <x-slot:trigger>
+                            <div class="flex min-w-0 items-center gap-3">
+                                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-secondary-200">
+                                    <img
+                                        src="{{ asset('assets/images/category-illustrations/'.$category['illustration']) }}"
+                                        alt=""
+                                        class="h-9 w-9 object-contain">
+                                </span>
+                                <span class="flex items-center gap-3 min-w-0 text-left">
+                                    <span class="block truncate text-lg font-semibold text-gray-800 dark:text-gray-100">
+                                        {{ $category['name'] }}
+                                    </span>
+                                    <x-badge color="secondary" xs light>{{ count($category['items']) }} {{ count($category['items']) === 1 ? 'item' : 'itens' }}</x-badge>
+                                </span>
+                            </div>
+                        </x-slot:trigger>
+
+                        <div class="divide-y divide-gray-200 dark:divide-gray-700">
+                            @foreach ($category['items'] as $item)
+                                <div
+                                    wire:key="public-campaign-item-{{ $item['id'] }}"
+                                    x-data="{ expanded: false }"
+                                    class="py-4">
+                                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                                        <button
+                                            type="button"
+                                            x-on:click="expanded = ! expanded"
+                                            class="flex min-w-0 flex-1 items-center justify-between gap-3 text-left cursor-pointer">
+                                            <span class="min-w-0">
+                                                <span class="block truncate font-semibold text-gray-800 dark:text-gray-100">
+                                                    {{ $item['name'] }}
+                                                    @if ($item['complement'])
+                                                        <span class="font-normal text-gray-600 dark:text-gray-300">({{ $item['complement'] }})</span>
+                                                    @endif
+                                                </span>
+                                                <span class="mt-1 block text-sm font-medium text-orange-500">
+                                                    {{ $item['pending_quantity_label'] }}
+                                                </span>
+                                            </span>
+                                            <x-icon
+                                                name="chevron-down"
+                                                outline
+                                                x-bind:class="{ 'rotate-180': expanded }"
+                                                class="h-4 w-4 shrink-0 text-gray-700 transition-transform dark:text-gray-200" />
+                                        </button>
+
+                                        <x-button
+                                            :text="$item['is_complete'] ? 'Na sacola' : 'Vou levar'"
+                                            :disabled="$item['is_complete']"
+                                            color="primary"
+                                            outline
+                                            sm />
+                                    </div>
+
+                                    <div x-show="expanded" x-collapse x-cloak class="pt-4">
+                                        <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+                                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                                <div>
+                                                    <p class="text-gray-500 dark:text-gray-400">Necessário</p>
+                                                    <p class="mt-1 text-lg font-semibold text-gray-800 dark:text-gray-100">
+                                                        {{ $item['required_quantity'] }} {{ $item['unit_abbreviation'] }}.
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <p class="text-gray-500 dark:text-gray-400">Já prometido</p>
+                                                    <p class="mt-1 text-lg font-semibold text-primary-700 dark:text-primary-300">
+                                                        {{ $item['promised_quantity'] }} {{ $item['unit_abbreviation'] }}. ({{ $item['progress'] }}%)
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="mt-4">
+                                                <x-progress :percent="$item['progress']" color="primary" sm />
+                                            </div>
+
+                                            @if ($item['delivery_date'])
+                                                <div class="mt-4 flex gap-2 text-sm text-gray-700 dark:text-gray-200">
+                                                    <x-icon name="calendar" outline class="mt-0.5 h-4 w-4 shrink-0 text-gray-500 dark:text-gray-400" />
+                                                    <div>
+                                                        <p class="text-gray-600 dark:text-gray-300">
+                                                            Entregar até
+                                                            <span class="font-medium">{{ $item['delivery_date'] }}</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            @endif
+
+                                            @if ($item['note'])
+                                                <div class="mt-4 text-sm text-gray-700 dark:text-gray-200">
+                                                    <p class="font-medium text-gray-500 dark:text-gray-400">Observações:</p>
+                                                    <p class="mt-1">{{ $item['note'] }}</p>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </x-accordion.items>
+                </x-accordion>
+            </div>
+        @empty
+            <x-card>
+                <div class="py-8 text-center text-sm text-gray-500 dark:text-gray-400">
+                    Nenhum item cadastrado para esta campanha.
+                </div>
+            </x-card>
+        @endforelse
+    </div>
+
 </div>

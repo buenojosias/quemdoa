@@ -15,19 +15,19 @@ enum CategoryEnum: string
     case MONEY = 'Dinheiro';
     case OTHERS = 'Outros';
 
-    public static function illustration(): array
+    public function illustration(): string
     {
-        return [
-            self::FOODS->value => 'foods.png',
-            self::DRINKS->value => 'drinks.png',
-            self::HORTIFRUTI->value => 'hortifruti.png',
-            self::MEATS->value => 'meats.png',
-            self::DISPOSABLES->value => 'disposable.png',
-            self::HYGIENE->value => 'hygiene.png',
-            self::CLEANING->value => 'cleaning.png',
-            self::DECORATION->value => 'decoration.png',
-            self::MONEY->value => 'money.png',
-            self::OTHERS->value => 'others.png',
-        ];
+        return match ($this) {
+            self::FOODS => 'foods.png',
+            self::DRINKS => 'drinks.png',
+            self::HORTIFRUTI => 'hortifruti.png',
+            self::MEATS => 'meats.png',
+            self::DISPOSABLES => 'disposables.png',
+            self::HYGIENE => 'hygiene.png',
+            self::CLEANING => 'cleaning.png',
+            self::DECORATION => 'decoration.png',
+            self::MONEY => 'money.png',
+            self::OTHERS => 'others.png',
+        };
     }
 }
