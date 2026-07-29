@@ -38,7 +38,7 @@ enum UnitEnum: string
             self::DOZEN => 'dz',
             self::HUNDRED => 'ct',
             self::BOX => 'cx',
-            self::PACK => 'pc',
+            self::PACK => 'pct',
             self::G => 'g',
             self::KG => 'kg',
             self::ML => 'ml',

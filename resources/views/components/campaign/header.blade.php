@@ -14,7 +14,7 @@
         <div class="flex flex-col lg:flex-row gap-4">
             <div class="w-full lg:w-1/2 flex gap-3">
                 <div class="pt-0.5">
-                    <x-icon name="calendar" class="w-4 h-4" />
+                    <x-icon name="calendar" outline class="w-4 h-4" />
                 </div>
                 <div class="text-gray-600 dark:text-gray-300 font-medium">
                     <p class="text-sm">Prazo de confirmação</p>
@@ -23,7 +23,7 @@
             </div>
             <div class="w-full lg:w-1/2 flex gap-3">
                 <div class="pt-0.5">
-                    <x-icon name="calendar" class="w-4 h-4" />
+                    <x-icon name="clock" outline class="w-4 h-4" />
                 </div>
                 <div class="text-gray-600 dark:text-gray-300 font-medium">
                     <p class="text-sm">Prazo de entrega</p>
