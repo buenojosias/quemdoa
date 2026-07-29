@@ -98,7 +98,7 @@
                                             </div>
 
                                             <div class="mt-4">
-                                                <x-progress :percent="$item['progress']" color="primary" sm />
+                                                <x-progress :percent="$item['progress']" color="primary" />
                                             </div>
 
                                             @if ($item['delivery_date'])
@@ -135,5 +135,7 @@
             </x-card>
         @endforelse
     </div>
-
+    <x-button text="Ver sacola" icon="shopping-bag" outline block />
+    <livewire:public.campaign.item-add :campaignId="$campaign->id" />
+    <livewire:public.campaign.bag :campaignId="$campaign->id" />
 </div>

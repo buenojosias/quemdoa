@@ -102,4 +102,15 @@ class Show extends Component
 
         return number_format($quantity, 1, ',', '');
     }
+
+        /*
+    INSTRUÇÕES
+        - Se a quantidade prometida de cada item for superior à quantidade quantidade necessária, substituir a quantidade prometida pela quantidade necessária e não deixar o valor do x-progrees ser superior a 100%.
+        - Decida o melhor componente para colocar a lista de itens da sacola
+        - Ao receber o evento de item adicionado, manter a lista intacta, ou seja, não altear os itens e suas quantidades
+        - Ao receber o evento de item adiconado, alterar o estado do respectivo botão para disabled e alterar o texto para "Adicionado à sacola"
+
+        - Ao clicar no botão "Ver sacola", disparar evento abrir o slide (componente public.campaign.bag)
+        - Ao receber o evento de item removido, remover o estado disabled do respectivo botão e alterar o texto para "Vou levar"
+    */
 }
