@@ -73,11 +73,12 @@
                                         </button>
 
                                         <x-button
-                                            :text="$item['is_complete'] ? 'Na sacola' : 'Vou levar'"
-                                            :disabled="$item['is_complete']"
+                                            :text="$item['button_text']"
+                                            :disabled="$item['button_disabled']"
                                             color="primary"
                                             outline
-                                            sm />
+                                            sm
+                                            wire:click="$dispatch('open-public-campaign-item-add.{{ $campaignId }}', { item: {{ $item['id'] }} })" />
                                     </div>
 
                                     <div x-show="expanded" x-collapse x-cloak class="pt-4">
@@ -135,7 +136,16 @@
             </x-card>
         @endforelse
     </div>
-    <x-button text="Ver sacola" icon="shopping-bag" outline block />
-    <livewire:public.campaign.item-add :campaignId="$campaign->id" />
-    <livewire:public.campaign.bag :campaignId="$campaign->id" />
+    <x-button
+        text="Ver sacola"
+        icon="shopping-bag"
+        outline
+        block
+        wire:click="openBag" />
+    <livewire:public.campaign.item-add :campaign-id="$campaignId" />
+    <livewire:public.campaign.bag
+        :campaign-id="$campaignId"
+        :bag-items="$bagItems"
+        :slide="$bagSlide"
+        :key="'public-campaign-bag-'.$campaignId.'-'.count($bagItems).'-'.(int) $bagSlide" />
 </div>

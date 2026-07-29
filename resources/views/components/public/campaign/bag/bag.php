@@ -1,40 +1,133 @@
 <?php
 
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Locked;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
-new class extends Component
-{
-    public $campaignId;
+new class () extends Component {
+    #[Locked]
+    public string $campaignId;
 
-    public ?array $bagItems = [
-        [
-            'id' => 1,
-            'name' => 'Pão de alho',
-            'complement' => 'Com queijo',
-            'quantity' => 1,
-            'pendingBaggedQuantity' => 4,
-            'unitAbbreviation' => 'un.',
-            'deliveryDate' => '20 jul. 2026',
-        ],
-        [
-            'id' => 2,
-            'name' => 'Pão de queijo',
-            'complement' => '',
-            'quantity' => 2,
-            'pendingBaggedQuantity' => 12,
-            'unitAbbreviation' => 'un.',
-            'deliveryDate' => '',
-        ],
-    ];
+    /**
+     * @var array<int, array{id: int, name: string, complement: ?string, quantity: float, formattedQuantity: string, pendingBaggedQuantity: float, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string}>
+     */
+    public array $bagItems = [];
 
-    public bool $slide = true;
+    public bool $slide = false;
 
+    public function mount(int|string $campaignId): void
+    {
+        $this->campaignId = (string) $campaignId;
+    }
 
-    /* INSTRUÇÕES
-        - O $bagItems está mockado e deverá ser carregado sem os itens
-        - Embora eu tenha colocado o $bagItems neste componente, analise se ele deve ficar aqui ou no componente pai
-        - Ao clicar em + ou - em um item da sacola, alterar a quantidade neste componente e disparar evento para atualizar a quantidade do item no outro componente
-        - Ao clicar em "Remover" em um item da sacola, disparar evento para remover o item da lista da sacola no outro componente
-        - Se for possível, defina a position do slide de acordo com o tamanho da tela (bottom em mobile e right em tablet e desktop)
-    */
+    #[On('open-public-campaign-bag.{campaignId}')]
+    public function openSlide(): void
+    {
+        $this->slide = true;
+    }
+
+    /**
+     * @param  array{id: int, name: string, complement: ?string, quantity: float|int|string, formattedQuantity?: string, pendingBaggedQuantity: float|int|string, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string}  $bagItem
+     */
+    #[On('public-campaign-item-added.{campaignId}')]
+    public function addItem(int $item, array $bagItem): void
+    {
+        if ($this->findItemIndex($item) !== null) {
+            return;
+        }
+
+        $quantity = (float) $bagItem['quantity'];
+
+        $this->bagItems[] = [
+            'id' => (int) $bagItem['id'],
+            'name' => $bagItem['name'],
+            'complement' => $bagItem['complement'],
+            'quantity' => $quantity,
+            'formattedQuantity' => $this->formatQuantity($quantity),
+            'pendingBaggedQuantity' => (float) $bagItem['pendingBaggedQuantity'],
+            'unitAbbreviation' => $bagItem['unitAbbreviation'],
+            'unitLabel' => $bagItem['unitLabel'],
+            'deliveryDate' => $bagItem['deliveryDate'],
+        ];
+    }
+
+    #[On('public-campaign-bag-increment.{campaignId}')]
+    public function increment(int $item): void
+    {
+        $index = $this->findItemIndex($item);
+
+        if ($index === null) {
+            return;
+        }
+
+        $quantity = min(
+            $this->bagItems[$index]['quantity'] + 0.5,
+            $this->bagItems[$index]['pendingBaggedQuantity'],
+        );
+
+        $this->updateItemQuantity($index, $quantity);
+    }
+
+    #[On('public-campaign-bag-decrement.{campaignId}')]
+    public function decrement(int $item): void
+    {
+        $index = $this->findItemIndex($item);
+
+        if ($index === null) {
+            return;
+        }
+
+        $quantity = max($this->bagItems[$index]['quantity'] - 0.5, 0.1);
+
+        $this->updateItemQuantity($index, $quantity);
+    }
+
+    #[On('public-campaign-bag-remove.{campaignId}')]
+    public function remove(int $item): void
+    {
+        $this->bagItems = array_values(
+            array_filter($this->bagItems, fn (array $bagItem): bool => $bagItem['id'] !== $item),
+        );
+
+        $this->dispatch("public-campaign-item-removed.{$this->campaignId}", item: $item);
+    }
+
+    #[Computed]
+    public function totalItems(): int
+    {
+        return count($this->bagItems);
+    }
+
+    private function updateItemQuantity(int $index, float $quantity): void
+    {
+        $this->bagItems[$index]['quantity'] = $quantity;
+        $this->bagItems[$index]['formattedQuantity'] = $this->formatQuantity($quantity);
+
+        $this->dispatch(
+            "public-campaign-bag-item-quantity-updated.{$this->campaignId}",
+            item: $this->bagItems[$index]['id'],
+            quantity: $quantity,
+        );
+    }
+
+    private function findItemIndex(int $item): ?int
+    {
+        foreach ($this->bagItems as $index => $bagItem) {
+            if ($bagItem['id'] === $item) {
+                return $index;
+            }
+        }
+
+        return null;
+    }
+
+    private function formatQuantity(float $quantity): string
+    {
+        if (floor($quantity) === $quantity) {
+            return (string) (int) $quantity;
+        }
+
+        return number_format($quantity, 1, ',', '');
+    }
 };
