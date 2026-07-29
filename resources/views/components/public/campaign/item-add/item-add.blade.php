@@ -21,10 +21,11 @@
                     x-on:input.debounce.150ms="$dispatch('public-campaign-item-add-quantity-updated', { quantity: $event.target.value })"
                     x-on:change="$dispatch('public-campaign-item-add-quantity-updated', { quantity: $event.target.value })">
                     <x-number
-                        :label="'Quantidade (' . $unitLabel . ') *'"
+                        :label="'Quantidade (' . $unitAbbreviation . ') *'"
                         wire:model="quantity"
                         :min="0.1"
-                        step="0.1"
+                        :max="$pendingBaggedQuantity"
+                        step="0.5"
                         centralized />
                 </div>
 
