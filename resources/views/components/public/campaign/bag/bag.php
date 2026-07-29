@@ -93,6 +93,21 @@ new class () extends Component {
         $this->dispatch("public-campaign-item-removed.{$this->campaignId}", item: $item);
     }
 
+    #[On('public-campaign-bag-finish.{campaignId}')]
+    public function finish(): void
+    {
+        if ($this->bagItems === []) {
+            return;
+        }
+
+        $this->slide = false;
+
+        $this->dispatch(
+            "open-public-campaign-confirm-bag.{$this->campaignId}",
+            bagItems: $this->bagItems,
+        );
+    }
+
     #[Computed]
     public function totalItems(): int
     {

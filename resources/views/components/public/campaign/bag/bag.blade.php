@@ -56,6 +56,10 @@
     </div>
 
     <x-slot:footer>
-        <x-button text="Concluir" block />
+        <x-button
+            text="Concluir"
+            block
+            :disabled="$bagItems === []"
+            x-on:click="$tsui.close.slide('public-campaign-bag-slide'); $dispatch('public-campaign-bag-finish.{{ $campaignId }}')" />
     </x-slot:footer>
 </x-slide>
