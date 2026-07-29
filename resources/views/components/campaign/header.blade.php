@@ -1,7 +1,7 @@
 @props([
     'campaign',
     'route' => null,
-    'campaignUrl' => route('panel.campaigns.show', $campaign)
+    'campaignUrl' => route('public.campaigns.show', $campaign)
 ])
 
 <x-card class="flex flex-col sm:flex-row justify-between items-center gap-4">
