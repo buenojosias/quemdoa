@@ -148,4 +148,5 @@
         :bag-items="$bagItems"
         :slide="$bagSlide"
         :key="'public-campaign-bag-'.$campaignId.'-'.count($bagItems).'-'.(int) $bagSlide" />
+    <livewire:public.campaign.confirm-bag :campaign-id="$campaignId" />
 </div>

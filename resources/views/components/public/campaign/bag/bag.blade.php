@@ -56,9 +56,6 @@
     </div>
 
     <x-slot:footer>
-        <div class="flex w-full items-center justify-between gap-4 text-sm text-gray-600 dark:text-gray-300">
-            <span>{{ $this->totalItems }} {{ $this->totalItems === 1 ? 'item' : 'itens' }}</span>
-            <x-button text="Fechar" color="gray" outline sm x-on:click="$tsui.close.slide('public-campaign-bag-slide')" />
-        </div>
+        <x-button text="Concluir" block />
     </x-slot:footer>
 </x-slide>
