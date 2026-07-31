@@ -18,6 +18,7 @@ Route::middleware(['auth'])->name('panel.')->group(function () {
 
 Route::name('public.')->group(function () {
     Route::get('/c/{campaign}', \App\Livewire\Public\Campaign\Show::class)->name('campaigns.show');
+    Route::get('/c/{campaign}/obrigado', \App\Livewire\Public\Campaign\BagFinish::class)->name('campaigns.bag.finish');
 });
 
 require __DIR__.'/auth.php';
