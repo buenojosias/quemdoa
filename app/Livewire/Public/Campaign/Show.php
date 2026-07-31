@@ -122,7 +122,7 @@ class Show extends Component
             $this->bagItems[] = $this->normalizeBagItem($bagItem);
         }
 
-        $this->bagSlide = true;
+        // $this->bagSlide = true;
 
         unset($this->itemsByCategory);
     }
