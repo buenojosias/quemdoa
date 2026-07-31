@@ -5,6 +5,7 @@ use App\Models\Bag;
 use App\Models\Campaign;
 use App\Models\CampaignItem;
 use App\Services\GenerateBagCodeService;
+use App\Services\SendBagConfirmationCodeService;
 use App\Support\PublicCampaignBagSession;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
@@ -306,11 +307,7 @@ new class () extends Component {
 
     private function sendConfirmationCode(Bag $bag): void
     {
-        $this->dispatch(
-            'public-campaign-bag-confirmation-code-generated',
-            bag: $bag->id,
-            whatsapp: $bag->participant_whatsapp,
-        );
+        app(SendBagConfirmationCodeService::class)->send($bag);
     }
 
     private function flashBagFinish(Bag $bag, string $method): void
