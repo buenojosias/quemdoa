@@ -17,7 +17,7 @@ it('renders the login page with the QuemLeva layout', function () {
         ->assertSee('autocomplete="current-password"', false)
         ->assertSee('id="remember_me"', false)
         ->assertSee('name="remember"', false)
-        ->assertSee('type="button"', false)
+        ->assertSee('href="'.route('auth.google.redirect').'"', false)
         ->assertSee('Entrar com Google');
 });
 

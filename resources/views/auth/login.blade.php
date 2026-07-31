@@ -75,8 +75,8 @@
                             <span class="h-px flex-1 bg-slate-200"></span>
                         </div>
 
-                        <button
-                            type="button"
+                        <a
+                            href="{{ route('auth.google.redirect') }}"
                             class="flex h-14 w-full items-center justify-center gap-3 rounded-md border border-slate-200 bg-white px-5 text-base font-bold text-primary-950 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-secondary-500 focus:ring-offset-2"
                         >
                             <svg class="h-6 w-6" viewBox="0 0 24 24" aria-hidden="true">
@@ -87,7 +87,13 @@
                             </svg>
 
                             Entrar com Google
-                        </button>
+                        </a>
+
+                        @error('google')
+                            <p class="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+                                {{ $message }}
+                            </p>
+                        @enderror
 
                         @if (Route::has('register'))
                             <p class="text-center text-sm text-slate-600">
@@ -102,6 +108,7 @@
                             </p>
                         @endif
                     </form>
+
                 </div>
             </section>
 

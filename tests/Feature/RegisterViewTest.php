@@ -15,7 +15,7 @@ it('renders the register page with the QuemLeva layout', function () {
         ->assertSee('name="password"', false)
         ->assertSee('name="password_confirmation"', false)
         ->assertSee('autocomplete="new-password"', false)
-        ->assertSee('type="button"', false)
+        ->assertSee('href="'.route('auth.google.redirect').'"', false)
         ->assertSee('Criar conta com Google')
         ->assertSee(route('login'), false);
 });

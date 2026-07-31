@@ -10,9 +10,11 @@ use Illuminate\Support\Carbon;
 
 /**
  * @property string $name
- * @property string $email
- * @property string $password
- * @property Carbon $email_verified_at
+ * @property string|null $email
+ * @property string|null $password
+ * @property string|null $google_id
+ * @property string|null $avatar
+ * @property Carbon|null $email_verified_at
  * @property string $remember_token
  * @property Carbon $created_at
  * @property Carbon $updated_at
