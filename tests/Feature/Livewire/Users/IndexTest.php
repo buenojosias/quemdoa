@@ -21,6 +21,21 @@ it('renders the users index component', function () {
         ->assertViewIs('livewire.panel.users.index');
 });
 
+it('allows admins to access the users index route', function () {
+    $admin = User::factory()->create([
+        'is_admin' => true,
+    ]);
+
+    $this->actingAs($admin)
+        ->get(route('panel.users.index'))
+        ->assertSuccessful();
+});
+
+it('prevents non-admins from accessing the users index route', function () {
+    $this->get(route('panel.users.index'))
+        ->assertForbidden();
+});
+
 it('initializes with default settings', function () {
     Livewire::test(Index::class)
         ->assertSet('quantity', 5)
