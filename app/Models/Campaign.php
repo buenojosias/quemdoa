@@ -16,6 +16,8 @@ class Campaign extends Model
     protected $fillable = [
         'user_id',
         'name',
+        'institution',
+        'group',
         'description',
         'confirmation_deadline',
         'delivery_deadline',
