@@ -388,11 +388,16 @@ it('creates a pending public bag for organizer confirmation and flashes the bag 
         ->assertSet('participant_whatsapp', '')
         ->call('submit')
         ->assertHasNoErrors()
-        ->assertRedirect(route('welcome'));
+        ->assertRedirect(route('public.campaigns.bag.finish', $campaign));
 
     $bag = Bag::query()->sole();
 
-    expect(session('code'))->toBe($bag->code)
+    expect(session('bag_finish'))->toBe([
+        'method' => 'organizer',
+        'campaign_name' => 'Jantar da Comunidade',
+        'participant_name' => 'Maria Silva',
+        'bag_code' => $bag->code,
+    ])
         ->and($bag->participant_name)->toBe('Maria Silva')
         ->and($bag->participant_whatsapp)->toBeNull()
         ->and($bag->confirmed_by)->toBeNull()
@@ -498,11 +503,16 @@ it('creates a public bag with whatsapp confirmation and confirms it with the pin
         ->set('pin', $bag->confirmation_code)
         ->call('confirmPin')
         ->assertHasNoErrors()
-        ->assertRedirect(route('welcome'));
+        ->assertRedirect(route('public.campaigns.bag.finish', $campaign));
 
     $bag->refresh();
 
-    expect(session('code'))->toBe($bag->code)
+    expect(session('bag_finish'))->toBe([
+        'method' => 'whatsapp',
+        'campaign_name' => 'Jantar da Comunidade',
+        'participant_name' => 'Maria Silva',
+        'bag_code' => $bag->code,
+    ])
         ->and($bag->confirmed_by)->toBe('participant')
         ->and($bag->confirmed_at)->not->toBeNull()
         ->and($bag->confirmation_code)->toBeNull()

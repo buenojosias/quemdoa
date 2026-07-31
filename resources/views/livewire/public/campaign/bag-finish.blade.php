@@ -1,5 +1,11 @@
 @php
     $campaign = request()->route('campaign');
+    $bagFinish = session('bag_finish', []);
+    $confirmationMethod = $bagFinish['method'] ?? null;
+    $campaignName = $bagFinish['campaign_name'] ?? '';
+    $participantName = $bagFinish['participant_name'] ?? '';
+    $bagCode = $bagFinish['bag_code'] ?? '';
+    $organizerMessage = "Olá! Cadastrei uma sacola na campanha {$campaignName}. \nNome: {$participantName} \nCódigo da sacola: {$bagCode} \nPode confirmar para mim?";
 @endphp
 
 <div class="mx-auto max-w-6xl space-y-6">
@@ -23,40 +29,39 @@
                 <x-icon name="check" class="h-16 w-16 stroke-[3]" />
             </div>
 
-            <div class="mx-auto mt-5 max-w-2xl">
-                <h1 class="text-3xl font-bold tracking-normal text-gray-900 sm:text-4xl dark:text-gray-50">
-                    Sacola cadastrada!
-                </h1>
-                <p class="mt-4 text-xl font-semibold text-primary-700 dark:text-primary-300">
-                    Muito obrigado pela sua generosidade!
-                </p>
-                <p class="mt-4 text-lg leading-6 text-gray-600 dark:text-gray-300">
-                    Sua sacola foi cadastrada e está aguardando confirmação.<br>
-                    Avise o organizador e informe o código <strong class="text-gray-800">QL4827</strong>.
-                </p>
-                <p class="mt-4 text-center leading-6 text-gray-600 dark:text-gray-300">
-                    Se preferir, clique no botão abaixo para copiar o texto pronto.
-                </p>
-                <x-clipboard :text="
-'Olá! Cadastrei uma sacola na campanha Jantar da Comunidade. 
-Nome: Maria Ferreira 
-Código da sacola: QL-4827 
-Pode confirmar para mim?'
-                "/>
-            </div>
-
-            <div class="mx-auto mt-5 max-w-2xl">
-                <h1 class="text-3xl font-bold tracking-normal text-gray-900 sm:text-4xl dark:text-gray-50">
-                    Sacola confirmada!
-                </h1>
-                <p class="mt-4 text-xl font-semibold text-primary-700 dark:text-primary-300">
-                    Muito obrigado pela sua generosidade!
-                </p>
-                <p class="mt-4 text-lg leading-6 text-gray-600 dark:text-gray-300">
-                    Sua sacola foi confirmada com sucesso e fará<br class="hidden sm:block">
-                    toda a diferença para quem mais precisa.
-                </p>
-            </div>
+            @if ($confirmationMethod === 'organizer')
+                <div class="mx-auto mt-5 max-w-2xl">
+                    <h1 class="text-3xl font-bold tracking-normal text-gray-900 sm:text-4xl dark:text-gray-50">
+                        Sacola cadastrada!
+                    </h1>
+                    <p class="mt-4 text-xl font-semibold text-primary-700 dark:text-primary-300">
+                        Muito obrigado pela sua generosidade!
+                    </p>
+                    <p class="mt-4 text-lg leading-6 text-gray-600 dark:text-gray-300">
+                        Sua sacola foi cadastrada e está aguardando confirmação.<br>
+                        Avise o organizador e informe o código <strong class="text-gray-800 dark:text-gray-100">{{ $bagCode }}</strong>.
+                    </p>
+                    <p class="mt-4 text-center leading-6 text-gray-600 dark:text-gray-300">
+                        Se preferir, clique no botão abaixo para copiar o texto pronto.
+                    </p>
+                    <x-clipboard :text="$organizerMessage" />
+                </div>
+            @elseif ($confirmationMethod === 'whatsapp')
+                <div class="mx-auto mt-5 max-w-2xl">
+                    <h1 class="text-3xl font-bold tracking-normal text-gray-900 sm:text-4xl dark:text-gray-50">
+                        Sacola confirmada!
+                    </h1>
+                    <p class="mt-4 text-xl font-semibold text-primary-700 dark:text-primary-300">
+                        Muito obrigado pela sua generosidade!
+                    </p>
+                    <p class="mt-4 text-lg leading-6 text-gray-600 dark:text-gray-300">
+                        Sua sacola foi confirmada com sucesso com o código <strong class="text-gray-800 dark:text-gray-100">{{ $bagCode }}</strong> e fará<br class="hidden sm:block">
+                        toda a diferença na campanha.
+                    </p>
+                </div>
+            @else
+                @php redirect()->route('welcome'); @endphp
+            @endif
 
             <img
                 src="{{ asset('assets/images/illustration-finish.png') }}"

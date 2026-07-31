@@ -134,8 +134,8 @@ new class () extends Component {
         $this->modalConfirm = false;
 
         if ($validated['method'] === 'organizer') {
-            session()->flash('code', $bag->code);
-            $this->redirectRoute('welcome');
+            $this->flashBagFinish($bag, 'organizer');
+            $this->redirectRoute('public.campaigns.bag.finish', [$this->campaignId]);
 
             return;
         }
@@ -170,8 +170,8 @@ new class () extends Component {
             ]);
         });
 
-        session()->flash('code', $bag->code);
-        $this->redirectRoute('welcome');
+        $this->flashBagFinish($bag, 'whatsapp');
+        $this->redirectRoute('public.campaigns.bag.finish', [$this->campaignId]);
     }
 
     public function rules(): array
@@ -179,7 +179,7 @@ new class () extends Component {
         return array_merge($this->submitRules(), [
             'pin' => [
                 'required',
-                'digits:6',
+                'digits:5',
             ],
         ]);
     }
@@ -273,7 +273,7 @@ new class () extends Component {
 
     private function generateConfirmationCode(): string
     {
-        return str_pad((string) random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+        return str_pad((string) random_int(0, 99999), 5, '0', STR_PAD_LEFT);
     }
 
     private function generateBagCode(Campaign $campaign, string $participantName): string
@@ -299,6 +299,16 @@ new class () extends Component {
             bag: $bag->id,
             whatsapp: $bag->participant_whatsapp,
         );
+    }
+
+    private function flashBagFinish(Bag $bag, string $method): void
+    {
+        session()->flash('bag_finish', [
+            'method' => $method,
+            'campaign_name' => $bag->campaign->name,
+            'participant_name' => $bag->participant_name,
+            'bag_code' => $bag->code,
+        ]);
     }
 
     private function resetForm(): void

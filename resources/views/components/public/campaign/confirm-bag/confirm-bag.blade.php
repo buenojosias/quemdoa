@@ -59,7 +59,7 @@
             <x-pin
                 label="Código"
                 wire:model.live="pin"
-                :length="6"
+                :length="5"
                 smart
                 numbers />
         </form>
