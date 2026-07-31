@@ -29,7 +29,7 @@ class BagSeeder extends Seeder
                     'user_id' => $userId ? $userId : null,
                     'participant_name' => fake()->name(),
                     'participant_whatsapp' => '419' . rand(10000000, 99999999),
-                    'confirmation_code' => rand(100000, 999999),
+                    'confirmation_code' => rand(10000, 99999),
                     'confirmed_at' => $confirmed ? now() : null,
                     'confirmed_by' => $confirmed ? ($userId ? 'organizer' : 'participant') : null,
                 ];

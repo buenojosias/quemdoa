@@ -122,8 +122,6 @@ new class () extends Component {
                     'quantity' => $quantity,
                     'status' => BagItemStatusEnum::PENDING,
                 ]);
-
-                $this->refreshItemQuantities($item);
             }
 
             return $bag;
@@ -168,6 +166,8 @@ new class () extends Component {
             $bag->items()->update([
                 'status' => BagItemStatusEnum::CONFIRMED->value,
             ]);
+
+            $this->refreshBaggedQuantities($bag);
         });
 
         $this->flashBagFinish($bag, 'whatsapp');
@@ -237,23 +237,32 @@ new class () extends Component {
         return $quantity;
     }
 
-    private function refreshItemQuantities(CampaignItem $item): void
+    private function refreshBaggedQuantities(Bag $bag): void
+    {
+        $bag->items()
+            ->pluck('campaign_item_id')
+            ->unique()
+            ->each(function (int $campaignItemId): void {
+                $item = CampaignItem::query()
+                    ->where('campaign_id', $this->campaignId)
+                    ->lockForUpdate()
+                    ->findOrFail($campaignItemId);
+
+                $this->refreshBaggedQuantity($item);
+            });
+    }
+
+    private function refreshBaggedQuantity(CampaignItem $item): void
     {
         $baggedQuantity = $item->bagItems()
             ->whereIn('status', [
-                BagItemStatusEnum::PENDING->value,
                 BagItemStatusEnum::CONFIRMED->value,
                 BagItemStatusEnum::RECEIVED->value,
             ])
             ->sum('quantity');
 
-        $receivedQuantity = $item->bagItems()
-            ->where('status', BagItemStatusEnum::RECEIVED->value)
-            ->sum('quantity');
-
         $item->update([
             'bagged_quantity' => $baggedQuantity,
-            'received_quantity' => $receivedQuantity,
         ]);
     }
 

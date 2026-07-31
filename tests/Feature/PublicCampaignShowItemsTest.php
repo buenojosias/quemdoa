@@ -368,6 +368,7 @@ it('creates a pending public bag for organizer confirmation and flashes the bag 
         'unit' => UnitEnum::UNIT->value,
         'required_quantity' => 8,
         'bagged_quantity' => 0,
+        'received_quantity' => 1,
     ]);
 
     Livewire::test('public.campaign.confirm-bag', ['campaignId' => $campaign->id])
@@ -402,7 +403,8 @@ it('creates a pending public bag for organizer confirmation and flashes the bag 
         ->and($bag->participant_whatsapp)->toBeNull()
         ->and($bag->confirmed_by)->toBeNull()
         ->and($bag->confirmed_at)->toBeNull()
-        ->and($item->refresh()->bagged_quantity)->toBe('2.5');
+        ->and($item->refresh()->bagged_quantity)->toBe('0.0')
+        ->and($item->received_quantity)->toBe('1.0');
 
     expect($bag->items()->sole()->status)->toBe(BagItemStatusEnum::PENDING);
 });
@@ -468,6 +470,7 @@ it('creates a public bag with whatsapp confirmation and confirms it with the pin
         'unit' => UnitEnum::UNIT->value,
         'required_quantity' => 8,
         'bagged_quantity' => 0,
+        'received_quantity' => 1,
     ]);
 
     $component = Livewire::test('public.campaign.confirm-bag', ['campaignId' => $campaign->id])
@@ -493,13 +496,20 @@ it('creates a public bag with whatsapp confirmation and confirms it with the pin
     $bag = Bag::query()->sole();
 
     expect($bag->participant_whatsapp)->toBe('11999999999')
-        ->and($bag->confirmation_code)->toHaveLength(6)
-        ->and($bag->confirmed_by)->toBeNull();
+        ->and($bag->confirmation_code)->toHaveLength(5)
+        ->and($bag->confirmed_by)->toBeNull()
+        ->and($item->refresh()->bagged_quantity)->toBe('0.0')
+        ->and($item->received_quantity)->toBe('1.0');
 
     $component
         ->set('pin', '000000')
         ->call('confirmPin')
-        ->assertHasErrors(['pin'])
+        ->assertHasErrors(['pin']);
+
+    expect($item->refresh()->bagged_quantity)->toBe('0.0')
+        ->and($item->received_quantity)->toBe('1.0');
+
+    $component
         ->set('pin', $bag->confirmation_code)
         ->call('confirmPin')
         ->assertHasNoErrors()
@@ -516,5 +526,7 @@ it('creates a public bag with whatsapp confirmation and confirms it with the pin
         ->and($bag->confirmed_by)->toBe('participant')
         ->and($bag->confirmed_at)->not->toBeNull()
         ->and($bag->confirmation_code)->toBeNull()
-        ->and($bag->items()->sole()->status)->toBe(BagItemStatusEnum::CONFIRMED);
+        ->and($bag->items()->sole()->status)->toBe(BagItemStatusEnum::CONFIRMED)
+        ->and($item->refresh()->bagged_quantity)->toBe('1.5')
+        ->and($item->received_quantity)->toBe('1.0');
 });
