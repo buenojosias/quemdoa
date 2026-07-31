@@ -34,10 +34,12 @@ class AppServiceProvider extends ServiceProvider
             ->button()
             ->block('wrapper.sizes.md')
             ->replace('text-md', 'text-sm')
+            ->append('font-semibold')
             ->and()
             ->button()
             ->block('wrapper.sizes.sm')
-            ->replace('text-md', 'text-xs');
+            ->replace('text-md', 'text-xs')
+            ->append('font-semibold');
 
         TallStackUi::customize()
             ->modal()
@@ -47,5 +49,11 @@ class AppServiceProvider extends ServiceProvider
             ->slide()
             ->block('title.close')
             ->replace('text-secondary-300', 'text-secondary-500');
+
+        TallStackUi::customize()
+            ->badge()
+            ->block('wrapper.class')
+            ->replace('font-bold', 'font-medium')
+            ->append('justify-center');
     }
 }

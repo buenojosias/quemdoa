@@ -72,13 +72,18 @@
                                                 class="h-4 w-4 shrink-0 text-gray-700 transition-transform dark:text-gray-200" />
                                         </button>
 
-                                        <x-button
-                                            :text="$item['button_text']"
-                                            :disabled="$item['button_disabled']"
-                                            color="primary"
-                                            outline
-                                            sm
-                                            wire:click="$dispatch('open-public-campaign-item-add.{{ $campaignId }}', { item: {{ $item['id'] }} })" />
+                                        @if (!$item['is_added'] && !$item['is_complete'])
+                                            <x-button
+                                                text="Vou levar"
+                                                color="primary"
+                                                outline
+                                                sm
+                                                wire:click="$dispatch('open-public-campaign-item-add.{{ $campaignId }}', { item: {{ $item['id'] }} })" />
+                                        @elseif ($item['is_added'])
+                                            <x-badge text="Na sacola" color="gray" outline md />
+                                        @elseif ($item['is_complete'])
+                                            <x-badge text="Completo" color="gray" outline md />
+                                        @endif
                                     </div>
 
                                     <div x-show="expanded" x-collapse x-cloak class="pt-4">
@@ -99,7 +104,7 @@
                                             </div>
 
                                             <div class="mt-4">
-                                                <x-progress :percent="$item['progress']" color="primary" />
+                                                <x-progress :percent="$item['progress']" color="primary" sm />
                                             </div>
 
                                             @if ($item['delivery_date'])
@@ -136,12 +141,17 @@
             </x-card>
         @endforelse
     </div>
-    <x-button
-        text="Ver sacola"
-        icon="shopping-bag"
-        outline
-        block
-        wire:click="openBag" />
+    @slot('footer')
+        <div class="w-full flex justify-center py-1">
+            <x-button
+                text="Ver sacola"
+                icon="shopping-bag"      
+                x-on:click="$dispatch('open-bag-slide')"
+                {{-- wire:click="openBag" --}}
+                class="w-full md:w-1/3" />
+        </div>
+    @endslot
+    
     <livewire:public.campaign.item-add :campaign-id="$campaignId" />
     <livewire:public.campaign.bag
         :campaign-id="$campaignId"

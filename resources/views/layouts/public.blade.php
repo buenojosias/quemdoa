@@ -27,6 +27,13 @@
         <div class="my-8 container mx-auto px-6 lg:px-16">
             {{ $slot }}
         </div>
+        @if (@$footer)
+            <div class="sticky bottom-0 z-40 py-2 bg-white shadow">
+                <div class="container mx-auto px-6 lg:px-16">
+                    {{ $footer }}
+                </div>
+            </div>
+        @endif
 
         <x-toast />
         @livewireScripts

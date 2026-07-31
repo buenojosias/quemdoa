@@ -95,7 +95,7 @@ class Show extends Component
             'required_quantity' => $this->formatQuantity($requiredQuantity),
             'promised_quantity' => $this->formatQuantity($promisedQuantity),
             'pending_quantity' => $this->formatQuantity($pendingQuantity),
-            'pending_quantity_label' => $this->pendingQuantityLabel($pendingQuantity, $item->unit->abbreviation()),
+            'pending_quantity_label' => $this->pendingQuantityLabel($pendingQuantity, $item->unit->label()),
             'unit_abbreviation' => $item->unit->abbreviation(),
             'unit_label' => $item->unit->label(),
             'progress' => $requiredQuantity > 0 ? (int) min(($promisedQuantity / $requiredQuantity) * 100, 100) : 0,
@@ -103,7 +103,7 @@ class Show extends Component
             'note' => $item->note,
             'is_complete' => $isComplete,
             'is_added' => $isAdded,
-            'button_text' => $isAdded ? 'Adicionado à sacola' : ($isComplete ? 'Na sacola' : 'Vou levar'),
+            'button_text' => $isAdded ? 'Na sacola' : ($isComplete ? 'Completo' : 'Vou levar'),
             'button_disabled' => $isAdded || $isComplete,
         ];
     }
@@ -158,6 +158,7 @@ class Show extends Component
         $this->bagItems[$index]['formattedQuantity'] = $this->formatQuantity($quantity);
     }
 
+    #[On('open-bag-slide')]
     public function openBag(): void
     {
         $this->dispatch("open-public-campaign-bag.{$this->campaignId}");
@@ -197,7 +198,13 @@ class Show extends Component
 
     private function pendingQuantityLabel(float $quantity, string $unit): string
     {
-        return $this->formatQuantity($quantity).' '.$unit.' pendente';
+        if ($quantity <= 0) {
+            return 'Meta atingida';
+        }
+
+        $verb = $quantity > 1 ? 'Faltam' : 'Falta';
+
+        return $verb.' '.$this->formatQuantity($quantity).' '.$unit;
     }
 
     private function formatQuantity(float $quantity): string

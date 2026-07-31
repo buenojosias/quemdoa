@@ -85,7 +85,7 @@ new class () extends Component {
                 'deliveryDate' => $selectedItem->delivery_date?->translatedFormat('d \d\e F \d\e Y'),
             ],
         );
-        $this->dispatch("open-public-campaign-bag.{$this->campaignId}");
+        // $this->dispatch("open-public-campaign-bag.{$this->campaignId}");
 
         $this->resetForm();
         $this->toast()->success('Item adicionado à sacola.')->send();
