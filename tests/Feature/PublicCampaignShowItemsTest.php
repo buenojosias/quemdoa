@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Support\PublicCampaignBagSession;
 use Illuminate\Http\Client\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Livewire\Livewire;
 
 it('renders campaign items grouped by category with item details', function () {
@@ -710,6 +711,7 @@ it('requires an absolute evolution api url before sending whatsapp confirmation'
     ]);
 
     Http::fake();
+    Log::spy();
 
     $user = User::factory()->create();
 
@@ -731,7 +733,7 @@ it('requires an absolute evolution api url before sending whatsapp confirmation'
         'bagged_quantity' => 0,
     ]);
 
-    expect(fn () => Livewire::test('public.campaign.confirm-bag', ['campaignId' => $campaign->id])
+    Livewire::test('public.campaign.confirm-bag', ['campaignId' => $campaign->id])
         ->dispatch("open-public-campaign-confirm-bag.{$campaign->id}", bagItems: [[
             'id' => $item->id,
             'name' => 'Arroz',
@@ -745,8 +747,102 @@ it('requires an absolute evolution api url before sending whatsapp confirmation'
         ->set('participant_name', 'Maria Silva')
         ->set('method', 'whatsapp')
         ->set('participant_whatsapp', '(11) 99999-9999')
-        ->call('submit'))
-        ->toThrow(\RuntimeException::class, 'EVOLUTION_API_URL must be an absolute URL with http:// or https://.');
+        ->call('submit')
+        ->assertSet('method', 'organizer')
+        ->assertSet('participant_whatsapp', '')
+        ->assertSet('modalConfirm', true)
+        ->assertSet('pinModal', false)
+        ->assertSee('Não conseguimos enviar o código pelo WhatsApp agora.');
 
     Http::assertNothingSent();
+
+    Log::shouldHaveReceived('error')
+        ->once()
+        ->with(
+            'Failed to send public bag confirmation code through Evolution API.',
+            \Mockery::on(fn (array $context): bool => $context['campaign_id'] === $campaign->id
+                && $context['evolution_instance'] === 'teste-josias'
+                && $context['exception'] === \RuntimeException::class
+                && $context['message'] === 'EVOLUTION_API_URL must be an absolute URL with http:// or https://.'),
+        );
+
+    expect(Bag::withTrashed()->count())->toBe(0);
+});
+
+it('falls back to organizer confirmation when evolution api rejects the whatsapp message', function () {
+    config([
+        'services.evolution.base_url' => 'https://evolution.test',
+        'services.evolution.api_key' => 'evolution-api-key',
+        'services.evolution.instance' => 'teste-josias',
+        'services.evolution.country_code' => '55',
+    ]);
+
+    Http::fake([
+        'https://evolution.test/message/sendText/teste-josias' => Http::response([
+            'status' => 400,
+            'error' => 'Bad Request',
+            'response' => [
+                'message' => [
+                    ['instance requires property "text"'],
+                ],
+            ],
+        ], 400),
+    ]);
+    Log::spy();
+
+    $user = User::factory()->create();
+
+    $campaign = Campaign::create([
+        'user_id' => $user->id,
+        'name' => 'Jantar da Comunidade',
+        'description' => 'Nosso jantar será um momento especial.',
+        'confirmation_deadline' => today()->addDays(5)->toDateString(),
+        'delivery_deadline' => today()->addDays(10)->toDateString(),
+        'is_active' => true,
+    ]);
+
+    $item = CampaignItem::create([
+        'campaign_id' => $campaign->id,
+        'category' => CategoryEnum::FOODS->value,
+        'name' => 'Arroz',
+        'unit' => UnitEnum::UNIT->value,
+        'required_quantity' => 8,
+        'bagged_quantity' => 0,
+    ]);
+
+    Livewire::test('public.campaign.confirm-bag', ['campaignId' => $campaign->id])
+        ->dispatch("open-public-campaign-confirm-bag.{$campaign->id}", bagItems: [[
+            'id' => $item->id,
+            'name' => 'Arroz',
+            'complement' => null,
+            'quantity' => 1.5,
+            'pendingBaggedQuantity' => 8,
+            'unitAbbreviation' => 'un',
+            'unitLabel' => 'unidades',
+            'deliveryDate' => null,
+        ]])
+        ->set('participant_name', 'Maria Silva')
+        ->set('method', 'whatsapp')
+        ->set('participant_whatsapp', '(11) 99999-9999')
+        ->call('submit')
+        ->assertSet('method', 'organizer')
+        ->assertSet('participant_whatsapp', '')
+        ->assertSet('modalConfirm', true)
+        ->assertSet('pinModal', false)
+        ->assertSee('Não conseguimos enviar o código pelo WhatsApp agora.');
+
+    Http::assertSentCount(1);
+
+    Log::shouldHaveReceived('error')
+        ->once()
+        ->with(
+            'Failed to send public bag confirmation code through Evolution API.',
+            \Mockery::on(fn (array $context): bool => $context['campaign_id'] === $campaign->id
+                && $context['participant_whatsapp'] === '11999999999'
+                && $context['evolution_instance'] === 'teste-josias'
+                && $context['status'] === 400
+                && $context['response']['error'] === 'Bad Request'),
+        );
+
+    expect(Bag::withTrashed()->count())->toBe(0);
 });

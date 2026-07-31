@@ -7,7 +7,9 @@ use App\Models\CampaignItem;
 use App\Services\GenerateBagCodeService;
 use App\Services\SendBagConfirmationCodeService;
 use App\Support\PublicCampaignBagSession;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
@@ -38,6 +40,8 @@ new class () extends Component {
     public ?int $bagId = null;
 
     public ?string $code = null;
+
+    public ?string $whatsappDeliveryError = null;
 
     public function mount(int|string $campaignId): void
     {
@@ -72,6 +76,8 @@ new class () extends Component {
 
     public function updatedMethod(string $method): void
     {
+        $this->whatsappDeliveryError = null;
+
         if ($method === 'organizer') {
             $this->participant_whatsapp = '';
             $this->resetValidation('participant_whatsapp');
@@ -86,6 +92,7 @@ new class () extends Component {
             ]);
         }
 
+        $this->whatsappDeliveryError = null;
         $this->participant_whatsapp = $this->normalizeWhatsapp($this->participant_whatsapp);
         $validated = $this->validate($this->submitRules());
 
@@ -141,8 +148,15 @@ new class () extends Component {
             return;
         }
 
+        try {
+            $this->sendConfirmationCode($bag);
+        } catch (\Throwable $exception) {
+            $this->handleConfirmationCodeDeliveryFailure($bag, $exception);
+
+            return;
+        }
+
         $this->pinModal = true;
-        $this->sendConfirmationCode($bag);
     }
 
     public function confirmPin(): void
@@ -310,6 +324,41 @@ new class () extends Component {
         app(SendBagConfirmationCodeService::class)->send($bag);
     }
 
+    private function handleConfirmationCodeDeliveryFailure(Bag $bag, \Throwable $exception): void
+    {
+        $this->logConfirmationCodeDeliveryFailure($bag, $exception);
+
+        DB::transaction(function () use ($bag): void {
+            $bag->items()->delete();
+            $bag->forceDelete();
+        });
+
+        $this->reset(['participant_whatsapp', 'pin', 'bagId', 'code']);
+
+        $this->method = 'organizer';
+        $this->modalConfirm = true;
+        $this->pinModal = false;
+        $this->whatsappDeliveryError = 'Não conseguimos enviar o código pelo WhatsApp agora. Para continuar, sua sacola ficará para confirmação do organizador.';
+    }
+
+    private function logConfirmationCodeDeliveryFailure(Bag $bag, \Throwable $exception): void
+    {
+        $response = $exception instanceof RequestException
+            ? $exception->response
+            : null;
+
+        Log::error('Failed to send public bag confirmation code through Evolution API.', [
+            'bag_id' => $bag->id,
+            'campaign_id' => $bag->campaign_id,
+            'participant_whatsapp' => $bag->participant_whatsapp,
+            'evolution_instance' => config('services.evolution.instance'),
+            'exception' => get_class($exception),
+            'message' => $exception->getMessage(),
+            'status' => $response?->status(),
+            'response' => $response?->json() ?? $response?->body(),
+        ]);
+    }
+
     private function flashBagFinish(Bag $bag, string $method): void
     {
         session()->flash('bag_finish', [
@@ -332,6 +381,7 @@ new class () extends Component {
             'pin',
             'bagId',
             'code',
+            'whatsappDeliveryError',
         ]);
 
         $this->method = 'whatsapp';

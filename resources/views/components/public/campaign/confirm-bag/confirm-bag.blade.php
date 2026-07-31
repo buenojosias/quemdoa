@@ -5,6 +5,12 @@
                 Você está confirmando {{ $this->totalItems }} {{ $this->totalItems === 1 ? 'item' : 'itens' }} na sacola.
             </div>
 
+            @if ($whatsappDeliveryError)
+                <div class="rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-200">
+                    {{ $whatsappDeliveryError }}
+                </div>
+            @endif
+
             <x-input
                 label="Seu nome *"
                 wire:model.live.blur="participant_name"
