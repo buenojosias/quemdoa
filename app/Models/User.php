@@ -31,6 +31,7 @@ class User extends Authenticatable
         'password',
         'google_id',
         'avatar',
+        'is_admin',
     ];
 
     protected $hidden = [
@@ -44,6 +45,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'whatsapp_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
         ];
     }
 

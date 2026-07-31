@@ -61,7 +61,9 @@
                 </x-slot:brand-collapsed>
                 <x-side-bar.item text="Dashboard" icon="home" :current="request()->routeIs('panel.dashboard')" :route="route('panel.dashboard')" />
                 <x-side-bar.item text="Campanhas" icon="megaphone" :current="request()->routeIs('panel.campaigns.*')" :route="route('panel.campaigns.index')" />
-                <x-side-bar.item text="Users" icon="users" :current="request()->routeIs('panel.users.*')" :route="route('panel.users.index')" />
+                @if (auth()->user()->is_admin)
+                    <x-side-bar.item text="Users" icon="users" :current="request()->routeIs('panel.users.*')" :route="route('panel.users.index')" />
+                @endif
             </x-side-bar>
         </x-slot:menu>
         {{ $slot }}

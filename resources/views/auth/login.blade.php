@@ -30,14 +30,14 @@
                                 icon="envelope"
                                 type="email"
                                 name="email"
-                                :value="old('email', 'test@example.com')"
+                                :value="old('email')"
                                 placeholder="seu@email.com"
                                 required
                                 autofocus
                                 autocomplete="username"
                             />
 
-                            <div class="space-y-2">
+                            <div class="space-y-4">
                                 <x-password
                                     label="Senha"
                                     type="password"
@@ -46,6 +46,8 @@
                                     required
                                     autocomplete="current-password"
                                 />
+
+                                <x-checkbox label="Lembre-me" id="remember_me" type="checkbox" name="remember" />
 
                                 @if (Route::has('password.request'))
                                     <div class="flex justify-end">
