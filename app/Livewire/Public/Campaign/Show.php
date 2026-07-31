@@ -5,6 +5,7 @@ namespace App\Livewire\Public\Campaign;
 use App\Enums\CategoryEnum;
 use App\Models\Campaign;
 use App\Models\CampaignItem;
+use App\Support\PublicCampaignBagSession;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 use Livewire\Attributes\Computed;
@@ -33,6 +34,8 @@ class Show extends Component
     {
         $this->campaign = $campaign;
         $this->campaignId = (string) $campaign->id;
+        $this->bagItems = $this->storedBagItems();
+        $this->bagItemIds = array_column($this->bagItems, 'id');
     }
 
     public function render(): View
@@ -122,6 +125,8 @@ class Show extends Component
             $this->bagItems[] = $this->normalizeBagItem($bagItem);
         }
 
+        $this->persistBagItems();
+
         // $this->bagSlide = true;
 
         unset($this->itemsByCategory);
@@ -136,6 +141,8 @@ class Show extends Component
         $this->bagItems = array_values(
             array_filter($this->bagItems, fn (array $bagItem): bool => $bagItem['id'] !== $item),
         );
+
+        $this->persistBagItems();
 
         unset($this->itemsByCategory);
     }
@@ -156,6 +163,8 @@ class Show extends Component
 
         $this->bagItems[$index]['quantity'] = $quantity;
         $this->bagItems[$index]['formattedQuantity'] = $this->formatQuantity($quantity);
+
+        $this->persistBagItems();
     }
 
     #[On('open-bag-slide')]
@@ -194,6 +203,35 @@ class Show extends Component
         }
 
         return null;
+    }
+
+    /**
+     * @return array<int, array{id: int, name: string, complement: ?string, quantity: float, formattedQuantity: string, pendingBaggedQuantity: float, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string}>
+     */
+    private function storedBagItems(): array
+    {
+        $bagItems = PublicCampaignBagSession::get($this->campaignId);
+
+        if ($bagItems === []) {
+            return [];
+        }
+
+        $campaignItemIds = $this->campaign
+            ->items()
+            ->whereIn('id', array_column($bagItems, 'id'))
+            ->pluck('id')
+            ->map(fn (int $id): int => $id)
+            ->all();
+
+        return array_values(array_filter(
+            $bagItems,
+            fn (array $bagItem): bool => in_array($bagItem['id'], $campaignItemIds, true),
+        ));
+    }
+
+    private function persistBagItems(): void
+    {
+        PublicCampaignBagSession::put($this->campaignId, $this->bagItems);
     }
 
     private function pendingQuantityLabel(float $quantity, string $unit): string

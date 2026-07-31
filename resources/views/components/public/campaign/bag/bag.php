@@ -1,5 +1,6 @@
 <?php
 
+use App\Support\PublicCampaignBagSession;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
@@ -19,6 +20,10 @@ new class () extends Component {
     public function mount(int|string $campaignId): void
     {
         $this->campaignId = (string) $campaignId;
+
+        if ($this->bagItems === []) {
+            $this->bagItems = PublicCampaignBagSession::get($this->campaignId);
+        }
     }
 
     #[On('open-public-campaign-bag.{campaignId}')]
@@ -50,6 +55,8 @@ new class () extends Component {
             'unitLabel' => $bagItem['unitLabel'],
             'deliveryDate' => $bagItem['deliveryDate'],
         ];
+
+        $this->persistBagItems();
     }
 
     #[On('public-campaign-bag-increment.{campaignId}')]
@@ -90,6 +97,8 @@ new class () extends Component {
             array_filter($this->bagItems, fn (array $bagItem): bool => $bagItem['id'] !== $item),
         );
 
+        $this->persistBagItems();
+
         $this->dispatch("public-campaign-item-removed.{$this->campaignId}", item: $item);
     }
 
@@ -124,6 +133,8 @@ new class () extends Component {
             item: $this->bagItems[$index]['id'],
             quantity: $quantity,
         );
+
+        $this->persistBagItems();
     }
 
     private function findItemIndex(int $item): ?int
@@ -135,6 +146,11 @@ new class () extends Component {
         }
 
         return null;
+    }
+
+    private function persistBagItems(): void
+    {
+        PublicCampaignBagSession::put($this->campaignId, $this->bagItems);
     }
 
     private function formatQuantity(float $quantity): string

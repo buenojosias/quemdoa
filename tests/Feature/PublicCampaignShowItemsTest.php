@@ -7,6 +7,7 @@ use App\Models\Bag;
 use App\Models\Campaign;
 use App\Models\CampaignItem;
 use App\Models\User;
+use App\Support\PublicCampaignBagSession;
 use Livewire\Livewire;
 
 it('renders campaign items grouped by category with item details', function () {
@@ -310,6 +311,120 @@ it('manages public temporary bag items and emits item removal events', function 
         ->dispatch("public-campaign-bag-remove.{$campaign->id}", item: $item->id)
         ->assertSet('bagItems', [])
         ->assertDispatched("public-campaign-item-removed.{$campaign->id}");
+
+    expect(PublicCampaignBagSession::get($campaign->id))->toBe([]);
+});
+
+it('restores public temporary bag items from session cache without mixing campaigns', function () {
+    $user = User::factory()->create();
+
+    $firstCampaign = Campaign::create([
+        'user_id' => $user->id,
+        'name' => 'Jantar da Comunidade',
+        'description' => 'Nosso jantar será um momento especial.',
+        'confirmation_deadline' => today()->addDays(5)->toDateString(),
+        'delivery_deadline' => today()->addDays(10)->toDateString(),
+        'is_active' => true,
+    ]);
+
+    $secondCampaign = Campaign::create([
+        'user_id' => $user->id,
+        'name' => 'Cafe da Comunidade',
+        'description' => 'Nosso cafe será um momento especial.',
+        'confirmation_deadline' => today()->addDays(5)->toDateString(),
+        'delivery_deadline' => today()->addDays(10)->toDateString(),
+        'is_active' => true,
+    ]);
+
+    $firstItem = CampaignItem::create([
+        'campaign_id' => $firstCampaign->id,
+        'category' => CategoryEnum::FOODS->value,
+        'name' => 'Arroz',
+        'unit' => UnitEnum::UNIT->value,
+        'required_quantity' => 20,
+        'bagged_quantity' => 12,
+    ]);
+
+    $secondItem = CampaignItem::create([
+        'campaign_id' => $secondCampaign->id,
+        'category' => CategoryEnum::FOODS->value,
+        'name' => 'Feijao',
+        'unit' => UnitEnum::UNIT->value,
+        'required_quantity' => 20,
+        'bagged_quantity' => 12,
+    ]);
+
+    PublicCampaignBagSession::put($firstCampaign->id, [[
+        'id' => $firstItem->id,
+        'name' => 'Arroz',
+        'complement' => null,
+        'quantity' => 2,
+        'pendingBaggedQuantity' => 8,
+        'unitAbbreviation' => 'un',
+        'unitLabel' => 'unidades',
+        'deliveryDate' => null,
+    ]]);
+
+    PublicCampaignBagSession::put($secondCampaign->id, [[
+        'id' => $secondItem->id,
+        'name' => 'Feijao',
+        'complement' => null,
+        'quantity' => 3,
+        'pendingBaggedQuantity' => 8,
+        'unitAbbreviation' => 'un',
+        'unitLabel' => 'unidades',
+        'deliveryDate' => null,
+    ]]);
+
+    Livewire::test(\App\Livewire\Public\Campaign\Show::class, ['campaign' => $firstCampaign])
+        ->assertSet('bagItems.0.name', 'Arroz')
+        ->assertSet('bagItems.0.quantity', 2.0)
+        ->assertSet('bagItemIds', [$firstItem->id]);
+
+    Livewire::test(\App\Livewire\Public\Campaign\Show::class, ['campaign' => $secondCampaign])
+        ->assertSet('bagItems.0.name', 'Feijao')
+        ->assertSet('bagItems.0.quantity', 3.0)
+        ->assertSet('bagItemIds', [$secondItem->id]);
+});
+
+it('expires public temporary bag items after twelve hours', function () {
+    $user = User::factory()->create();
+
+    $campaign = Campaign::create([
+        'user_id' => $user->id,
+        'name' => 'Jantar da Comunidade',
+        'description' => 'Nosso jantar será um momento especial.',
+        'confirmation_deadline' => today()->addDays(5)->toDateString(),
+        'delivery_deadline' => today()->addDays(10)->toDateString(),
+        'is_active' => true,
+    ]);
+
+    $item = CampaignItem::create([
+        'campaign_id' => $campaign->id,
+        'category' => CategoryEnum::FOODS->value,
+        'name' => 'Arroz',
+        'unit' => UnitEnum::UNIT->value,
+        'required_quantity' => 20,
+        'bagged_quantity' => 12,
+    ]);
+
+    PublicCampaignBagSession::put($campaign->id, [[
+        'id' => $item->id,
+        'name' => 'Arroz',
+        'complement' => null,
+        'quantity' => 2,
+        'pendingBaggedQuantity' => 8,
+        'unitAbbreviation' => 'un',
+        'unitLabel' => 'unidades',
+        'deliveryDate' => null,
+    ]]);
+
+    $this->travel(12)->hours();
+    $this->travel(1)->second();
+
+    Livewire::test(\App\Livewire\Public\Campaign\Show::class, ['campaign' => $campaign])
+        ->assertSet('bagItems', [])
+        ->assertSet('bagItemIds', []);
 });
 
 it('opens the public confirm bag modal from the temporary bag', function () {
@@ -371,6 +486,17 @@ it('creates a pending public bag for organizer confirmation and flashes the bag 
         'received_quantity' => 1,
     ]);
 
+    PublicCampaignBagSession::put($campaign->id, [[
+        'id' => $item->id,
+        'name' => 'Arroz',
+        'complement' => null,
+        'quantity' => 2.5,
+        'pendingBaggedQuantity' => 8,
+        'unitAbbreviation' => 'un',
+        'unitLabel' => 'unidades',
+        'deliveryDate' => null,
+    ]]);
+
     Livewire::test('public.campaign.confirm-bag', ['campaignId' => $campaign->id])
         ->dispatch("open-public-campaign-confirm-bag.{$campaign->id}", bagItems: [[
             'id' => $item->id,
@@ -406,7 +532,8 @@ it('creates a pending public bag for organizer confirmation and flashes the bag 
         ->and($item->refresh()->bagged_quantity)->toBe('0.0')
         ->and($item->received_quantity)->toBe('1.0');
 
-    expect($bag->items()->sole()->status)->toBe(BagItemStatusEnum::PENDING);
+    expect($bag->items()->sole()->status)->toBe(BagItemStatusEnum::PENDING)
+        ->and(PublicCampaignBagSession::get($campaign->id))->toBe([]);
 });
 
 it('requires and validates whatsapp when public confirmation uses whatsapp', function (?string $whatsapp, string $rule) {
@@ -473,6 +600,17 @@ it('creates a public bag with whatsapp confirmation and confirms it with the pin
         'received_quantity' => 1,
     ]);
 
+    PublicCampaignBagSession::put($campaign->id, [[
+        'id' => $item->id,
+        'name' => 'Arroz',
+        'complement' => null,
+        'quantity' => 1.5,
+        'pendingBaggedQuantity' => 8,
+        'unitAbbreviation' => 'un',
+        'unitLabel' => 'unidades',
+        'deliveryDate' => null,
+    ]]);
+
     $component = Livewire::test('public.campaign.confirm-bag', ['campaignId' => $campaign->id])
         ->dispatch("open-public-campaign-confirm-bag.{$campaign->id}", bagItems: [[
             'id' => $item->id,
@@ -499,7 +637,8 @@ it('creates a public bag with whatsapp confirmation and confirms it with the pin
         ->and($bag->confirmation_code)->toHaveLength(5)
         ->and($bag->confirmed_by)->toBeNull()
         ->and($item->refresh()->bagged_quantity)->toBe('0.0')
-        ->and($item->received_quantity)->toBe('1.0');
+        ->and($item->received_quantity)->toBe('1.0')
+        ->and(PublicCampaignBagSession::get($campaign->id))->not->toBe([]);
 
     $component
         ->set('pin', '000000')
@@ -528,5 +667,6 @@ it('creates a public bag with whatsapp confirmation and confirms it with the pin
         ->and($bag->confirmation_code)->toBeNull()
         ->and($bag->items()->sole()->status)->toBe(BagItemStatusEnum::CONFIRMED)
         ->and($item->refresh()->bagged_quantity)->toBe('1.5')
-        ->and($item->received_quantity)->toBe('1.0');
+        ->and($item->received_quantity)->toBe('1.0')
+        ->and(PublicCampaignBagSession::get($campaign->id))->toBe([]);
 });

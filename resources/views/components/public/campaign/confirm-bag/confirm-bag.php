@@ -5,6 +5,7 @@ use App\Models\Bag;
 use App\Models\Campaign;
 use App\Models\CampaignItem;
 use App\Services\GenerateBagCodeService;
+use App\Support\PublicCampaignBagSession;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use Livewire\Attributes\Computed;
@@ -132,6 +133,7 @@ new class () extends Component {
         $this->modalConfirm = false;
 
         if ($validated['method'] === 'organizer') {
+            PublicCampaignBagSession::forget($this->campaignId);
             $this->flashBagFinish($bag, 'organizer');
             $this->redirectRoute('public.campaigns.bag.finish', [$this->campaignId]);
 
@@ -170,6 +172,7 @@ new class () extends Component {
             $this->refreshBaggedQuantities($bag);
         });
 
+        PublicCampaignBagSession::forget($this->campaignId);
         $this->flashBagFinish($bag, 'whatsapp');
         $this->redirectRoute('public.campaigns.bag.finish', [$this->campaignId]);
     }
