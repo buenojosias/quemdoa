@@ -9,9 +9,12 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
+use TallStackUi\Traits\Interactions;
 
 class Create extends Component
 {
+    use Interactions;
+
     #[Locked]
     public string $campaignId;
 
@@ -30,8 +33,6 @@ class Create extends Component
     public ?string $delivery_date = null;
 
     public ?string $note = null;
-
-    public ?string $successMessage = null;
 
     public function mount(Campaign|int|string $campaignId): void
     {
@@ -126,8 +127,6 @@ class Create extends Component
 
     public function save(): void
     {
-        $this->successMessage = null;
-
         $validated = $this->validate();
 
         $campaign = Campaign::query()
@@ -145,7 +144,7 @@ class Create extends Component
             'note',
         ]);
 
-        $this->successMessage = 'Item adicionado com sucesso!';
+        $this->toast()->success('Item adicionado com sucesso!')->send();
 
         $this->dispatch("item-created.{$this->campaignId}");
     }

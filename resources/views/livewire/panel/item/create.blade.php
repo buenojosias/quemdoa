@@ -1,12 +1,8 @@
 <div>
-    <x-button text="Adicionar" icon="plus" wire:click="$toggle('modal')" />
+    <x-button text="Adicionar item" icon="plus" wire:click="$toggle('modal')" />
 
     <x-modal title="Adicionar item" wire x-on:open="setTimeout(() => $refs.name.focus(), 250)">
         <form id="item-create" wire:submit="save" class="space-y-4">
-            @if ($successMessage)
-                <x-alert color="green" light icon="check-circle" :text="$successMessage" :dismiss="4" />
-            @endif
-
             <x-input label="Nome do item *" x-ref="name" wire:model="name" required />
 
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2">

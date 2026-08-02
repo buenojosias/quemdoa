@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\CategoryEnum;
+use App\Models\Campaign;
 use App\Models\CampaignItem;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
@@ -12,15 +13,20 @@ new class extends Component
 {
     use WithPagination;
 
-    public int $quantity = 10;
     public string $category = '';
 
     #[Locked]
+    public Campaign $campaign;
+
     public string $campaignId;
 
-    public function mount(int|string $campaignId): void
+    public string $campaignName = '';
+
+    public function mount(Campaign $campaign): void
     {
-        $this->campaignId = (string) $campaignId;
+        $this->campaign = $campaign;
+        $this->campaignId = (string) $campaign->id;
+        $this->campaignName = (string) $campaign->name;
     }
 
     #[Computed]
@@ -34,7 +40,7 @@ new class extends Component
             $query->where('category', $this->category);
         }
 
-        return $query->paginate($this->quantity);
+        return $query->paginate();
     }
 
     #[Computed]
@@ -78,18 +84,14 @@ new class extends Component
 ?>
 
 <div class="space-y-4">
-    <div class="flex justify-between items-center gap-4">
-        <x-select.native wire:model.live="quantity" label="Itens por página">
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-        </x-select>
-
+    <div class="flex justify-between flex-col sm:flex-row sm:items-end gap-4">
         <x-select.native label="Categoria"
             wire:model.live="category"
             :options="$this->categoryOptions()"
             select="label:label|value:value" />
+        @island('item-create')
+            <livewire:panel.item.create :campaign-id="$this->campaignId" :$campaignName />
+        @endisland
     </div>
 
     <x-table :$headers :$rows paginate>

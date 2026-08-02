@@ -6,10 +6,14 @@ use App\Models\Campaign;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 
 class Show extends Component
 {
+    #[Url]
+    public string $tab = 'info';
+    
     #[Locked]
     public string $campaignId;
 

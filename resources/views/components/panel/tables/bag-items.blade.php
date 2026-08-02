@@ -13,8 +13,6 @@ new class extends Component
 {
     use WithPagination;
 
-    public int $quantity = 10;
-
     public string $category = '';
 
     #[Locked]
@@ -49,7 +47,7 @@ new class extends Component
                 ->whereHas('campaign', fn ($query) => $query->where('user_id', auth()->id())))
             ->when($this->category !== '', fn ($query) => $query->whereHas('item', fn ($query) => $query->where('category', $this->category)))
             ->latest()
-            ->paginate($this->quantity);
+            ->paginate();
     }
 
     #[Computed]
@@ -86,38 +84,32 @@ new class extends Component
 };
 ?>
 
-<div class="space-y-4">
-    <div class="flex justify-between items-center gap-4">
-        <x-select.native wire:model.live="quantity" label="Itens por página">
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-        </x-select>
+<div>
+    <x-card class="space-y-4">
+        <div class="flex justify-between items-center gap-4">
+            <x-select.native label="Categoria"
+                wire:model.live="category"
+                :options="$this->categoryOptions()"
+                select="label:label|value:value" />
+        </div>
 
-        <x-select.native label="Categoria"
-            wire:model.live="category"
-            :options="$this->categoryOptions()"
-            select="label:label|value:value" />
-    </div>
-
-    <x-table :$headers :$rows paginate>
-        @interact('column_quantity', $row)
-            {{ $row->formatted_quantity }} {{ $row->item->unit->abbreviation() }}
-        @endinteract
-        @interact('column_status', $row)
-            <x-badge :text="$row->status->label()" :color="$row->status->color()" light />
-        @endinteract
-        @interact('column_actions', $row)
-            @if (in_array($row->status, [BagItemStatusEnum::PENDING, BagItemStatusEnum::CONFIRMED], true))
-                <x-button.circle
-                    icon="check"
-                    sm
-                    title="Marcar como recebido"
-                    wire:click="$dispatch('open-set-item-received', { bagItem: {{ $row->id }} })" />
-            @endif
-        @endinteract
-    </x-table>
-
+        <x-table :$headers :$rows paginate>
+            @interact('column_quantity', $row)
+                {{ $row->formatted_quantity }} {{ $row->item->unit->abbreviation() }}
+            @endinteract
+            @interact('column_status', $row)
+                <x-badge :text="$row->status->label()" :color="$row->status->color()" light />
+            @endinteract
+            @interact('column_actions', $row)
+                @if (in_array($row->status, [BagItemStatusEnum::PENDING, BagItemStatusEnum::CONFIRMED], true))
+                    <x-button.circle
+                        icon="check"
+                        sm
+                        title="Marcar como recebido"
+                        wire:click="$dispatch('open-set-item-received', { bagItem: {{ $row->id }} })" />
+                @endif
+            @endinteract
+        </x-table>
+    </x-card>
     <livewire:panel.bag.set-item-received />
 </div>

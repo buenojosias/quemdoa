@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Bag;
+use App\Models\Campaign;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
@@ -11,15 +12,20 @@ new class extends Component
 {
     use WithPagination;
 
-    public int $quantity = 10;
     public string $status = '';
 
     #[Locked]
-    public string $campaignId;
+    public Campaign $campaign;
 
-    public function mount(int|string $campaignId): void
+    public int $campaignId;
+
+    public string $campaignName;
+
+    public function mount(Campaign $campaign): void
     {
-        $this->campaignId = (string) $campaignId;
+        $this->campaign = $campaign;
+        $this->campaignId = (int) $campaign->id;
+        $this->campaignName = (string) $campaign->name;
     }
 
     #[Computed]
@@ -38,7 +44,7 @@ new class extends Component
             $query->whereNotNull('confirmed_at');
         }
 
-        return $query->paginate($this->quantity);
+        return $query->paginate();
     }
 
     #[Computed]
@@ -46,7 +52,7 @@ new class extends Component
     {
         return [
             [
-                'label' => 'Todos',
+                'label' => 'Todas',
                 'value' => '',
             ],
             [
@@ -95,7 +101,7 @@ new class extends Component
             'headers' => [
                 ['index' => 'code', 'label' => 'Código'],
                 ['index' => 'participant_name', 'label' => 'Participante'],
-                ['index' => 'participant_whatsapp', 'label' => 'WhatsApp'],
+                // ['index' => 'participant_whatsapp', 'label' => 'WhatsApp'],
                 ['index' => 'items_count', 'label' => 'Itens'],
                 ['index' => 'confirmed_at', 'label' => 'Status'],
                 ['index' => 'confirmed_by', 'label' => 'Confirmada por'],
@@ -114,18 +120,14 @@ new class extends Component
 ?>
 
 <div class="space-y-4">
-    <div class="flex justify-between items-center gap-4">
-        <x-select.native wire:model.live="quantity" label="Itens por página">
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="25">25</option>
-            <option value="50">50</option>
-        </x-select>
-
+    <div class="flex justify-between flex-col sm:flex-row sm:items-end gap-4">
         <x-select.native label="Status"
             wire:model.live="status"
             :options="$this->statusOptions()"
             select="label:label|value:value" />
+        @island('item-create')
+            <livewire:panel.bag.create :campaign-id="$this->campaignId" :campaignName="$this->campaignName" />
+        @endisland
     </div>
 
     <x-table :$headers :$rows paginate>
