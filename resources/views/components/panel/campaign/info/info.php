@@ -17,10 +17,12 @@ new class () extends Component {
 
     public ?string $description = null;
 
+    public bool $is_active = false;
+
     public string $confirmationDeadline = '';
 
     public string $deliveryDeadline = '';
-
+    
     public string $createdAt = '';
 
     public string $updatedAt = '';
@@ -48,6 +50,7 @@ new class () extends Component {
         $this->institution = $campaign->institution;
         $this->group = $campaign->group;
         $this->description = $campaign->description;
+        $this->is_active = $campaign->is_active;
         $this->confirmationDeadline = $campaign->confirmation_deadline->format('d/m/Y');
         $this->deliveryDeadline = $campaign->delivery_deadline->format('d/m/Y');
         $this->createdAt = $campaign->created_at->format('d/m/Y H:i');

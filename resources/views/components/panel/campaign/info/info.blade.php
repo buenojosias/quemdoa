@@ -17,6 +17,7 @@
             <x-inline-info label="Prazo de entrega" :value="$deliveryDeadline" />
             <x-inline-info label="Criada em" :value="$createdAt" />
             <x-inline-info label="Última atualização" :value="$updatedAt" />
+            <x-inline-info label="Status" :value="$is_active ? 'Ativa' : 'Inativa'" :is_badge="true" :badge_color="$is_active ? 'green' : 'yellow'" />
         </div>
     </div>
 </div>
