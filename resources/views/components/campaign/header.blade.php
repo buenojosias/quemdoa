@@ -45,7 +45,7 @@
                     :href="route($route === 'show' ? 'panel.campaigns.bags' : 'panel.campaigns.show', $this->campaign)"
                     sm />
                 <x-dropdown text="Mais ações" position="bottom-end">
-                    <x-dropdown.items text="Editar campanha" />
+                    <x-dropdown.items text="Editar campanha" wire:click="$dispatch('open-campaign-edit.{{ $campaign->getKey() }}')" />
                     <x-dropdown.items text="Desativar campanha" />
                     <x-dropdown.items text="Excluir campanha" separator />
                 </x-dropdown>
