@@ -6,7 +6,7 @@
                     <div class="mb-10 flex justify-center">
                         <img
                             src="{{ asset('assets/images/logomarca.png') }}"
-                            alt="QuemLeva"
+                            alt="QuemDoa"
                             class="h-auto w-full max-w-60"
                         >
                     </div>
@@ -132,7 +132,7 @@
                             </h2>
 
                             <p class="mt-5 text-base leading-7 text-slate-600">
-                                O QuemLeva ajuda igrejas e pastorais a organizar campanhas de doação de forma simples, segura e transparente.
+                                O QuemDoa ajuda igrejas e pastorais a organizar campanhas de doação de forma simples, segura e transparente.
                             </p>
                         </div>
 

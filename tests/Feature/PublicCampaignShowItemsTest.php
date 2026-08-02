@@ -93,7 +93,7 @@ it('updates the public item button when items are added and removed from the tem
     ]);
 
     Livewire::test(\App\Livewire\Public\Campaign\Show::class, ['campaign' => $campaign])
-        ->assertSee('Vou levar')
+        ->assertSee('Vou doar')
         ->dispatch("public-campaign-item-added.{$campaign->id}", item: $item->id, bagItem: [
             'id' => $item->id,
             'name' => 'Arroz',
@@ -112,7 +112,7 @@ it('updates the public item button when items are added and removed from the tem
         ->assertSet('bagItems.0.formattedQuantity', '2,5')
         ->dispatch("public-campaign-item-removed.{$campaign->id}", item: $item->id)
         ->assertSet('bagItems', [])
-        ->assertSee('Vou levar');
+        ->assertSee('Vou doar');
 });
 
 it('opens the public item add modal and dispatches the temporary bag item', function () {

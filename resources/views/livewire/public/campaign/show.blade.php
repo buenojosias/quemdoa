@@ -8,7 +8,7 @@
             <div>
                 <span class="font-medium text-primary-700">Sua doação faz a diferença!</span>
                 <p class="text-sm text-medium text-gray-800">
-                    Veja os itens abaixo e escolha o que deseja levar. <br class="inline lg:hidden">
+                    Veja os itens abaixo e escolha o que deseja doar. <br class="inline lg:hidden">
                     Juntos faremos um evento incrível!
                 </p>
             </div>
@@ -74,7 +74,7 @@
 
                                         @if (!$item['is_added'] && !$item['is_complete'])
                                             <x-button
-                                                text="Vou levar"
+                                                text="Vou doar"
                                                 color="primary"
                                                 outline
                                                 sm

@@ -6,14 +6,14 @@
                     <div class="mb-10 flex justify-center">
                         <img
                             src="{{ asset('assets/images/logomarca.png') }}"
-                            alt="QuemLeva"
+                            alt="QuemDoa"
                             class="h-auto w-full max-w-60"
                         >
                     </div>
 
                     <div class="mb-8 text-center">
                         <h1 class="text-2xl font-bold leading-tight text-primary-900 sm:text-2xl">
-                            Crie sua conta no QuemLeva
+                            Crie sua conta no QuemDoa
                         </h1>
 
                         <p class="mt-2 leading-7 text-slate-600">

@@ -3,7 +3,7 @@
         <div class="flex justify-center">
             <img
                 src="{{ asset('assets/images/logomarca.png') }}"
-                alt="QuemLeva"
+                alt="QuemDoa"
                 class="h-auto w-full max-w-48"
             >
         </div>

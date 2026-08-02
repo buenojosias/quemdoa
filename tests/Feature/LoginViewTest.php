@@ -3,7 +3,7 @@
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-it('renders the login page with the QuemLeva layout', function () {
+it('renders the login page with the QuemDoa layout', function () {
     $response = $this->get(route('login'));
 
     $response

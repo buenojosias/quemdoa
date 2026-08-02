@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>QuemLeva</title>
+    <title>QuemDoa</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -13,7 +13,7 @@
     <!-- Header -->
     <header class="w-full px-6 md:px-14 py-6 flex items-center justify-between">
         <div class="flex items-center gap-2">
-            <img src="{{ asset('assets/images/logomarca.png') }}" alt="QuemLeva" class="h-10 sm:h-12">
+            <img src="{{ asset('assets/images/logomarca.png') }}" alt="QuemDoa" class="h-10 sm:h-12">
         </div>
         <nav class="hidden md:flex items-center gap-8">
             <a href="#" class="text-sm font-semibold text-slate-600 hover:text-slate-900 transition">Recursos</a>
@@ -35,7 +35,7 @@
                 Menos bagunça no grupo, <span class="text-teal-600">mais união</span> na missão.
             </h1>
             <p class="text-lg md:text-xl text-slate-600 max-w-lg leading-relaxed">
-                O QuemLeva é a plataforma que ajuda igrejas e pastorais a organizarem doações para eventos e campanhas de forma simples e transparente.
+                O QuemDoa é a plataforma que ajuda igrejas e pastorais a organizarem doações para eventos e campanhas de forma simples e transparente.
             </p>
             <div class="flex flex-col sm:flex-row items-center gap-4 pt-2">
                 <a href="{{ route('panel.dashboard') }}" class="w-full sm:w-auto bg-teal-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-teal-700 transition flex items-center justify-center gap-2 shadow-lg shadow-teal-600/20">
@@ -54,7 +54,7 @@
         </div>
         
         <div class="w-full sm:w-4/12 pl-8 sm:pl-0 flex justify-end">
-            <img src="{{ asset('assets/images/lp-preview.png') }}" alt="Preview da plataforma QuemLeva" class="">
+            <img src="{{ asset('assets/images/lp-preview.png') }}" alt="Preview da plataforma QuemDoa" class="">
         </div>
     </section>
 
@@ -66,7 +66,7 @@
             </div>
             <div class="text-center md:text-left">
                 <h3 class="text-base font-bold text-slate-800">Mais organização. Mais transparência. Mais comunhão.</h3>
-                <p class="text-sm text-slate-500 font-medium">Centenas de grupos já estão usando o QuemLeva para fazer acontecer.</p>
+                <p class="text-sm text-slate-500 font-medium">Centenas de grupos já estão usando o QuemDoa para fazer acontecer.</p>
             </div>
         </div>
     </section>
@@ -212,7 +212,7 @@
             <!-- Column 1: Logo & Info -->
             <div class="md:col-span-2 lg:col-span-1">
                 <div class="flex items-center gap-1 mb-4">
-                    <img src="{{ asset('assets/images/logomarca.png') }}" alt="QuemLeva" class="h-10 md:h-12">
+                    <img src="{{ asset('assets/images/logomarca.png') }}" alt="QuemDoa" class="h-10 md:h-12">
                 </div>
                 <p class="text-sm text-slate-500 mb-6 font-medium max-w-xs leading-relaxed">A plataforma que conecta pessoas para fazer o bem, com organização e transparência.</p>
                 <div class="flex items-center gap-4 text-slate-400">
@@ -264,7 +264,7 @@
         </div>
         
         <div class="container mx-auto px-6 pt-4 border-t border-slate-200 text-center text-xs text-slate-400 font-medium">
-            © {{ date('Y') }} QuemLeva. Todos os direitos reservados.
+            © {{ date('Y') }} QuemDoa. Todos os direitos reservados.
         </div>
     </footer>
 

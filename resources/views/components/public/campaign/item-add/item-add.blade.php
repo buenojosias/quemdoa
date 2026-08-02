@@ -1,4 +1,4 @@
-<x-modal id="public-campaign-item-add-modal" wire size="sm" title="Vou levar" center x-on:close="$dispatch('public-campaign-item-add-modal-closed')">
+<x-modal id="public-campaign-item-add-modal" wire size="sm" title="Vou doar" center x-on:close="$dispatch('public-campaign-item-add-modal-closed')">
     @if ($itemId)
         <div class="space-y-4">
             <div>

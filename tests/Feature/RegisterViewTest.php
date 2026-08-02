@@ -1,11 +1,11 @@
 <?php
 
-it('renders the register page with the QuemLeva layout', function () {
+it('renders the register page with the QuemDoa layout', function () {
     $response = $this->get(route('register'));
 
     $response
         ->assertSuccessful()
-        ->assertSee('Crie sua conta no QuemLeva')
+        ->assertSee('Crie sua conta no QuemDoa')
         ->assertSee('assets/images/logomarca.png', false)
         ->assertSee('assets/images/illustration-register.png', false)
         ->assertSee('name="name"', false)

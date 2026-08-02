@@ -106,7 +106,7 @@ class Show extends Component
             'note' => $item->note,
             'is_complete' => $isComplete,
             'is_added' => $isAdded,
-            'button_text' => $isAdded ? 'Na sacola' : ($isComplete ? 'Completo' : 'Vou levar'),
+            'button_text' => $isAdded ? 'Na sacola' : ($isComplete ? 'Completo' : 'Vou doar'),
             'button_disabled' => $isAdded || $isComplete,
         ];
     }
