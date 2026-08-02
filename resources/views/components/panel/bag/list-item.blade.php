@@ -22,7 +22,7 @@
         @if (in_array($item->status->value, ['pending', 'confirmed']))
             <x-dropdown.items text="Confirmar recebimento" wire:click="$dispatch('open-set-item-received', { bagItem: {{ $item->id }} })" />
         @endif
-        <x-dropdown.items text="Alterar quantidade" />
+        <x-dropdown.items text="Alterar quantidade" wire:click="$dispatch('open-change-item-quantity', { bagItem: {{ $item->id }} })" />
         <a href="{{ route('panel.campaigns.bags.show', [$item->bag->campaign_id, $item->bag]) }}">
             <x-dropdown.items text="Ver sacola completa" />
         </a>

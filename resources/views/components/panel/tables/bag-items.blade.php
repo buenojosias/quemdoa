@@ -29,6 +29,7 @@ new class extends Component
 
     #[On('bag-item-added.{bagId}')]
     #[On('bag-item-received.{bagId}')]
+    #[On('bag-item-quantity-updated.{bagId}')]
     public function refreshAfterBagItemChanged(): void
     {
         $this->resetPage();
@@ -108,8 +109,14 @@ new class extends Component
                         title="Marcar como recebido"
                         wire:click="$dispatch('open-set-item-received', { bagItem: {{ $row->id }} })" />
                 @endif
+                <x-button.circle
+                    icon="pencil"
+                    sm
+                    title="Alterar quantidade"
+                    wire:click="$dispatch('open-change-item-quantity', { bagItem: {{ $row->id }} })" />
             @endinteract
         </x-table>
     </x-card>
     <livewire:panel.bag.set-item-received />
+    <livewire:panel.bag.change-item-quantity />
 </div>

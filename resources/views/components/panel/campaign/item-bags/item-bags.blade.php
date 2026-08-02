@@ -35,6 +35,6 @@
             <livewire:panel.bag.add-bag :itemId="$itemId" />
         @endif
     </x-slide>
-
     <livewire:panel.bag.set-item-received />
+    <livewire:panel.bag.change-item-quantity />
 </div>

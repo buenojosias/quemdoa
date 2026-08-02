@@ -158,7 +158,8 @@ new class () extends Component {
     }
 
     #[On('campaign-bag-item-received.{campaignId}')]
-    public function refreshAfterBagItemReceived(int $item): void
+    #[On('campaign-bag-item-quantity-updated.{campaignId}')]
+    public function refreshAfterBagItemChanged(int $item): void
     {
         if ($this->itemId !== $item) {
             return;
