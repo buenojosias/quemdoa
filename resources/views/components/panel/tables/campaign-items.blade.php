@@ -121,4 +121,7 @@ new class extends Component
             </div>
         @endinteract
     </x-table>
+    @island('item-bags')
+        <livewire:panel.campaign.item-bags :campaign-id="$this->campaign->id" />
+    @endisland
 </div>
