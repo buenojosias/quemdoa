@@ -5,6 +5,10 @@
         <form id="campaign-create" wire:submit="save" class="space-y-4">
             <x-input label="Nome da campanha *" x-ref="name" wire:model="name" required />
 
+            <x-input label="Instituição" placeholder="Nome da igreja, associação, etc." hint="Opcional" wire:model="institution" />
+
+            <x-input label="Grupo" placeholder="Nome do grupo ou pastoral" hint="Opcional" wire:model="group" />
+
             <x-textarea label="Descrição" hint="Opcional" wire:model="description" />
 
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2">

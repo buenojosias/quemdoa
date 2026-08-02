@@ -12,8 +12,6 @@ class Index extends Component
 {
     use WithPagination;
 
-    public int $quantity = 10;
-
     public string $status = '';
 
     public array $headers = [
@@ -34,7 +32,7 @@ class Index extends Component
             ->when($this->status === 'active', fn ($query) => $query->where('is_active', true))
             ->when($this->status === 'inactive', fn ($query) => $query->where('is_active', false))
             ->latest()
-            ->paginate($this->quantity);
+            ->paginate();
     }
 
     public function statusOptions(): array

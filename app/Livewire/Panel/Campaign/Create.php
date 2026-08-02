@@ -16,6 +16,10 @@ class Create extends Component
 
     public ?string $description = null;
 
+    public ?string $institution = null;
+
+    public ?string $group = null;
+
     public ?string $confirmation_deadline = null;
 
     public ?string $delivery_deadline = null;
@@ -41,6 +45,16 @@ class Create extends Component
             'description' => [
                 'nullable',
                 'string',
+            ],
+            'institution' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'group' => [
+                'nullable',
+                'string',
+                'max:255',
             ],
             'confirmation_deadline' => [
                 'required',

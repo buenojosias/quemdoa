@@ -15,13 +15,6 @@
     @else
         <div class="space-y-4">
             <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <x-select.native wire:model.live="quantity" label="Itens por página">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                </x-select.native>
-
                 <x-select.native label="Status"
                     wire:model.live="status"
                     :options="$this->statusOptions()"
@@ -32,6 +25,15 @@
                 @interact('column_name', $row)
                     <a href="{{ route('panel.campaigns.show', $row) }}" class="font-medium text-gray-700 dark:text-gray-100">
                         {{ $row->name }}
+                        @if ($row->group)
+                            <span class="w-full flex text-sm font-normal text-gray-500 dark:text-gray-400">
+                                {{ $row->group }}
+                            </span>
+                        @elseif ($row->institution)
+                            <span class="w-full flex text-sm font-normal text-gray-500 dark:text-gray-400">
+                                {{ $row->institution }}
+                            </span>
+                        @endif
                     </a>
                 @endinteract
 
@@ -45,8 +47,8 @@
 
                 @interact('column_bags_count', $row)
                     <a href="{{ route('panel.campaigns.bags', $row) }}" class="flex items-center gap-1 font-medium text-gray-700 dark:text-gray-100">
+                        <x-icon name="shopping-bag" class="w-4 h-4" outline />
                         {{ $row->bags_count }}
-                        <x-icon name="shopping-bag" class="w-4 h-4" />
                     </a>
                 @endinteract
 
