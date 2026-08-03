@@ -158,10 +158,25 @@ new class () extends Component {
     }
 
     #[On('campaign-bag-item-received.{campaignId}')]
-    #[On('campaign-bag-item-quantity-updated.{campaignId}')]
-    public function refreshAfterBagItemChanged(int $item): void
+    public function refreshAfterBagItemReceived(int $item): void
     {
         if ($this->itemId !== $item) {
+            return;
+        }
+
+        $this->refreshItemQuantities();
+    }
+
+    #[On('campaign-bag-item-quantity-updated.{campaignId}')]
+    public function refreshAfterBagItemQuantityUpdated(int $item, ?string $status = null): void
+    {
+        if ($this->itemId !== $item) {
+            return;
+        }
+
+        unset($this->bagItems);
+
+        if ($status === BagItemStatusEnum::PENDING->value) {
             return;
         }
 

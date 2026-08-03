@@ -77,12 +77,13 @@ new class () extends Component {
         $bagId = $bagItem->bag_id;
         $campaignId = $bagItem->bag->campaign_id;
         $campaignItemId = $bagItem->campaign_item_id;
+        $status = $bagItem->status->value;
 
         $this->resetForm();
 
         $this->toast()->success('Quantidade alterada com sucesso.')->send();
         $this->dispatch("bag-item-quantity-updated.{$bagId}");
-        $this->dispatch("campaign-bag-item-quantity-updated.{$campaignId}", item: $campaignItemId);
+        $this->dispatch("campaign-bag-item-quantity-updated.{$campaignId}", item: $campaignItemId, status: $status);
         $this->dispatch("item-created.{$campaignId}");
     }
 
@@ -118,7 +119,6 @@ new class () extends Component {
         $baggedQuantity = BagItem::query()
             ->where('campaign_item_id', $campaignItem)
             ->whereIn('status', [
-                BagItemStatusEnum::PENDING->value,
                 BagItemStatusEnum::CONFIRMED->value,
                 BagItemStatusEnum::RECEIVED->value,
             ])

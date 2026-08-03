@@ -110,6 +110,62 @@ it('changes a received item quantity and refreshes received totals', function ()
         ->and($item->received_quantity)->toBe('1.5');
 });
 
+it('does not include pending item quantity in bagged totals after changing quantity', function () {
+    $user = User::factory()->create();
+    $campaign = campaignForChangeItemQuantity($user);
+    $item = itemForChangeItemQuantity($campaign);
+    $changedBagItem = bagItemForChangeItemQuantity($item, BagItemStatusEnum::PENDING, 3);
+    bagItemForChangeItemQuantity($item, BagItemStatusEnum::CONFIRMED, 2);
+
+    Livewire::actingAs($user)
+        ->test('panel.bag.change-item-quantity')
+        ->dispatch('open-change-item-quantity', bagItem: $changedBagItem->id)
+        ->dispatch('change-item-quantity-save', quantity: 5)
+        ->assertHasNoErrors()
+        ->assertDispatched(
+            "campaign-bag-item-quantity-updated.{$campaign->id}",
+            item: $item->id,
+            status: BagItemStatusEnum::PENDING->value,
+        );
+
+    expect($changedBagItem->refresh()->quantity)->toBe('5.0')
+        ->and($item->refresh()->bagged_quantity)->toBe('2.0')
+        ->and($item->received_quantity)->toBe('0.0');
+});
+
+it('does not let the item bags listener recalculate bagged totals for pending quantity changes', function () {
+    $user = User::factory()->create();
+    $campaign = campaignForChangeItemQuantity($user);
+    $item = itemForChangeItemQuantity($campaign);
+    $pendingBagItem = bagItemForChangeItemQuantity($item, BagItemStatusEnum::PENDING, 3);
+    bagItemForChangeItemQuantity($item, BagItemStatusEnum::CONFIRMED, 2);
+
+    $item->update([
+        'bagged_quantity' => 2,
+        'received_quantity' => 0,
+    ]);
+
+    $component = Livewire::actingAs($user)
+        ->test('panel.campaign.item-bags', ['campaignId' => $campaign->id])
+        ->dispatch("open-item-bags.{$campaign->id}", item: $item->id)
+        ->assertSet('itemBaggedQuantity', 2.0)
+        ->assertSet('itemReceivedQuantity', 0.0);
+
+    $pendingBagItem->update(['quantity' => 5]);
+
+    $component
+        ->dispatch(
+            "campaign-bag-item-quantity-updated.{$campaign->id}",
+            item: $item->id,
+            status: BagItemStatusEnum::PENDING->value,
+        )
+        ->assertSet('itemBaggedQuantity', 2.0)
+        ->assertSet('itemReceivedQuantity', 0.0);
+
+    expect($item->refresh()->bagged_quantity)->toBe('2.0')
+        ->and($item->received_quantity)->toBe('0.0');
+});
+
 it('validates the new quantity', function () {
     $user = User::factory()->create();
     $campaign = campaignForChangeItemQuantity($user);
