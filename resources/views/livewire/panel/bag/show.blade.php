@@ -76,7 +76,10 @@
                     sm />
                 <x-dropdown text="Mais ações" position="bottom-end">
                     <x-dropdown.items text="Confirmar sacola" />
-                    <x-dropdown.items text="Excluir sacola" separator />
+                    <x-dropdown.items
+                        text="Excluir sacola"
+                        wire:click="$dispatch('open-delete-bag', { bag: {{ $bag->id }} })"
+                        separator />
                 </x-dropdown>
             </div>
         </x-slot>
@@ -97,4 +100,6 @@
             :campaign-id="$this->campaignId"
             :key="'bag-items-'.$this->bagId" />
     @endisland
+
+    <livewire:panel.bag.delete-bag />
 </div>

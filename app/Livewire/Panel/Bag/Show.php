@@ -7,6 +7,7 @@ use App\Models\Campaign;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Show extends Component
@@ -42,6 +43,12 @@ class Show extends Component
             ->where('campaign_id', $this->campaignId)
             ->whereHas('campaign', fn ($query) => $query->where('user_id', auth()->id()))
             ->findOrFail($this->bagId);
+    }
+
+    #[On('bag-deleted.{campaignId}')]
+    public function redirectAfterBagDeleted(): void
+    {
+        $this->redirectRoute('panel.campaigns.bags', $this->campaignId);
     }
 
     public function render(): View

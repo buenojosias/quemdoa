@@ -112,8 +112,11 @@ new class extends Component
     }
 
     #[On('bag-added.{campaignId}')]
+    #[On('bag-deleted.{campaignId}')]
     public function refreshBags(): void
     {
+        $this->resetPage();
+
         unset($this->bags);
     }
 };
@@ -143,9 +146,16 @@ new class extends Component
             {{ $this->confirmedByLabel($row) }}
         @endinteract
         @interact('column_actions', $row)
-            <div class="flex">
-                ...
+            <div class="flex justify-end gap-1">
+                <x-button.circle
+                    icon="trash"
+                    title="Excluir sacola"
+                    color="red"
+                    flat
+                    wire:click="$dispatch('open-delete-bag', { bag: {{ $row->id }} })" />
             </div>
         @endinteract
     </x-table>
+
+    <livewire:panel.bag.delete-bag />
 </div>
