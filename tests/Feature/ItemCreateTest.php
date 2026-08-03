@@ -97,6 +97,26 @@ it('requires item fields from the schema', function () {
         ]);
 });
 
+it('requires item delivery date between tomorrow and the day before the campaign delivery deadline', function (string $deliveryDate, string $rule) {
+    $campaign = campaignForItemCreate();
+
+    actingAs($campaign->user);
+
+    Livewire::test(Create::class, ['campaignId' => $campaign->id])
+        ->set([
+            'category' => CategoryEnum::FOODS->value,
+            'name' => 'Arroz',
+            'unit' => UnitEnum::KG->value,
+            'required_quantity' => 10,
+            'delivery_date' => $deliveryDate,
+        ])
+        ->call('save')
+        ->assertHasErrors(['delivery_date' => [$rule]]);
+})->with([
+    'today' => fn () => [today()->toDateString(), 'after'],
+    'campaign delivery deadline' => fn () => [today()->addDays(20)->toDateString(), 'before'],
+]);
+
 it('refreshes the campaign items table when an item is created', function () {
     $campaign = campaignForItemCreate();
 

@@ -1,12 +1,9 @@
 <div>
-    <x-button text="Adicionar item" icon="plus" wire:click="$toggle('modal')" />
-
-    <x-modal title="Adicionar item" wire x-on:open="setTimeout(() => $refs.name.focus(), 250)">
-        <form id="item-create" wire:submit="save" class="space-y-4">
+    <x-modal title="Editar item" wire x-on:open="setTimeout(() => $refs.name.focus(), 250)">
+        <form id="item-edit-{{ $campaignId }}" wire:submit="save" class="space-y-4">
             <x-input label="Nome do item *" x-ref="name" wire:model="name" required />
 
             <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-                
                 <x-input label="Complemento" placeholder="Ex.: Pacote de 500g" hint="Opcional" wire:model="complement" />
 
                 <x-select.native label="Categoria *"
@@ -29,7 +26,7 @@
                           centralized
                           required
                           hint="Apenas valores inteiros" />
-    
+
                 <x-date label="Data limite de entrega"
                         wire:model="delivery_date"
                         name="delivery_date"
@@ -43,7 +40,10 @@
         </form>
 
         <x-slot:footer>
-            <x-button type="submit" form="item-create" text="Adicionar item" />
+            <div class="flex justify-end gap-2">
+                <x-button text="Cancelar" color="gray" wire:click="$set('modal', false)" />
+                <x-button type="submit" form="item-edit-{{ $campaignId }}" text="Salvar alterações" loading="save" />
+            </div>
         </x-slot:footer>
     </x-modal>
 </div>

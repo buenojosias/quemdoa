@@ -115,12 +115,16 @@ new class extends Component
         @endinteract
         @interact('column_actions', $row)
             <div class="flex">
-                <x-button icon="pencil-square" title="Editar" flat />
+                <x-button icon="pencil-square" title="Editar" flat
+                    wire:click="$dispatch('open-item-edit.{{ $this->campaignId }}', { item: {{ $row->id }} })" />
                 <x-button icon="list-bullet" title="Sacolas" flat
                     wire:click="$dispatch('open-item-bags.{{ $this->campaignId }}', { item: {{ $row->id }} })" />
             </div>
         @endinteract
     </x-table>
+    @island('item-edit')
+        <livewire:panel.item.edit :campaign-id="$this->campaignId" />
+    @endisland
     @island('item-bags')
         <livewire:panel.campaign.item-bags :campaign-id="$this->campaign->id" />
     @endisland
