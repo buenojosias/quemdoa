@@ -119,7 +119,8 @@ new class extends Component
                     wire:click="$dispatch('open-item-edit.{{ $this->campaignId }}', { item: {{ $row->id }} })" />
                 <x-button icon="list-bullet" title="Sacolas" flat
                     wire:click="$dispatch('open-item-bags.{{ $this->campaignId }}', { item: {{ $row->id }} })" />
-                <x-button icon="eye" flat />
+                <x-button icon="eye" title="Detalhes" flat
+                    wire:click="$dispatch('open-item-details.{{ $this->campaignId }}', { item: {{ $row->id }} })" />
             </div>
         @endinteract
     </x-table>

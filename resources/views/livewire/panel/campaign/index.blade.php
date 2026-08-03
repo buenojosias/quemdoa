@@ -46,10 +46,10 @@
                 @endinteract
 
                 @interact('column_bags_count', $row)
-                    <a href="{{ route('panel.campaigns.bags', $row) }}" class="flex items-center gap-1 font-medium text-gray-700 dark:text-gray-100">
+                    {{-- <a href="{{ route('panel.campaigns.bags', $row) }}" class="flex items-center gap-1 font-medium text-gray-700 dark:text-gray-100"> --}}
                         <x-icon name="shopping-bag" class="w-4 h-4" outline />
                         {{ $row->bags_count }}
-                    </a>
+                    {{-- </a> --}}
                 @endinteract
 
                 @interact('column_is_active', $row)
