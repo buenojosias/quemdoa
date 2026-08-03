@@ -119,6 +119,7 @@ new class extends Component
                     wire:click="$dispatch('open-item-edit.{{ $this->campaignId }}', { item: {{ $row->id }} })" />
                 <x-button icon="list-bullet" title="Sacolas" flat
                     wire:click="$dispatch('open-item-bags.{{ $this->campaignId }}', { item: {{ $row->id }} })" />
+                <x-button icon="eye" flat />
             </div>
         @endinteract
     </x-table>
@@ -127,5 +128,8 @@ new class extends Component
     @endisland
     @island('item-bags')
         <livewire:panel.campaign.item-bags :campaign-id="$this->campaign->id" />
+    @endisland
+    @island('item-details')
+        <livewire:panel.campaign.item-details :campaign-id="$this->campaign->id" />
     @endisland
 </div>
