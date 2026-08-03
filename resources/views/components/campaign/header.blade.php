@@ -39,11 +39,7 @@
     </div>
     @if(in_array($route, ['show', 'bags']))
         <x-slot:footer>
-            <div class="flex items-center justify-between gap-4">
-                <x-link
-                    :text="$route === 'show' ? 'Listar sacolas' : 'Listar itens'"
-                    :href="route($route === 'show' ? 'panel.campaigns.bags' : 'panel.campaigns.show', $this->campaign)"
-                    sm />
+            <div class="flex items-center justify-end gap-4">
                 <x-dropdown text="Mais ações" position="bottom-end">
                     <x-dropdown.items text="Editar campanha" wire:click="$dispatch('open-campaign-edit.{{ $campaign->getKey() }}')" />
                     {{-- <x-dropdown.items text="Desativar campanha" /> --}}

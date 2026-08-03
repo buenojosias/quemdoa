@@ -12,7 +12,6 @@ Route::middleware(['auth'])->name('panel.')->group(function () {
     Route::get('/user/profile', Profile::class)->name('user.profile');
     Route::get('/campanhas', \App\Livewire\Panel\Campaign\Index::class)->name('campaigns.index');
     Route::get('/campanhas/{campaign}', \App\Livewire\Panel\Campaign\Show::class)->name('campaigns.show');
-    Route::get('/campanhas/{campaign}/sacolas', \App\Livewire\Panel\Campaign\Bags::class)->name('campaigns.bags');
     Route::get('/campanhas/{campaign}/sacolas/{bag}', \App\Livewire\Panel\Bag\Show::class)->name('campaigns.bags.show');
 });
 
