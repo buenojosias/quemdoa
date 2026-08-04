@@ -82,31 +82,12 @@
     <div class="space-y-6">
         <div>
             <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Dashboard</h1>
-            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Olá, João! Veja o resumo das suas campanhas.</p>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Olá, {{ strtok(auth()->user()->name, ' ') }}! Veja o resumo das suas campanhas.</p>
         </div>
 
-        <x-card class="border border-amber-300 bg-amber-50/70 shadow-sm dark:border-amber-600/60 dark:bg-amber-950/20">
-            <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                <div class="flex items-start gap-4">
-                    <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-amber-100 text-amber-600 dark:bg-amber-500/20 dark:text-amber-300">
-                        <x-icon name="phone" class="h-7 w-7" />
-                    </div>
-                    <div>
-                        <h2 class="text-base font-semibold text-slate-900 dark:text-white">Adicione e confirme seu WhatsApp</h2>
-                        <p class="mt-1 max-w-2xl text-sm leading-6 text-slate-600 dark:text-slate-300">
-                            Assim você confirma doações com mais segurança e recebe avisos importantes sobre suas campanhas.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-3 md:shrink-0">
-                    <x-button text="Adicionar WhatsApp" color="primary" outline />
-                    <button type="button" class="rounded-md p-2 text-slate-500 transition hover:bg-white/70 hover:text-slate-700 dark:text-slate-300 dark:hover:bg-white/10" aria-label="Fechar aviso">
-                        <x-icon name="x-mark" class="h-5 w-5" />
-                    </button>
-                </div>
-            </div>
-        </x-card>
+        @if (auth()->user()->whatsapp_verified_at === null)
+            <x-panel.dashboard.whatsapp-alert />
+        @endif
 
         <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
             @foreach ($stats as $stat)

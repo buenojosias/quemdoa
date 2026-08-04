@@ -14,7 +14,7 @@ return new class () extends Migration {
             $table->timestamp('email_verified_at')->nullable();
             $table->string('whatsapp', 20)->unique()->nullable();
             $table->timestamp('whatsapp_verified_at')->nullable();
-            $table->string('whatsapp_confirmation_code', 6)->nullable();
+            $table->string('whatsapp_confirmation_code', 5)->nullable();
             $table->string('password')->nullable();
             $table->string('google_id')->nullable()->unique();
             $table->string('avatar')->nullable();
