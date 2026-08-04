@@ -9,7 +9,7 @@
         <div>
             <x-label label="Campanha" />
             <p class="text-xl font-semibold text-gray-700 dark:text-gray-200">{{ $this->campaign->name }}</p>
-            <p class="text-sm text-gray-500 my-3">{{ $this->campaign->description }}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-300 my-3">{{ $this->campaign->description }}</p>
         </div>
         <div class="flex flex-col lg:flex-row gap-4">
             <div class="w-full lg:w-1/2 flex gap-3">

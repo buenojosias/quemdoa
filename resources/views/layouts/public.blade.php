@@ -14,21 +14,21 @@
         @livewireStyles
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased"
+    <body class="flex flex-col min-h-screen font-sans antialiased"
         x-cloak
         {{-- x-data="{ name: @js(auth()->user()->name) }" --}}
         x-on:name-updated.window="name = $event.detail.name"
         x-bind:class="{ 'dark bg-gray-800': darkTheme, 'bg-gray-100': !darkTheme }">
         <div class="dark:bg-dark-700 dark:border-dark-600 sticky top-0 z-40 flex h-18 shrink-0 items-center gap-x-4 border-b border-gray-300/10 bg-white shadow-sm">
             <div class="container mx-auto flex justify-between px-6 lg:px-16">
-                <div><img src="{{ asset('/assets/images/logomarca.png') }}" class="h-12" /></div>
+                <div><img src="{{ asset('/assets/images/Logo2.png') }}" class="h-12 dark:brightness-300" /></div>
             </div>
         </div>
-        <div class="my-8 container mx-auto px-6 lg:px-16">
+        <div class="flex-1 my-8 container mx-auto px-6 lg:px-16">
             {{ $slot }}
         </div>
         @if (@$footer)
-            <div class="sticky bottom-0 z-40 py-2 bg-white shadow">
+            <div class="z-40 py-2 bg-white dark:bg-gray-700 shadow">
                 <div class="container mx-auto px-6 lg:px-16">
                     {{ $footer }}
                 </div>
