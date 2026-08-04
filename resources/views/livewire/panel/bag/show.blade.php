@@ -75,7 +75,9 @@
                     href="{{ url()->previous() }}"
                     sm />
                 <x-dropdown text="Mais ações" position="bottom-end">
-                    <x-dropdown.items text="Confirmar sacola" />
+                    @unless ($bag->confirmed_at)
+                        <x-dropdown.items text="Confirmar sacola" wire:click="confirm" />
+                    @endunless
                     <x-dropdown.items
                         text="Excluir sacola"
                         wire:click="$dispatch('open-delete-bag', { bag: {{ $bag->id }} })"

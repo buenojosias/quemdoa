@@ -30,6 +30,7 @@ new class extends Component
     #[On('bag-item-added.{bagId}')]
     #[On('bag-item-received.{bagId}')]
     #[On('bag-item-quantity-updated.{bagId}')]
+    #[On('bag-confirmed.{bagId}')]
     public function refreshAfterBagItemChanged(): void
     {
         $this->resetPage();

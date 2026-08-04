@@ -113,6 +113,7 @@ new class extends Component
 
     #[On('bag-added.{campaignId}')]
     #[On('bag-deleted.{campaignId}')]
+    #[On('campaign-bag-confirmed.{campaignId}')]
     public function refreshBags(): void
     {
         $this->resetPage();

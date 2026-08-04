@@ -2,16 +2,23 @@
 
 namespace App\Livewire\Panel\Bag;
 
+use App\Enums\BagItemStatusEnum;
 use App\Models\Bag;
+use App\Models\BagItem;
 use App\Models\Campaign;
+use App\Models\CampaignItem;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use TallStackUi\Traits\Interactions;
 
 class Show extends Component
 {
+    use Interactions;
+
     #[Locked]
     public string $campaignId;
 
@@ -45,6 +52,51 @@ class Show extends Component
             ->findOrFail($this->bagId);
     }
 
+    public function confirm(): void
+    {
+        $affectedCampaignItems = collect();
+
+        DB::transaction(function () use (&$affectedCampaignItems): void {
+            $bag = $this->findBagForConfirmation();
+
+            $affectedCampaignItems = $bag->items
+                ->pluck('campaign_item_id')
+                ->unique()
+                ->values();
+
+            $bag->update([
+                'confirmed_at' => $bag->confirmed_at ?? now(),
+                'confirmed_by' => $bag->confirmed_by ?? 'organizer',
+                'confirmation_code' => null,
+            ]);
+
+            $bag->items()
+                ->where('status', BagItemStatusEnum::PENDING->value)
+                ->update([
+                    'status' => BagItemStatusEnum::CONFIRMED->value,
+                ]);
+
+            $affectedCampaignItems->each(function (int $campaignItem): void {
+                $this->refreshItemQuantities($campaignItem);
+            });
+        });
+
+        unset($this->bag, $this->campaign);
+
+        $this->toast()->success('Sacola confirmada com sucesso.')->send();
+        $this->dispatch("bag-confirmed.{$this->bagId}");
+        $this->dispatch("campaign-bag-confirmed.{$this->campaignId}");
+        $this->dispatch("item-created.{$this->campaignId}");
+
+        $affectedCampaignItems->each(function (int $campaignItem): void {
+            $this->dispatch(
+                "campaign-bag-item-quantity-updated.{$this->campaignId}",
+                item: $campaignItem,
+                status: BagItemStatusEnum::CONFIRMED->value,
+            );
+        });
+    }
+
     #[On('bag-deleted.{campaignId}')]
     public function redirectAfterBagDeleted(): void
     {
@@ -54,5 +106,42 @@ class Show extends Component
     public function render(): View
     {
         return view('livewire.panel.bag.show');
+    }
+
+    private function findBagForConfirmation(): Bag
+    {
+        return Bag::query()
+            ->with('items')
+            ->whereKey($this->bagId)
+            ->where('campaign_id', $this->campaignId)
+            ->whereHas('campaign', fn ($query) => $query->where('user_id', auth()->id()))
+            ->lockForUpdate()
+            ->firstOrFail();
+    }
+
+    private function refreshItemQuantities(int $campaignItem): void
+    {
+        $item = CampaignItem::query()
+            ->where('campaign_id', $this->campaignId)
+            ->lockForUpdate()
+            ->findOrFail($campaignItem);
+
+        $baggedQuantity = BagItem::query()
+            ->where('campaign_item_id', $item->id)
+            ->whereIn('status', [
+                BagItemStatusEnum::CONFIRMED->value,
+                BagItemStatusEnum::RECEIVED->value,
+            ])
+            ->sum('quantity');
+
+        $receivedQuantity = BagItem::query()
+            ->where('campaign_item_id', $item->id)
+            ->where('status', BagItemStatusEnum::RECEIVED->value)
+            ->sum('quantity');
+
+        $item->update([
+            'bagged_quantity' => $baggedQuantity,
+            'received_quantity' => $receivedQuantity,
+        ]);
     }
 }
