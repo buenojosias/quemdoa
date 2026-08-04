@@ -24,11 +24,11 @@
                 <div><img src="{{ asset('/assets/images/Logo2.png') }}" class="h-12 dark:brightness-300" /></div>
             </div>
         </div>
-        <div class="flex-1 my-8 container mx-auto px-6 lg:px-16">
+        <div class="flex-1 mt-8 mb-4 container mx-auto px-6 lg:px-16">
             {{ $slot }}
         </div>
         @if (@$footer)
-            <div class="z-40 py-2 bg-white dark:bg-gray-700 shadow">
+            <div class="z-40 sticky bottom-0 py-2 bg-white dark:bg-gray-700 shadow">
                 <div class="container mx-auto px-6 lg:px-16">
                     {{ $footer }}
                 </div>
