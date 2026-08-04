@@ -11,9 +11,12 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Livewire\Component;
+use TallStackUi\Traits\Interactions;
 
 new class extends Component
 {
+    use Interactions;
+
     public const DISMISSED_KEY = 'dashboard_whatsapp_alert_dismissed';
 
     public bool $hidden = false;
@@ -25,6 +28,8 @@ new class extends Component
     public bool $codeSent = false;
 
     public string $whatsapp = '';
+
+    public string $userFirstName = '';
 
     public string $pin = '';
 
@@ -40,6 +45,7 @@ new class extends Component
             || request()->cookie(self::DISMISSED_KEY) === '1';
 
         $this->whatsapp = $this->formatWhatsapp((string) $user?->whatsapp);
+        $this->userFirstName = $user?->name ? explode(' ', $user->name)[0] : '';
     }
 
     public function dismiss(): void
@@ -69,6 +75,27 @@ new class extends Component
         $this->pin = '';
         $this->codeSent = false;
         $this->editingWhatsapp = true;
+    }
+
+    public function useExistingCode(): void
+    {
+        $user = $this->user();
+
+        if ($user === null) {
+            abort(403);
+        }
+
+        if (blank($user->whatsapp_confirmation_code)) {
+            throw ValidationException::withMessages([
+                'pin' => 'Solicite um código antes de confirmar seu WhatsApp.',
+            ]);
+        }
+
+        $this->resetValidation('pin');
+        $this->whatsappDeliveryError = null;
+        $this->pin = '';
+        $this->editingWhatsapp = false;
+        $this->codeSent = true;
     }
 
     public function sendCode(): void
@@ -123,6 +150,7 @@ new class extends Component
 
         $this->whatsapp = $this->formatWhatsapp((string) $user->whatsapp);
         $this->editingWhatsapp = false;
+        $this->userFirstName = $user->name ? explode(' ', $user->name)[0] : '';
         $this->codeSent = true;
     }
 
@@ -152,6 +180,7 @@ new class extends Component
 
         $this->modal = false;
         $this->hidden = true;
+        $this->toast()->success('WhatsApp confirmado com sucesso!')->send();
         $this->dispatch('dashboard-whatsapp-confirmed');
     }
 
@@ -278,7 +307,7 @@ new class extends Component
     private function message(User $user, string $confirmationCode): string
     {
         return <<<MESSAGE
-Olá, {$user->name}!
+Olá, {$this->userFirstName}!
 
 Use o código abaixo para confirmar seu WhatsApp no QuemDoa:
 
@@ -344,9 +373,14 @@ MESSAGE;
                     Enviaremos o código para <span class="font-semibold">{{ $this->whatsapp }}</span>.
                 </div>
 
-                <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                <div class="grid grid-cols-2 gap-3">
                     <x-button text="Reenviar código" wire:click="sendCode" loading="sendCode" />
                     <x-button text="Alterar número" color="gray" outline wire:click="editWhatsapp" />
+                    @if (filled(auth()->user()?->whatsapp_confirmation_code))
+                        <div class="col-span-2">
+                            <x-button text="Já tenho um código" color="neutral" outline wire:click="useExistingCode" flat sm block />
+                        </div>
+                    @endif
                 </div>
             @else
                 <form id="dashboard-whatsapp-send-form" wire:submit="sendCode" class="space-y-4">

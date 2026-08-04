@@ -72,6 +72,27 @@ it('sends a confirmation code to a new whatsapp number', function () {
         ->and($user->whatsapp_verified_at)->toBeNull();
 });
 
+it('allows confirming with an existing code without sending a new message', function () {
+    Http::fake();
+
+    $user = User::factory()->create([
+        'whatsapp' => '11999999999',
+        'whatsapp_confirmation_code' => '12345',
+        'whatsapp_verified_at' => null,
+    ]);
+
+    Livewire::actingAs($user)
+        ->test('panel.dashboard.whatsapp-alert')
+        ->call('openModal')
+        ->assertSee('Já tenho um código')
+        ->call('useExistingCode')
+        ->assertHasNoErrors()
+        ->assertSet('codeSent', true)
+        ->assertSet('editingWhatsapp', false);
+
+    Http::assertNothingSent();
+});
+
 it('confirms the whatsapp code and removes the alert decision', function () {
     $user = User::factory()->create([
         'whatsapp' => '11999999999',
