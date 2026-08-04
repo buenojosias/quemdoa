@@ -6,7 +6,7 @@ it('renders the register page with the QuemDoa layout', function () {
     $response
         ->assertSuccessful()
         ->assertSee('Crie sua conta no QuemDoa')
-        ->assertSee('assets/images/logomarca.png', false)
+        ->assertSee('assets/images/logo.webp', false)
         ->assertSee('assets/images/illustration-register.png', false)
         ->assertSee('name="name"', false)
         ->assertSee('autocomplete="name"', false)

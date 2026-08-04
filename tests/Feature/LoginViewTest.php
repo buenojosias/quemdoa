@@ -9,7 +9,7 @@ it('renders the login page with the QuemDoa layout', function () {
     $response
         ->assertSuccessful()
         ->assertSee('Bem-vindo de volta!', false)
-        ->assertSee('assets/images/logomarca.png', false)
+        ->assertSee('assets/images/logo.webp', false)
         ->assertSee('assets/images/illustration-login.png', false)
         ->assertSee('name="email"', false)
         ->assertSee('autocomplete="username"', false)

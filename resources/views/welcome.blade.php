@@ -212,7 +212,7 @@
             <!-- Column 1: Logo & Info -->
             <div class="md:col-span-2 lg:col-span-1">
                 <div class="flex items-center gap-1 mb-4">
-                    <img src="{{ asset('assets/images/logomarca.png') }}" alt="QuemDoa" class="h-10 md:h-12">
+                    <img src="{{ asset('assets/images/logo.webp') }}" alt="QuemDoa" class="h-10 md:h-12">
                 </div>
                 <p class="text-sm text-slate-500 mb-6 font-medium max-w-xs leading-relaxed">A plataforma que conecta pessoas para fazer o bem, com organização e transparência.</p>
                 <div class="flex items-center gap-4 text-slate-400">
