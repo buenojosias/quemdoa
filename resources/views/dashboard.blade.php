@@ -1,84 +1,51 @@
 <x-app-layout>
     @php
-        $stats = [
-            [
-                'title' => 'Campanhas ativas',
-                'number' => '3',
-                'icon' => 'flag',
-                'classes' => 'bg-cyan-100 text-cyan-600 dark:bg-cyan-500/15 dark:text-cyan-300',
-                'link' => 'Ver todas',
-            ],
-            [
-                'title' => 'Itens no total',
-                'number' => '48',
-                'icon' => 'gift',
-                'classes' => 'bg-amber-100 text-amber-600 dark:bg-amber-500/15 dark:text-amber-300',
-                'link' => 'Ver itens',
-            ],
-            [
-                'title' => 'Doações prometidas',
-                'number' => '124',
-                'icon' => 'check-circle',
-                'classes' => 'bg-emerald-100 text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-300',
-                'link' => 'Ver doações',
-            ],
-            [
-                'title' => 'Doações recebidas',
-                'number' => '76',
-                'icon' => 'cube',
-                'classes' => 'bg-blue-100 text-blue-600 dark:bg-blue-500/15 dark:text-blue-300',
-                'link' => 'Ver recebidas',
-            ],
-        ];
+    $campaigns = [
+        [
+            'name' => 'Jantar da Padroeira 2025',
+            'date' => 'Entrega até 20/06/2025',
+            'progress' => 70,
+            'status' => 'Ativa',
+            'statusColor' => 'green',
+            'image' => 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=160&q=80',
+        ],
+        [
+            'name' => 'Campanha do Agasalho',
+            'date' => 'Entrega até 30/06/2025',
+            'progress' => 45,
+            'status' => 'Ativa',
+            'statusColor' => 'green',
+            'image' => 'https://images.unsplash.com/photo-1516762689617-e1cffcef479d?auto=format&fit=crop&w=160&q=80',
+        ],
+        [
+            'name' => 'Cesta Básica - Comunidade',
+            'date' => 'Entrega até 10/05/2025',
+            'progress' => 100,
+            'status' => 'Finalizada',
+            'statusColor' => 'blue',
+            'image' => 'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=160&q=80',
+        ],
+        [
+            'name' => 'Páscoa Solidária',
+            'date' => 'Entrega até 18/04/2025',
+            'progress' => 80,
+            'status' => 'Encerrada',
+            'statusColor' => 'gray',
+            'image' => 'https://images.unsplash.com/photo-1521967906867-14ec9d64bee8?auto=format&fit=crop&w=160&q=80',
+        ],
+    ];
+    $deadlines = [
+        ['day' => '20', 'month' => 'JUN', 'name' => 'Jantar da Padroeira 2025', 'time' => 'Entrega em 5 dias', 'status' => 'Em breve', 'color' => 'yellow'],
+        ['day' => '30', 'month' => 'JUN', 'name' => 'Campanha do Agasalho', 'time' => 'Entrega em 15 dias', 'status' => 'Em breve', 'color' => 'yellow'],
+        ['day' => '10', 'month' => 'MAI', 'name' => 'Cesta Básica - Comunidade', 'time' => 'Entrega em 25 dias', 'status' => 'No prazo', 'color' => 'green'],
+    ];
 
-        $campaigns = [
-            [
-                'name' => 'Jantar da Padroeira 2025',
-                'date' => 'Entrega até 20/06/2025',
-                'progress' => 70,
-                'status' => 'Ativa',
-                'statusColor' => 'green',
-                'image' => 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=160&q=80',
-            ],
-            [
-                'name' => 'Campanha do Agasalho',
-                'date' => 'Entrega até 30/06/2025',
-                'progress' => 45,
-                'status' => 'Ativa',
-                'statusColor' => 'green',
-                'image' => 'https://images.unsplash.com/photo-1516762689617-e1cffcef479d?auto=format&fit=crop&w=160&q=80',
-            ],
-            [
-                'name' => 'Cesta Básica - Comunidade',
-                'date' => 'Entrega até 10/05/2025',
-                'progress' => 100,
-                'status' => 'Finalizada',
-                'statusColor' => 'blue',
-                'image' => 'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=160&q=80',
-            ],
-            [
-                'name' => 'Páscoa Solidária',
-                'date' => 'Entrega até 18/04/2025',
-                'progress' => 80,
-                'status' => 'Encerrada',
-                'statusColor' => 'gray',
-                'image' => 'https://images.unsplash.com/photo-1521967906867-14ec9d64bee8?auto=format&fit=crop&w=160&q=80',
-            ],
-        ];
-
-        $deadlines = [
-            ['day' => '20', 'month' => 'JUN', 'name' => 'Jantar da Padroeira 2025', 'time' => 'Entrega em 5 dias', 'status' => 'Em breve', 'color' => 'yellow'],
-            ['day' => '30', 'month' => 'JUN', 'name' => 'Campanha do Agasalho', 'time' => 'Entrega em 15 dias', 'status' => 'Em breve', 'color' => 'yellow'],
-            ['day' => '10', 'month' => 'MAI', 'name' => 'Cesta Básica - Comunidade', 'time' => 'Entrega em 25 dias', 'status' => 'No prazo', 'color' => 'green'],
-        ];
-
-        $activities = [
-            ['icon' => 'home', 'text' => 'Maria Silva prometeu 2 un. de Refrigerante 2L na campanha Jantar da Padroeira 2025', 'time' => 'Há 5 minutos'],
-            ['icon' => 'clipboard-document-check', 'text' => 'João Pereira entregou 5 kg de Arroz na campanha Cesta Básica - Comunidade', 'time' => 'Há 1 hora'],
-            ['icon' => 'flag', 'text' => 'Ana Costa prometeu 3 un. de Guardanapo na campanha Jantar da Padroeira 2025', 'time' => 'Há 2 horas'],
-        ];
+    $activities = [
+        ['icon' => 'home', 'text' => 'Maria Silva prometeu 2 un. de Refrigerante 2L na campanha Jantar da Padroeira 2025', 'time' => 'Há 5 minutos'],
+        ['icon' => 'clipboard-document-check', 'text' => 'João Pereira entregou 5 kg de Arroz na campanha Cesta Básica - Comunidade', 'time' => 'Há 1 hora'],
+        ['icon' => 'flag', 'text' => 'Ana Costa prometeu 3 un. de Guardanapo na campanha Jantar da Padroeira 2025', 'time' => 'Há 2 horas'],
+    ];
     @endphp
-
     <div class="space-y-6">
         <div>
             <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Dashboard</h1>
@@ -93,25 +60,9 @@
             <livewire:panel.dashboard.whatsapp-alert />
         @endif
 
-        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
-            @foreach ($stats as $stat)
-                <x-card class="shadow-sm">
-                    <div class="flex items-center gap-5">
-                        <div @class(['flex h-14 w-14 shrink-0 items-center justify-center rounded-full', $stat['classes']])>
-                            <x-icon :name="$stat['icon']" class="h-7 w-7" />
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-slate-600 dark:text-slate-300">{{ $stat['title'] }}</p>
-                            <p class="mt-1 text-3xl font-bold text-slate-950 dark:text-white">{{ $stat['number'] }}</p>
-                        </div>
-                    </div>
-                    <a href="#" class="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-teal-700 hover:text-teal-800 dark:text-teal-300 dark:hover:text-teal-200">
-                        {{ $stat['link'] }}
-                        <x-icon name="arrow-right" class="h-4 w-4" />
-                    </a>
-                </x-card>
-            @endforeach
-        </div>
+        {{-- @island() --}}
+            <livewire:panel.dashboard.stats-bar />
+        {{-- @endisland --}}
 
         <div class="grid grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(0,1.45fr)_minmax(360px,0.95fr)]">
             <x-card>
