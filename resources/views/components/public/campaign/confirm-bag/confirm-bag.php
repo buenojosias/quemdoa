@@ -21,7 +21,7 @@ new class () extends Component {
     public string $campaignId;
 
     /**
-     * @var array<int, array{id: int, name: string, complement: ?string, quantity: float, formattedQuantity: string, pendingBaggedQuantity: float, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string}>
+     * @var array<int, array{id: int, name: string, complement: ?string, quantity: float, formattedQuantity: string, pendingBaggedQuantity: float, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string, note: ?string}>
      */
     public array $bagItems = [];
 
@@ -49,7 +49,7 @@ new class () extends Component {
     }
 
     /**
-     * @param  array<int, array{id: int, name: string, complement: ?string, quantity: float|int|string, formattedQuantity?: string, pendingBaggedQuantity: float|int|string, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string}>  $bagItems
+     * @param  array<int, array{id: int, name: string, complement: ?string, quantity: float|int|string, formattedQuantity?: string, pendingBaggedQuantity: float|int|string, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string, note?: ?string}>  $bagItems
      */
     #[On('open-public-campaign-confirm-bag.{campaignId}')]
     public function open(array $bagItems): void
@@ -67,6 +67,7 @@ new class () extends Component {
                 'unitAbbreviation' => $bagItem['unitAbbreviation'],
                 'unitLabel' => $bagItem['unitLabel'],
                 'deliveryDate' => $bagItem['deliveryDate'] ?? null,
+                'note' => $bagItem['note'] ?? null,
             ],
             $bagItems,
         ));
@@ -239,7 +240,7 @@ new class () extends Component {
     }
 
     /**
-     * @param  array{id: int, name: string, complement: ?string, quantity: float, formattedQuantity: string, pendingBaggedQuantity: float, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string}  $bagItem
+     * @param  array{id: int, name: string, complement: ?string, quantity: float, formattedQuantity: string, pendingBaggedQuantity: float, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string, note: ?string}  $bagItem
      */
     private function validatedItemQuantity(CampaignItem $item, array $bagItem): float
     {

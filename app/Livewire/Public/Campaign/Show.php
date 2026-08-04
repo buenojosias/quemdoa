@@ -24,7 +24,7 @@ class Show extends Component
     public array $bagItemIds = [];
 
     /**
-     * @var array<int, array{id: int, name: string, complement: ?string, quantity: float, formattedQuantity: string, pendingBaggedQuantity: float, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string}>
+     * @var array<int, array{id: int, name: string, complement: ?string, quantity: float, formattedQuantity: string, pendingBaggedQuantity: float, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string, note: ?string}>
      */
     public array $bagItems = [];
 
@@ -112,7 +112,7 @@ class Show extends Component
     }
 
     /**
-     * @param  array{id: int, name: string, complement: ?string, quantity: float|int|string, formattedQuantity?: string, pendingBaggedQuantity: float|int|string, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string}  $bagItem
+     * @param  array{id: int, name: string, complement: ?string, quantity: float|int|string, formattedQuantity?: string, pendingBaggedQuantity: float|int|string, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string, note?: ?string}  $bagItem
      */
     #[On('public-campaign-item-added.{campaignId}')]
     public function markItemAsAdded(int $item, array $bagItem): void
@@ -174,8 +174,8 @@ class Show extends Component
     }
 
     /**
-     * @param  array{id: int, name: string, complement: ?string, quantity: float|int|string, formattedQuantity?: string, pendingBaggedQuantity: float|int|string, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string}  $bagItem
-     * @return array{id: int, name: string, complement: ?string, quantity: float, formattedQuantity: string, pendingBaggedQuantity: float, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string}
+     * @param  array{id: int, name: string, complement: ?string, quantity: float|int|string, formattedQuantity?: string, pendingBaggedQuantity: float|int|string, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string, note?: ?string}  $bagItem
+     * @return array{id: int, name: string, complement: ?string, quantity: float, formattedQuantity: string, pendingBaggedQuantity: float, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string, note: ?string}
      */
     private function normalizeBagItem(array $bagItem): array
     {
@@ -191,6 +191,7 @@ class Show extends Component
             'unitAbbreviation' => $bagItem['unitAbbreviation'],
             'unitLabel' => $bagItem['unitLabel'],
             'deliveryDate' => $bagItem['deliveryDate'],
+            'note' => $bagItem['note'] ?? null,
         ];
     }
 
@@ -206,7 +207,7 @@ class Show extends Component
     }
 
     /**
-     * @return array<int, array{id: int, name: string, complement: ?string, quantity: float, formattedQuantity: string, pendingBaggedQuantity: float, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string}>
+     * @return array<int, array{id: int, name: string, complement: ?string, quantity: float, formattedQuantity: string, pendingBaggedQuantity: float, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string, note: ?string}>
      */
     private function storedBagItems(): array
     {

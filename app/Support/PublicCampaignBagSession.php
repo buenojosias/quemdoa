@@ -7,7 +7,7 @@ final class PublicCampaignBagSession
     private const int TTL_SECONDS = 43200;
 
     /**
-     * @return array<int, array{id: int, name: string, complement: ?string, quantity: float, formattedQuantity: string, pendingBaggedQuantity: float, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string}>
+     * @return array<int, array{id: int, name: string, complement: ?string, quantity: float, formattedQuantity: string, pendingBaggedQuantity: float, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string, note: ?string}>
      */
     public static function get(int|string $campaignId): array
     {
@@ -24,7 +24,7 @@ final class PublicCampaignBagSession
     }
 
     /**
-     * @param  array<int, array{id: int, name: string, complement: ?string, quantity: float|int|string, formattedQuantity?: string, pendingBaggedQuantity: float|int|string, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string}>  $bagItems
+     * @param  array<int, array{id: int, name: string, complement: ?string, quantity: float|int|string, formattedQuantity?: string, pendingBaggedQuantity: float|int|string, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string, note?: ?string}>  $bagItems
      */
     public static function put(int|string $campaignId, array $bagItems): void
     {
@@ -55,8 +55,8 @@ final class PublicCampaignBagSession
     }
 
     /**
-     * @param  array{id: int, name: string, complement?: ?string, quantity: float|int|string, formattedQuantity?: string, pendingBaggedQuantity: float|int|string, unitAbbreviation: string, unitLabel: string, deliveryDate?: ?string}  $bagItem
-     * @return array{id: int, name: string, complement: ?string, quantity: float, formattedQuantity: string, pendingBaggedQuantity: float, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string}
+     * @param  array{id: int, name: string, complement?: ?string, quantity: float|int|string, formattedQuantity?: string, pendingBaggedQuantity: float|int|string, unitAbbreviation: string, unitLabel: string, deliveryDate?: ?string, note?: ?string}  $bagItem
+     * @return array{id: int, name: string, complement: ?string, quantity: float, formattedQuantity: string, pendingBaggedQuantity: float, unitAbbreviation: string, unitLabel: string, deliveryDate: ?string, note: ?string}
      */
     private static function normalizeBagItem(array $bagItem): array
     {
@@ -72,6 +72,7 @@ final class PublicCampaignBagSession
             'unitAbbreviation' => $bagItem['unitAbbreviation'],
             'unitLabel' => $bagItem['unitLabel'],
             'deliveryDate' => $bagItem['deliveryDate'] ?? null,
+            'note' => $bagItem['note'] ?? null,
         ];
     }
 

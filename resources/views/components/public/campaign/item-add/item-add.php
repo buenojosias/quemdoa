@@ -83,6 +83,7 @@ new class () extends Component {
                 'unitAbbreviation' => $selectedItem->unit->abbreviation(),
                 'unitLabel' => $selectedItem->unit->label(),
                 'deliveryDate' => $selectedItem->delivery_date?->translatedFormat('d \d\e F \d\e Y'),
+                'note' => $selectedItem->note,
             ],
         );
         // $this->dispatch("open-public-campaign-bag.{$this->campaignId}");
@@ -104,7 +105,7 @@ new class () extends Component {
                 'required',
                 'numeric',
                 'min:0.1',
-                'max:'.$this->pendingBaggedQuantity,
+                'max:'.$this->pendingBaggedQuantity+1,
             ],
         ];
     }

@@ -19,22 +19,26 @@
                                 Entregar até {{ $item['deliveryDate'] }}
                             </p>
                         @endif
+                        @if ($item['note'] ?? null)
+                            <div class="mt-3 rounded-md border border-gray-200 p-3 text-xs text-gray-700 dark:border-gray-700 dark:text-gray-200">
+                                <p class="font-medium text-gray-500 dark:text-gray-400">Observações</p>
+                                <p class="mt-1">{{ $item['note'] }}</p>
+                            </div>
+                        @endif
                     </div>
 
                     <div class="flex shrink-0 flex-col items-end gap-2">
                         <x-button.group>
                             <x-button
                                 icon="minus"
-                                color="gray"
+                                color="neutral"
                                 flat
-                                sm
                                 :disabled="$item['quantity'] <= 0.1"
                                 x-on:click="$dispatch('public-campaign-bag-decrement.{{ $campaignId }}', { item: {{ $item['id'] }} })" />
                             <x-button
                                 icon="plus"
-                                color="gray"
+                                color="neutral"
                                 flat
-                                sm
                                 :disabled="$item['quantity'] >= $item['pendingBaggedQuantity']"
                                 x-on:click="$dispatch('public-campaign-bag-increment.{{ $campaignId }}', { item: {{ $item['id'] }} })" />
                         </x-button.group>

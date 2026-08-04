@@ -24,7 +24,7 @@
                         :label="'Quantidade (' . $unitAbbreviation . ') *'"
                         wire:model="quantity"
                         :min="0.1"
-                        :max="$pendingBaggedQuantity"
+                        :max="$pendingBaggedQuantity+1"
                         step="0.5"
                         centralized />
                 </div>

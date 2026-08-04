@@ -302,9 +302,13 @@ it('manages public temporary bag items and emits item removal events', function 
             'unitAbbreviation' => 'un',
             'unitLabel' => 'unidades',
             'deliveryDate' => null,
+            'note' => 'Preferência por arroz tipo 1.',
         ])
         ->assertSet('bagItems.0.name', 'Arroz')
+        ->assertSet('bagItems.0.note', 'Preferência por arroz tipo 1.')
         ->assertSet('bagItems.0.quantity', 1.0)
+        ->assertSee('Observações')
+        ->assertSee('Preferência por arroz tipo 1.')
         ->dispatch("public-campaign-bag-increment.{$campaign->id}", item: $item->id)
         ->assertSet('bagItems.0.quantity', 1.5)
         ->assertDispatched("public-campaign-bag-item-quantity-updated.{$campaign->id}")
