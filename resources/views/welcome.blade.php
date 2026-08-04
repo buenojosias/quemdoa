@@ -13,7 +13,7 @@
     <!-- Header -->
     <header class="w-full px-6 md:px-14 py-6 flex items-center justify-between">
         <div class="flex items-center gap-2">
-            <img src="{{ asset('assets/images/logomarca.png') }}" alt="QuemDoa" class="h-10 sm:h-12">
+            <img src="{{ asset('assets/images/logo.webp') }}" alt="QuemDoa" class="h-10 sm:h-12">
         </div>
         <nav class="hidden md:flex items-center gap-8">
             <a href="#" class="text-sm font-semibold text-slate-600 hover:text-slate-900 transition">Recursos</a>

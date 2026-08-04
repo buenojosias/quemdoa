@@ -21,7 +21,10 @@
         x-bind:class="{ 'dark bg-gray-800': darkTheme, 'bg-gray-100': !darkTheme }">
         <div class="dark:bg-dark-700 dark:border-dark-600 sticky top-0 z-40 flex h-18 shrink-0 items-center gap-x-4 border-b border-gray-300/10 bg-white shadow-sm">
             <div class="container mx-auto flex justify-between px-6 lg:px-16">
-                <div><img src="{{ asset('/assets/images/Logo2.png') }}" class="h-12 dark:brightness-300" /></div>
+                <div class="flex items-end gap-3">
+                    <img src="{{ asset('/assets/images/symbol.webp') }}" class="h-12" />
+                    <img src="{{ asset('/assets/images/typo_tg.png') }}" class="h-9 dark:brightness-180 dark:contrast-90" />
+                </div>
             </div>
         </div>
         <div class="flex-1 mt-8 mb-4 container mx-auto px-6 lg:px-16">

@@ -51,12 +51,12 @@
             <x-side-bar smart collapsible>
                 <x-slot:brand>
                     <div class="my-4 flex items-center justify-center">
-                        <img src="{{ asset('/assets/images/quemleva.png') }}" width="40" height="40" />
+                        <img src="{{ asset('/assets/images/symbol.webp') }}" class="h-10" />
                     </div>
                 </x-slot:brand>
                 <x-slot:brand-collapsed>
                     <div class="my-4 flex items-center justify-center">
-                        <img src="{{ asset('/assets/images/quemleva.png') }}" width="20" height="20" />
+                        <img src="{{ asset('/assets/images/symbol.webp') }}" width="24" height="24" />
                     </div>
                 </x-slot:brand-collapsed>
                 <x-side-bar.item text="Dashboard" icon="home" :current="request()->routeIs('panel.dashboard')" :route="route('panel.dashboard')" />

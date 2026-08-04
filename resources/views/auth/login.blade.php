@@ -5,7 +5,7 @@
                 <div class="w-full max-w-lg">
                     <div class="mb-10 flex justify-center">
                         <img
-                            src="{{ asset('assets/images/logomarca.png') }}"
+                            src="{{ asset('assets/images/logo.webp') }}"
                             alt="QuemDoa"
                             class="h-auto w-full max-w-60"
                         >

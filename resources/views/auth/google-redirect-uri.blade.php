@@ -2,7 +2,7 @@
     <div class="space-y-6 text-primary-950">
         <div class="flex justify-center">
             <img
-                src="{{ asset('assets/images/logomarca.png') }}"
+                src="{{ asset('assets/images/logo.webp') }}"
                 alt="QuemDoa"
                 class="h-auto w-full max-w-48"
             >
