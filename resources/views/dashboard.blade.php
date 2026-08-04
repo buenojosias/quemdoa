@@ -85,8 +85,12 @@
             <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Olá, {{ strtok(auth()->user()->name, ' ') }}! Veja o resumo das suas campanhas.</p>
         </div>
 
-        @if (auth()->user()->whatsapp_verified_at === null)
-            <x-panel.dashboard.whatsapp-alert />
+        @if (
+            auth()->user()->whatsapp_verified_at === null
+                && session('dashboard_whatsapp_alert_dismissed') !== true
+                && request()->cookie('dashboard_whatsapp_alert_dismissed') !== '1'
+        )
+            <livewire:panel.dashboard.whatsapp-alert />
         @endif
 
         <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">

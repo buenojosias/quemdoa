@@ -37,3 +37,21 @@ it('remembers the user when remember me is checked', function () {
 
     $this->assertAuthenticatedAs($user);
 });
+
+it('forgets the dashboard whatsapp alert dismissal when logging in', function () {
+    $user = User::factory()->create();
+
+    $response = $this
+        ->withSession(['dashboard_whatsapp_alert_dismissed' => true])
+        ->withCookie('dashboard_whatsapp_alert_dismissed', '1')
+        ->post(route('login'), [
+            'email' => $user->email,
+            'password' => '12345678',
+        ]);
+
+    $response
+        ->assertRedirect(route('panel.dashboard', absolute: false))
+        ->assertCookieExpired('dashboard_whatsapp_alert_dismissed');
+
+    expect(session()->has('dashboard_whatsapp_alert_dismissed'))->toBeFalse();
+});

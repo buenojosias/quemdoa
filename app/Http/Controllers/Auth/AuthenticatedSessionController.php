@@ -6,6 +6,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\View\View;
 
 class AuthenticatedSessionController
@@ -20,6 +21,8 @@ class AuthenticatedSessionController
         $request->authenticate();
 
         $request->session()->regenerate();
+        $request->session()->forget('dashboard_whatsapp_alert_dismissed');
+        Cookie::queue(Cookie::forget('dashboard_whatsapp_alert_dismissed'));
 
         return redirect()->intended(route('panel.dashboard', absolute: false));
     }
