@@ -70,8 +70,9 @@ class SendBagConfirmationCodeService
 
     private function message(Bag $bag): string
     {
+        $firstName = Str::of($bag->participant_name)->trim()->explode(' ')->first();
         return <<<MESSAGE
-Olá, {$bag->participant_name}! 😊
+Olá, {$firstName}! 😊
 Muito obrigado pela sua generosidade e por colaborar com a campanha {$bag->campaign->name}.
 
 Para confirmar sua sacola, use o código:
