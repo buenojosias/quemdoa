@@ -100,7 +100,7 @@ new class extends Component
                 select="label:label|value:value" />
         </div>
 
-        <x-table :$headers :$rows paginate>
+        <x-table :$headers :$rows paginate loading>
             @interact('column_quantity', $row)
                 {{ $row->formatted_quantity }} {{ $row->item->unit->abbreviation() }}
             @endinteract

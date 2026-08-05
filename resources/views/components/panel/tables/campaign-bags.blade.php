@@ -141,7 +141,7 @@ new class extends Component
         @endisland
     </div>
 
-    <x-table :$headers :$rows paginate>
+    <x-table :$headers :$rows paginate loading>
         @interact('column_code', $row)
             <a href="{{ route('panel.campaigns.bags.show', [$this->campaignId, $row->id]) }}" class="font-medium text-gray-700 dark:text-gray-100">
                 {{ $row->code }}
@@ -159,14 +159,13 @@ new class extends Component
                     <x-button.circle
                         icon="check"
                         title="Marcar como recebida"
-                        color="green"
                         flat
                         wire:click="$dispatch('open-set-bag-received', { bag: {{ $row->id }} })" />
                 @endunless
                 <x-button.circle
                     icon="trash"
                     title="Excluir sacola"
-                    color="red"
+                    color="dark"
                     flat
                     wire:click="$dispatch('open-delete-bag', { bag: {{ $row->id }} })" />
             </div>

@@ -21,7 +21,7 @@
                     select="label:label|value:value" />
             </div>
 
-            <x-table :$headers :rows="$this->campaigns">
+            <x-table :$headers :rows="$this->campaigns" loading>
                 @interact('column_name', $row)
                     <a href="{{ route('panel.campaigns.show', $row) }}" class="font-medium text-gray-700 dark:text-gray-100">
                         {{ $row->name }}

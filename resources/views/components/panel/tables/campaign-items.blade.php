@@ -106,7 +106,7 @@ new class extends Component
         @endisland
     </div>
 
-    <x-table :$headers :$rows paginate>
+    <x-table :$headers :$rows paginate loading>
         @interact('column_item', $row)
             <div class="text-sm font-medium text-gray-700 dark:text-gray-100">
                 {{ $row->name }}
