@@ -6,6 +6,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('welcome');
 
+Route::name('legal.')->group(function () {
+    Route::view('/termos-de-uso', 'legal.use-terms')->name('use-terms');
+    // Route::view('/politica-de-privacidade', 'legal.privacy-policy')->name('privacy-policy');
+});
+
 Route::middleware(['auth'])->name('panel.')->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
     Route::get('/users', Index::class)->middleware('admin')->name('users.index');
