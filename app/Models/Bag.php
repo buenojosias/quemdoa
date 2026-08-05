@@ -18,14 +18,17 @@ class Bag extends Model
         'participant_name',
         'participant_whatsapp',
         'confirmation_code',
+        'notes',
         'confirmed_by',
         'confirmed_at',
+        'received_at',
     ];
 
     protected function casts(): array
     {
         return [
             'confirmed_at' => 'datetime',
+            'received_at' => 'datetime',
         ];
     }
 

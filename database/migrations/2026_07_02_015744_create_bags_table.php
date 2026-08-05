@@ -20,7 +20,9 @@ return new class extends Migration
             $table->string('participant_whatsapp')->nullable(); // Sempre opcional
             $table->string('confirmation_code', 5)->nullable(); // Código para o participante ou o organizador confirmar a participação
             $table->enum('confirmed_by', ['participant', 'organizer'])->nullable(); // Se for o organizador ou se o participante estiver logado, já confirma automaticamente
+            $table->mediumText('notes')->nullable(); // Observações sobre a sacola
             $table->datetime('confirmed_at')->nullable()->index(); // Se for o organizador ou se o participante estiver logado, já confirma automaticamente
+            $table->datetime('received_at')->nullable()->index();
             $table->timestamps();
             $table->softDeletes();
             $table->unique(['campaign_id', 'code']); // Garante que o código seja único dentro da campanha

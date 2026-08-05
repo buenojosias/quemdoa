@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('campaigns', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete(); // Usuário que criou a campanha
             $table->string('name'); // Nome da campanha ou evento
             $table->string('institution')->nullable(); // Nome da instituição beneficiada
             $table->string('group')->nullable(); // Grupo ou comunidade beneficiada
