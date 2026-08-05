@@ -149,6 +149,11 @@ new class extends Component
         @interact('column_actions', $row)
             <div class="flex justify-end gap-1">
                 <x-button.circle
+                    icon="check"
+                    title="Marcar como recebida"
+                    color="green"
+                    flat />
+                <x-button.circle
                     icon="trash"
                     title="Excluir sacola"
                     color="red"

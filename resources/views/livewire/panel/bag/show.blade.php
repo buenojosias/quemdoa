@@ -75,6 +75,9 @@
                     @unless ($bag->confirmed_at)
                         <x-dropdown.items text="Confirmar sacola" wire:click="confirm" />
                     @endunless
+                    @unless ($bag->received_at)
+                        <x-dropdown.items text="Marcar como recebida" />
+                    @endunless
                     <x-dropdown.items
                         text="Excluir sacola"
                         wire:click="$dispatch('open-delete-bag', { bag: {{ $bag->id }} })"
@@ -101,4 +104,5 @@
     @endisland
 
     <livewire:panel.bag.delete-bag />
+    <livewire:panel.bag.set-bag-received />
 </div>
