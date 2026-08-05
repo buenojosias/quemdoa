@@ -15,10 +15,7 @@
                     <p class="text-lg font-semibold text-gray-700 dark:text-gray-200">{{ $bag->code }}</p>
                 </div>
                 <div>
-                    <x-badge
-                        :text="$bag->confirmed_at ? 'Confirmada' : 'Pendente'"
-                        :color="$bag->confirmed_at ? 'green' : 'yellow'"
-                        light />
+                    <x-bag-status :bag="$bag" />
                 </div>
             </div>
 

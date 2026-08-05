@@ -138,6 +138,8 @@ it('confirms a pending bag and recalculates campaign item quantities', function 
         ->call('confirm')
         ->assertSee('Confirmada')
         ->assertDontSee('Confirmar sacola')
+        ->assertDispatched("bag-status-updated.{$bag->id}")
+        ->assertDispatched("campaign-bag-status-updated.{$campaign->id}")
         ->assertDispatched("bag-confirmed.{$bag->id}")
         ->assertDispatched("campaign-bag-confirmed.{$campaign->id}")
         ->assertDispatched("item-created.{$campaign->id}")
@@ -161,6 +163,48 @@ it('confirms a pending bag and recalculates campaign item quantities', function 
         ->and($rice->received_quantity)->toBe('0.0')
         ->and($beans->refresh()->bagged_quantity)->toBe('1.5')
         ->and($beans->received_quantity)->toBe('1.5');
+});
+
+it('renders a received bag status', function () {
+    $user = User::factory()->create();
+    $campaign = campaignForPanelBagShow($user);
+    $bag = bagForPanelBagShow($campaign);
+
+    $bag->update([
+        'received_at' => now(),
+    ]);
+
+    Livewire::actingAs($user)
+        ->test(Show::class, [
+            'campaign' => $campaign->id,
+            'bag' => $bag->id,
+        ])
+        ->assertSee('Recebida');
+});
+
+it('refreshes the status badge when the bag updated timestamp changes', function () {
+    $user = User::factory()->create();
+    $campaign = campaignForPanelBagShow($user);
+    $bag = bagForPanelBagShow($campaign);
+
+    $component = Livewire::actingAs($user)
+        ->test(Show::class, [
+            'campaign' => $campaign->id,
+            'bag' => $bag->id,
+        ])
+        ->assertSee('Confirmada');
+
+    $this->travel(1)->second();
+
+    $bag->update([
+        'received_at' => now(),
+    ]);
+
+    $component
+        ->dispatch("bag-item-received.{$bag->id}")
+        ->assertSee('Recebida')
+        ->assertDispatched("bag-status-updated.{$bag->id}")
+        ->assertDispatched("campaign-bag-status-updated.{$campaign->id}");
 });
 
 it('does not render a bag from another authenticated user campaign', function () {

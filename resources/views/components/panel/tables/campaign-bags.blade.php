@@ -41,7 +41,12 @@ new class extends Component
         }
 
         if ($this->status === 'confirmed') {
-            $query->whereNotNull('confirmed_at');
+            $query->whereNotNull('confirmed_at')
+                ->whereNull('received_at');
+        }
+
+        if ($this->status === 'received') {
+            $query->whereNotNull('received_at');
         }
 
         return $query->paginate();
@@ -63,17 +68,11 @@ new class extends Component
                 'label' => 'Confirmada',
                 'value' => 'confirmed',
             ],
+            [
+                'label' => 'Recebida',
+                'value' => 'received',
+            ],
         ];
-    }
-
-    public function statusLabel(Bag $bag): string
-    {
-        return $bag->confirmed_at ? 'Confirmada' : 'Pendente';
-    }
-
-    public function statusColor(Bag $bag): string
-    {
-        return $bag->confirmed_at ? 'green' : 'yellow';
     }
 
     public function confirmedByLabel(Bag $bag): string
@@ -114,6 +113,7 @@ new class extends Component
     #[On('bag-added.{campaignId}')]
     #[On('bag-deleted.{campaignId}')]
     #[On('campaign-bag-confirmed.{campaignId}')]
+    #[On('campaign-bag-status-updated.{campaignId}')]
     public function refreshBags(): void
     {
         $this->resetPage();
@@ -141,7 +141,7 @@ new class extends Component
             </a>
         @endinteract
         @interact('column_confirmed_at', $row)
-            <x-badge :text="$this->statusLabel($row)" :color="$this->statusColor($row)" light />
+            <x-bag-status :bag="$row" />
         @endinteract
         @interact('column_confirmed_by', $row)
             {{ $this->confirmedByLabel($row) }}

@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\BagItemStatusEnum;
+use App\Livewire\Panel\Bag\Show as BagShow;
 use App\Models\BagItem;
 use App\Models\CampaignItem;
 use Illuminate\Support\Facades\DB;
@@ -89,7 +90,8 @@ new class () extends Component {
         $this->resetForm();
 
         $this->toast()->success('Item marcado como recebido com sucesso.')->send();
-        $this->dispatch("bag-item-received.{$bagId}");
+        $this->dispatch("bag-item-received.{$bagId}")->to('panel.tables.bag-items');
+        $this->dispatch("bag-item-received.{$bagId}")->to(BagShow::class);
         $this->dispatch("campaign-bag-item-received.{$campaignId}", item: $campaignItemId);
         $this->dispatch("item-created.{$campaignId}");
     }

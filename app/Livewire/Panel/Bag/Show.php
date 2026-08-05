@@ -25,6 +25,9 @@ class Show extends Component
     #[Locked]
     public string $bagId;
 
+    #[Locked]
+    public ?string $bagUpdatedAt = null;
+
     public function mount(Campaign|int|string $campaign, Bag|int|string $bag): void
     {
         $this->campaignId = $campaign instanceof Campaign
@@ -34,6 +37,13 @@ class Show extends Component
         $this->bagId = $bag instanceof Bag
             ? (string) $bag->getKey()
             : (string) $bag;
+
+        $this->bagUpdatedAt = Bag::query()
+            ->whereKey($this->bagId)
+            ->where('campaign_id', $this->campaignId)
+            ->first()
+            ?->updated_at
+            ?->toJSON();
     }
 
     #[Computed]
@@ -84,6 +94,7 @@ class Show extends Component
         unset($this->bag, $this->campaign);
 
         $this->toast()->success('Sacola confirmada com sucesso.')->send();
+        $this->dispatchBagStatusUpdated();
         $this->dispatch("bag-confirmed.{$this->bagId}");
         $this->dispatch("campaign-bag-confirmed.{$this->campaignId}");
         $this->dispatch("item-created.{$this->campaignId}");
@@ -95,6 +106,24 @@ class Show extends Component
                 status: BagItemStatusEnum::CONFIRMED->value,
             );
         });
+    }
+
+    #[On('bag-item-added.{bagId}')]
+    #[On('bag-item-received.{bagId}')]
+    public function refreshAfterBagUpdated(): void
+    {
+        $bag = $this->freshBag();
+        $updatedAt = $bag->updated_at?->toJSON();
+
+        if ($updatedAt === $this->bagUpdatedAt) {
+            return;
+        }
+
+        $this->bagUpdatedAt = $updatedAt;
+
+        unset($this->bag, $this->campaign);
+
+        $this->dispatchBagStatusUpdated();
     }
 
     #[On('bag-deleted.{campaignId}')]
@@ -117,6 +146,32 @@ class Show extends Component
             ->whereHas('campaign', fn ($query) => $query->where('user_id', auth()->id()))
             ->lockForUpdate()
             ->firstOrFail();
+    }
+
+    private function freshBag(): Bag
+    {
+        return Bag::query()
+            ->whereKey($this->bagId)
+            ->where('campaign_id', $this->campaignId)
+            ->whereHas('campaign', fn ($query) => $query->where('user_id', auth()->id()))
+            ->firstOrFail();
+    }
+
+    private function dispatchBagStatusUpdated(): void
+    {
+        $bag = $this->freshBag();
+        $this->bagUpdatedAt = $bag->updated_at?->toJSON();
+
+        $this->dispatch(
+            "bag-status-updated.{$this->bagId}",
+            updatedAt: $this->bagUpdatedAt,
+        );
+
+        $this->dispatch(
+            "campaign-bag-status-updated.{$this->campaignId}",
+            bag: (int) $this->bagId,
+            updatedAt: $this->bagUpdatedAt,
+        );
     }
 
     private function refreshItemQuantities(int $campaignItem): void

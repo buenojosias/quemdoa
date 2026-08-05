@@ -31,36 +31,57 @@ function bagForBagsTable(Campaign $campaign, string $participantName, ?string $c
     ]);
 }
 
+function receivedBagForBagsTable(Campaign $campaign, string $participantName): Bag
+{
+    $bag = bagForBagsTable($campaign, $participantName, 'organizer');
+
+    $bag->update([
+        'received_at' => now(),
+    ]);
+
+    return $bag;
+}
+
 it('renders status filter options and maps bag status and confirmer labels', function () {
     $campaign = campaignForBagsTable();
 
     bagForBagsTable($campaign, 'Maria');
     bagForBagsTable($campaign, 'Joao', 'organizer');
     bagForBagsTable($campaign, 'Ana', 'participant');
+    receivedBagForBagsTable($campaign, 'Clara');
 
     Livewire::test('panel.tables.campaign-bags', ['campaign' => $campaign])
         ->assertOk()
         ->assertSee('Todas')
         ->assertSee('Pendente')
         ->assertSee('Confirmada')
+        ->assertSee('Recebida')
         ->assertSee('Maria')
         ->assertSee('Joao')
         ->assertSee('Ana')
+        ->assertSee('Clara')
         ->assertSee('Mim')
         ->assertSee('Participante');
 });
 
-it('filters bags by pending and confirmed status', function () {
+it('filters bags by pending, confirmed and received status', function () {
     $campaign = campaignForBagsTable();
 
     bagForBagsTable($campaign, 'Maria');
     bagForBagsTable($campaign, 'Joao', 'organizer');
+    receivedBagForBagsTable($campaign, 'Clara');
 
     Livewire::test('panel.tables.campaign-bags', ['campaign' => $campaign])
         ->set('status', 'pending')
         ->assertSee('Maria')
         ->assertDontSee('Joao')
+        ->assertDontSee('Clara')
         ->set('status', 'confirmed')
         ->assertSee('Joao')
-        ->assertDontSee('Maria');
+        ->assertDontSee('Maria')
+        ->assertDontSee('Clara')
+        ->set('status', 'received')
+        ->assertSee('Clara')
+        ->assertDontSee('Maria')
+        ->assertDontSee('Joao');
 });

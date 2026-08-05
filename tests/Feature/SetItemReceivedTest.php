@@ -3,6 +3,7 @@
 use App\Enums\BagItemStatusEnum;
 use App\Enums\CategoryEnum;
 use App\Enums\UnitEnum;
+use App\Livewire\Panel\Bag\Show;
 use App\Models\Bag;
 use App\Models\BagItem;
 use App\Models\Campaign;
@@ -83,6 +84,8 @@ it('marks a bag item as received and refreshes parent components', function () {
         ->assertSet('modal', false)
         ->assertSet('bagItemId', null)
         ->assertDispatched("bag-item-received.{$bagItem->bag_id}")
+        ->assertDispatchedTo('panel.tables.bag-items', "bag-item-received.{$bagItem->bag_id}")
+        ->assertDispatchedTo(Show::class, "bag-item-received.{$bagItem->bag_id}")
         ->assertDispatched("campaign-bag-item-received.{$campaign->id}")
         ->assertDispatched("item-created.{$campaign->id}");
 
