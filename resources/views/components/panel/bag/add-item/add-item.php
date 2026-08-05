@@ -109,6 +109,10 @@ new class () extends Component {
                 : BagItemStatusEnum::CONFIRMED,
         ]);
 
+        if ($this->received) {
+            $this->bag->markAsReceivedWhenEveryItemIsReceived();
+        }
+
         $this->refreshItemQuantities($item);
         $this->removeLoadedItem($item->id);
         $this->resetAddForm();

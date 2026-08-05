@@ -129,6 +129,7 @@ it('adds the selected item to the bag and updates item quantities', function () 
         ->and($bagItem->campaign_item_id)->toBe($item->id)
         ->and($bagItem->quantity)->toBe('3.5')
         ->and($bagItem->status)->toBe(BagItemStatusEnum::RECEIVED)
+        ->and($bag->refresh()->received_at)->not->toBeNull()
         ->and($item->refresh()->bagged_quantity)->toBe('3.5')
         ->and($item->received_quantity)->toBe('3.5');
 });

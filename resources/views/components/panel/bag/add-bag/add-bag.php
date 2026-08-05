@@ -3,7 +3,6 @@
 use App\Enums\BagItemStatusEnum;
 use App\Models\Bag;
 use App\Models\CampaignItem;
-use Illuminate\Support\Str;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -75,6 +74,10 @@ new class () extends Component {
                 ? BagItemStatusEnum::RECEIVED
                 : BagItemStatusEnum::CONFIRMED,
         ]);
+
+        if ($this->received) {
+            $bag->markAsReceivedWhenEveryItemIsReceived();
+        }
 
         $this->refreshItemQuantities($item);
         $this->resetForm();

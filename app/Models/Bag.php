@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\BagItemStatusEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -45,5 +46,22 @@ class Bag extends Model
     public function items(): HasMany
     {
         return $this->hasMany(BagItem::class);
+    }
+
+    public function markAsReceivedWhenEveryItemIsReceived(): void
+    {
+        if ($this->received_at !== null) {
+            return;
+        }
+
+        $hasItemsToReceive = $this->items()
+            ->where('status', '!=', BagItemStatusEnum::RECEIVED->value)
+            ->exists();
+
+        if (! $hasItemsToReceive && $this->items()->exists()) {
+            $this->update([
+                'received_at' => now(),
+            ]);
+        }
     }
 }

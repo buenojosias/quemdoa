@@ -90,8 +90,38 @@ it('marks a bag item as received and refreshes parent components', function () {
         ->and($bagItem->status)->toBe(BagItemStatusEnum::RECEIVED)
         ->and($bagItem->bag->refresh()->confirmed_by)->toBe('organizer')
         ->and($bagItem->bag->confirmed_at)->not->toBeNull()
+        ->and($bagItem->bag->received_at)->not->toBeNull()
         ->and($item->refresh()->bagged_quantity)->toBe('2.5')
         ->and($item->received_quantity)->toBe('2.5');
+});
+
+it('does not mark the bag as received while another bag item is not received', function () {
+    $user = User::factory()->create();
+    $campaign = receivedTestCampaign($user);
+    $rice = receivedTestItem($campaign);
+    $beans = $campaign->items()->create([
+        'category' => CategoryEnum::FOODS->value,
+        'name' => 'Feijao',
+        'unit' => UnitEnum::KG->value,
+        'required_quantity' => 10,
+        'bagged_quantity' => 3,
+        'received_quantity' => 0,
+    ]);
+    $bagItem = receivedTestBagItem($rice);
+
+    $bagItem->bag->items()->create([
+        'campaign_item_id' => $beans->id,
+        'quantity' => 3,
+        'status' => BagItemStatusEnum::CONFIRMED,
+    ]);
+
+    Livewire::actingAs($user)
+        ->test('panel.bag.set-item-received')
+        ->dispatch('open-set-item-received', bagItem: $bagItem->id)
+        ->dispatch('set-item-received-save', receivedQuantity: 2.5)
+        ->assertHasNoErrors();
+
+    expect($bagItem->bag->refresh()->received_at)->toBeNull();
 });
 
 it('validates quantity before receiving an item', function () {

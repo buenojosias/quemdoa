@@ -77,6 +77,8 @@ new class () extends Component {
                 'confirmed_by' => $bagItem->bag->confirmed_by ?? 'organizer',
             ]);
 
+            $bagItem->bag->markAsReceivedWhenEveryItemIsReceived();
+
             $this->refreshItemQuantities($bagItem->campaign_item_id);
         });
 

@@ -96,7 +96,7 @@ it('adds an item to a new bag', function () {
 
     expect($bag->campaign_id)->toBe($campaign->id)
         ->and($bag->participant_name)->toBe('Maria')
-        ->and($bag->participant_whatsapp)->toBe('11 99999-9999')
+        ->and($bag->participant_whatsapp)->toBe('11999999999')
         ->and($bag->confirmed_by)->toBe('organizer')
         ->and($bag->confirmed_at)->not->toBeNull()
         ->and($bagItem->bag_id)->toBe($bag->id)
@@ -114,7 +114,7 @@ it('links an item to an existing bag by participant whatsapp', function () {
         'campaign_id' => $campaign->id,
         'code' => 'ABC123',
         'participant_name' => 'Maria Original',
-        'participant_whatsapp' => '11 99999-9999',
+        'participant_whatsapp' => '11999999999',
     ]);
 
     Livewire::test('panel.bag.add-bag', ['itemId' => $item->id])
@@ -130,7 +130,8 @@ it('links an item to an existing bag by participant whatsapp', function () {
     expect(Bag::query()->count())->toBe(1)
         ->and($bag->refresh()->participant_name)->toBe('Maria Original')
         ->and($bag->confirmed_by)->toBe('organizer')
-        ->and($bag->confirmed_at)->not->toBeNull();
+        ->and($bag->confirmed_at)->not->toBeNull()
+        ->and($bag->received_at)->not->toBeNull();
 
     $bagItem = BagItem::query()->sole();
 
