@@ -1,39 +1,5 @@
 <x-app-layout>
     @php
-    $campaigns = [
-        [
-            'name' => 'Jantar da Padroeira 2025',
-            'date' => 'Entrega até 20/06/2025',
-            'progress' => 70,
-            'status' => 'Ativa',
-            'statusColor' => 'green',
-            'image' => 'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=160&q=80',
-        ],
-        [
-            'name' => 'Campanha do Agasalho',
-            'date' => 'Entrega até 30/06/2025',
-            'progress' => 45,
-            'status' => 'Ativa',
-            'statusColor' => 'green',
-            'image' => 'https://images.unsplash.com/photo-1516762689617-e1cffcef479d?auto=format&fit=crop&w=160&q=80',
-        ],
-        [
-            'name' => 'Cesta Básica - Comunidade',
-            'date' => 'Entrega até 10/05/2025',
-            'progress' => 100,
-            'status' => 'Finalizada',
-            'statusColor' => 'blue',
-            'image' => 'https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=160&q=80',
-        ],
-        [
-            'name' => 'Páscoa Solidária',
-            'date' => 'Entrega até 18/04/2025',
-            'progress' => 80,
-            'status' => 'Encerrada',
-            'statusColor' => 'gray',
-            'image' => 'https://images.unsplash.com/photo-1521967906867-14ec9d64bee8?auto=format&fit=crop&w=160&q=80',
-        ],
-    ];
     $deadlines = [
         ['day' => '20', 'month' => 'JUN', 'name' => 'Jantar da Padroeira 2025', 'time' => 'Entrega em 5 dias', 'status' => 'Em breve', 'color' => 'yellow'],
         ['day' => '30', 'month' => 'JUN', 'name' => 'Campanha do Agasalho', 'time' => 'Entrega em 15 dias', 'status' => 'Em breve', 'color' => 'yellow'],
@@ -65,39 +31,7 @@
         {{-- @endisland --}}
 
         <div class="grid grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(0,1.45fr)_minmax(360px,0.95fr)]">
-            <x-card>
-                <x-slot:header>
-                    <h2 class="text-medium font-semibold text-slate-900 dark:text-white">Campanhas recentes</h2>
-                    <x-button :href="route('panel.campaigns.index')" text="Ver todas as campanhas" color="primary" flat sm />
-                </x-slot:header>
-
-                <div class="divide-y divide-slate-200 dark:divide-slate-700">
-                    @foreach ($campaigns as $campaign)
-                        <div class="grid grid-cols-[72px_minmax(0,1fr)] gap-4 py-4 first:pt-0 last:pb-0 lg:grid-cols-[72px_minmax(0,1fr)_96px_28px] lg:items-center">
-                            <img
-                                src="{{ $campaign['image'] }}"
-                                alt="{{ $campaign['name'] }}"
-                                class="h-16 w-16 rounded-md object-cover"
-                            >
-                            <div class="min-w-0">
-                                <h3 class="truncate text-sm font-bold text-slate-900 dark:text-white">{{ $campaign['name'] }}</h3>
-                                <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ $campaign['date'] }}</p>
-                                <div class="mt-3 items-center gap-3 w-full">
-                                    <x-progress :percent="$campaign['progress']" color="primary" sm class="w-full" />
-                                    {{-- <span class="w-10 text-sm font-semibold text-slate-700 dark:text-slate-200">{{ $campaign['progress'] }}%</span> --}}
-                                </div>
-                            </div>
-                            <div class="col-start-2 lg:col-start-auto">
-                                <x-badge :text="$campaign['status']" :color="$campaign['statusColor']" light round="md" />
-                            </div>
-                            <button type="button" class="col-start-2 justify-self-end rounded-md p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-700 dark:text-slate-300 dark:hover:bg-slate-800 lg:col-start-auto" aria-label="Mais opções para {{ $campaign['name'] }}">
-                                <x-icon name="ellipsis-vertical" class="h-5 w-5" />
-                            </button>
-                        </div>
-                    @endforeach
-                </div>
-            </x-card>
-
+            <livewire:panel.dashboard.active-campaigns />
             <div class="space-y-6">
                 <x-card>
                     <x-slot:header>

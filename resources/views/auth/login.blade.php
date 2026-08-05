@@ -47,7 +47,7 @@
                                     autocomplete="current-password"
                                 />
 
-                                <x-checkbox label="Lembre-me" id="remember_me" type="checkbox" name="remember" />
+                                <x-checkbox label="Lembrar-me" id="remember_me" type="checkbox" name="remember" />
 
                                 @if (Route::has('password.request'))
                                     <div class="flex justify-end">
