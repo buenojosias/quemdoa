@@ -11,7 +11,7 @@
 <body class="font-sans antialiased text-slate-900 bg-white selection:bg-teal-100 selection:text-teal-900">
 
     <!-- Header -->
-    <header class="w-full px-6 md:px-14 py-6 flex items-center justify-between">
+    <header class="w-full px-6 md:px-14 lg:px-24 py-6 flex items-center justify-between">
         <div class="flex items-center gap-2">
             <img src="{{ asset('assets/images/logo.webp') }}" alt="QuemDoa" class="h-10 sm:h-12">
         </div>
@@ -27,7 +27,7 @@
 
     <!-- Hero Section -->
     <section class="w-full my-6 flex flex-col sm:flex-row sm:items-center gap-6 overflow-hidden">
-        <div class="flex-1 pl-6 pr-6 md:pl-14 space-y-4">
+        <div class="flex-1 pl-6 pr-6 md:pl-14 lg:pl-24 space-y-4">
             <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 text-teal-700 text-xs font-semibold uppercase tracking-wider">
                 Organize doações com facilidade
             </div>
@@ -210,7 +210,7 @@
 
     <!-- Footer -->
     <footer class="bg-slate-50 pt-16 pb-4 border-t border-slate-200">
-        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8 mb-12">
+        <div class="container mx-auto px-6 md:px-14 lg:px-24 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 lg:gap-8 mb-12">
             <!-- Column 1: Logo & Info -->
             <div class="md:col-span-2 lg:col-span-1">
                 <div class="flex items-center gap-1 mb-4">
@@ -278,6 +278,5 @@
             © {{ date('Y') }} QuemDoa. Todos os direitos reservados.
         </div>
     </footer>
-
 </body>
 </html>
