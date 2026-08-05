@@ -1,7 +1,7 @@
 <div>
     <x-slot:footer class="flex justify-between">
         <x-button text="Adicionar sacola" x-on:click="$dispatch('open-add-modal')" />
-        <x-button text="Fechar" color="gray" flat x-on:click="$tsui.close.slide('item-bags-slide')" />
+        <x-button text="Fechar" color="neutral" flat x-on:click="$tsui.close.slide('item-bags-slide')" />
     </x-slot:footer>
 
     <x-modal title="Adicionar sacola" size="sm" id="add-bag-modal" wire x-on:close="$dispatch('add-modal-closed')">

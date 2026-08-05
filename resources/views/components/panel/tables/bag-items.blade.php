@@ -109,15 +109,17 @@ new class extends Component
             @endinteract
             @interact('column_actions', $row)
                 @if (in_array($row->status, [BagItemStatusEnum::PENDING, BagItemStatusEnum::CONFIRMED], true))
-                    <x-button.circle
+                    <x-button
                         icon="check-circle"
+                        text="Confirmar recebimento"
                         color="dark"
                         flat
                         title="Marcar como recebido"
                         wire:click="$dispatch('open-set-item-received', { bagItem: {{ $row->id }} })" />
                 @endif
-                <x-button.circle
+                <x-button
                     icon="pencil-square"
+                    text="Alterar quantidade"
                     color="dark"
                     flat
                     title="Alterar quantidade"

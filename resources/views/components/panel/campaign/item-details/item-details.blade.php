@@ -60,17 +60,17 @@
             </div>
         @endif
 
-        <x-slot:footer>
-            <div class="flex justify-end gap-2">
-                <x-button color="gray" wire:click="$set('slide', false)">Fechar</x-button>
+        <x-slot:footer class="flex justify-between">
+            <div>
                 @if ($this->itemId)
                     <x-button
-                        color="blue"
+                        color="primary"
                         wire:click="$dispatch('open-item-edit.{{ $this->campaignId }}', { item: {{ $this->itemId }} })">
                         Editar
                     </x-button>
                 @endif
             </div>
+            <x-button color="neutral" flat wire:click="$set('slide', false)">Fechar</x-button>
         </x-slot:footer>
     </x-slide>
 </div>

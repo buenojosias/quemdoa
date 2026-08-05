@@ -156,14 +156,14 @@ new class extends Component
         @interact('column_actions', $row)
             <div class="flex justify-end gap-1">
                 @unless ($row->received_at)
-                    <x-button.circle
+                    <x-button
                         icon="check-circle"
                         title="Marcar como recebida"
                         color="dark"
                         flat
                         wire:click="$dispatch('open-set-bag-received', { bag: {{ $row->id }} })" />
                 @endunless
-                <x-button.circle
+                <x-button
                     icon="trash"
                     title="Excluir sacola"
                     color="dark"
