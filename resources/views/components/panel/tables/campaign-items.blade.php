@@ -127,11 +127,11 @@ new class extends Component
         @endinteract
         @interact('column_actions', $row)
             <div class="flex">
-                <x-button icon="pencil-square" title="Editar" flat
+                <x-button icon="pencil-square" title="Editar" color="dark" flat
                     wire:click="$dispatch('open-item-edit.{{ $this->campaignId }}', { item: {{ $row->id }} })" />
-                <x-button icon="list-bullet" title="Sacolas" flat
+                <x-button icon="list-bullet" title="Sacolas" color="dark" flat
                     wire:click="$dispatch('open-item-bags.{{ $this->campaignId }}', { item: {{ $row->id }} })" />
-                <x-button icon="eye" title="Detalhes" flat
+                <x-button icon="eye" title="Detalhes" color="dark" flat
                     wire:click="$dispatch('open-item-details.{{ $this->campaignId }}', { item: {{ $row->id }} })" />
             </div>
         @endinteract

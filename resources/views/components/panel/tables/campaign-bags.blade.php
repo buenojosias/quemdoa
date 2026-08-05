@@ -157,8 +157,9 @@ new class extends Component
             <div class="flex justify-end gap-1">
                 @unless ($row->received_at)
                     <x-button.circle
-                        icon="check"
+                        icon="check-circle"
                         title="Marcar como recebida"
+                        color="dark"
                         flat
                         wire:click="$dispatch('open-set-bag-received', { bag: {{ $row->id }} })" />
                 @endunless
