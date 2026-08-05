@@ -148,11 +148,14 @@ new class extends Component
         @endinteract
         @interact('column_actions', $row)
             <div class="flex justify-end gap-1">
-                <x-button.circle
-                    icon="check"
-                    title="Marcar como recebida"
-                    color="green"
-                    flat />
+                @unless ($row->received_at)
+                    <x-button.circle
+                        icon="check"
+                        title="Marcar como recebida"
+                        color="green"
+                        flat
+                        wire:click="$dispatch('open-set-bag-received', { bag: {{ $row->id }} })" />
+                @endunless
                 <x-button.circle
                     icon="trash"
                     title="Excluir sacola"
@@ -164,4 +167,5 @@ new class extends Component
     </x-table>
 
     <livewire:panel.bag.delete-bag />
+    <livewire:panel.bag.set-bag-received />
 </div>

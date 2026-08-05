@@ -76,7 +76,9 @@
                         <x-dropdown.items text="Confirmar sacola" wire:click="confirm" />
                     @endunless
                     @unless ($bag->received_at)
-                        <x-dropdown.items text="Marcar como recebida" />
+                        <x-dropdown.items
+                            text="Marcar como recebida"
+                            wire:click="$dispatch('open-set-bag-received', { bag: {{ $bag->id }} })" />
                     @endunless
                     <x-dropdown.items
                         text="Excluir sacola"
