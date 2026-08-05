@@ -98,12 +98,10 @@
             :key="'bag-add-item-'.$bag->id" />
     </div>
 
-    @island('bag-items')
-        <livewire:panel.tables.bag-items
-            :bag-id="$this->bagId"
-            :campaign-id="$this->campaignId"
-            :key="'bag-items-'.$this->bagId" />
-    @endisland
+    <livewire:panel.tables.bag-items
+        :bag-id="$this->bagId"
+        :campaign-id="$this->campaignId"
+        :key="'bag-items-'.$this->bagId" />
 
     <livewire:panel.bag.delete-bag />
     <livewire:panel.bag.set-bag-received />

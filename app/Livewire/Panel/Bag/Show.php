@@ -129,7 +129,7 @@ class Show extends Component
     #[On('bag-deleted.{campaignId}')]
     public function redirectAfterBagDeleted(): void
     {
-        $this->redirectRoute('panel.campaigns.bags', $this->campaignId);
+        $this->redirectRoute('panel.campaigns.show', ['campaign' => $this->campaignId, 'tab' => 'bags']);
     }
 
     public function render(): View
