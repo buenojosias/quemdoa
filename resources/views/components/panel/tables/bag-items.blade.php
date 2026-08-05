@@ -38,6 +38,11 @@ new class extends Component
         unset($this->items);
     }
 
+    public function updatedCategory(): void
+    {
+        $this->resetPage();
+    }
+
     #[Computed]
     public function items()
     {

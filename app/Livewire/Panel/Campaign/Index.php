@@ -53,11 +53,6 @@ class Index extends Component
         ];
     }
 
-    public function updatedQuantity(): void
-    {
-        $this->resetPage();
-    }
-
     public function updatedStatus(): void
     {
         $this->resetPage();

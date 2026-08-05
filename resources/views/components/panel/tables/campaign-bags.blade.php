@@ -84,6 +84,13 @@ new class extends Component
         };
     }
 
+
+    #[On('navigated')]
+    public function navigated(): void
+    {
+        $this->resetPage();
+    }
+
     public function updatedQuantity(): void
     {
         $this->resetPage();

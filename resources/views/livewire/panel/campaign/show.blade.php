@@ -3,7 +3,7 @@
 
     <livewire:panel.campaign.edit :campaign="$this->campaign" @updated="$refresh" />
 
-    <x-tab wire:model.live="tab" scroll-on-mobile>
+    <x-tab wire:model.live="tab" scroll-on-mobile x-on:navigate="$dispatch('navigated')">
         <x-tab.items tab="info" title="Informações">
             <x-slot:left>
                 <x-icon name="information-circle" class="w-5 h-5" />

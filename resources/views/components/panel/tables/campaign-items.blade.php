@@ -43,6 +43,18 @@ new class extends Component
         return $query->paginate();
     }
 
+
+    #[On('navigated')]
+    public function navigated(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatedCategory(): void
+    {
+        $this->resetPage();
+    }
+
     #[Computed]
     public function categoryOptions(): array
     {
