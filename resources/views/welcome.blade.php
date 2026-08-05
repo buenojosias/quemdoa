@@ -240,17 +240,26 @@
                     {{-- <li><a href="#" class="hover:text-teal-600 transition">Contato</a></li> --}}
                 </ul>
             </div>
+
+            <div class="lg:col-span-1">
+                <h4 class="font-bold text-slate-900 mb-5 text-sm uppercase tracking-wider">Legal</h4>
+                <ul class="space-y-3.5 text-sm text-slate-500 font-medium">
+                    <li><a href="{{ route('legal.terms') }}" class="hover:text-teal-600 transition">Termos de Uso</a></li>
+                    <li><a href="{{ route('legal.privacy') }}" class="hover:text-teal-600 transition">Política de Privacidade</a></li>
+                    <li><a href="{{ route('legal.cookies') }}" class="hover:text-teal-600 transition">Política de Cookies</a></li>
+                </ul>
+            </div>
             
             <!-- Column 3: Links -->
-            <div class="lg:col-span-1">
+            {{-- <div class="lg:col-span-1">
                 <h4 class="font-bold text-slate-900 mb-5 text-sm uppercase tracking-wider">Para organizadores</h4>
                 <ul class="space-y-3.5 text-sm text-slate-500 font-medium">
                     <li><a href="{{ route('panel.campaigns.index') }}" class="hover:text-teal-600 transition">Criar campanha</a></li>
-                    {{-- <li><a href="#" class="hover:text-teal-600 transition">Gerenciar campanhas</a></li> --}}
-                    {{-- <li><a href="#" class="hover:text-teal-600 transition">Modelos de campanhas</a></li> --}}
-                    {{-- <li><a href="#" class="hover:text-teal-600 transition">Dicas e boas práticas</a></li> --}}
+                    <li><a href="#" class="hover:text-teal-600 transition">Gerenciar campanhas</a></li>
+                    <li><a href="#" class="hover:text-teal-600 transition">Modelos de campanhas</a></li>
+                    <li><a href="#" class="hover:text-teal-600 transition">Dicas e boas práticas</a></li>
                 </ul>
-            </div>
+            </div> --}}
             
             <!-- Column 4: Newsletter -->
             {{-- <div class="lg:col-span-1">

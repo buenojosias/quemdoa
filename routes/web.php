@@ -7,8 +7,9 @@ use Illuminate\Support\Facades\Route;
 Route::view('/', 'welcome')->name('welcome');
 
 Route::name('legal.')->group(function () {
-    Route::view('/termos-de-uso', 'legal.use-terms')->name('use-terms');
-    // Route::view('/politica-de-privacidade', 'legal.privacy-policy')->name('privacy-policy');
+    Route::view('/termos', 'legal.terms')->name('terms');
+    Route::view('/privacidade', 'legal.privacy')->name('privacy');
+    Route::view('/cookies', 'legal.cookies')->name('cookies');
 });
 
 Route::middleware(['auth'])->name('panel.')->group(function () {
