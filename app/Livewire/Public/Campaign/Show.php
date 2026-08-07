@@ -127,8 +127,6 @@ class Show extends Component
 
         $this->persistBagItems();
 
-        // $this->bagSlide = true;
-
         unset($this->itemsByCategory);
     }
 
@@ -145,6 +143,8 @@ class Show extends Component
         $this->persistBagItems();
 
         unset($this->itemsByCategory);
+
+        $this->bagSlide = true;
     }
 
     #[On('public-campaign-bag-item-quantity-updated.{campaignId}')]
