@@ -32,7 +32,7 @@
 
         <div class="grid grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(0,1.45fr)_minmax(360px,0.95fr)]">
             <livewire:panel.dashboard.active-campaigns />
-            <div class="space-y-6">
+            {{-- <div class="space-y-6">
                 <x-card>
                     <x-slot:header>
                         <h2 class="text-medium font-semibold text-slate-900 dark:text-white">Próximos vencimentos</h2>
@@ -73,7 +73,7 @@
                         @endforeach
                     </div>
                 </x-card>
-            </div>
+            </div> --}}
         </div>
     </div>
 </x-app-layout>

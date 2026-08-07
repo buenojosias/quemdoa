@@ -30,9 +30,15 @@
                     <x-dropdown>
                         <x-slot:action>
                             <div>
-                                <button class="cursor-pointer" x-on:click="show = !show">
-                                    <span class="text-base font-medium text-primary-500" x-text="name"></span>
-                                </button>
+                                @php
+                                    $words = explode(' ', auth()->user()->name);
+                                    $initials = $words[0][0]. @$words[1][0];
+                                @endphp
+                                @if (auth()->user()->avatar)
+                                    <x-avatar :image="auth()->user()->avatar" borderless class="cursor-pointer" sm x-on:click="show = !show" />
+                                @else
+                                    <x-avatar :text="$initials" borderless sm x-on:click="show = !show" class="cursor-pointer" />
+                                @endif
                             </div>
                         </x-slot:action>
                         <x-slot:header>
