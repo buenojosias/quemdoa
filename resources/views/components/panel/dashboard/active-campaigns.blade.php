@@ -65,7 +65,7 @@ new class extends Component
                 <div class="flex-1 flex flex-col gap-2 py-4">
                     <div class="flex justify-between gap-3 items-center">
                         <div class="flex-1">
-                            <h3 class="truncate text-sm font-bold text-slate-900 dark:text-white">{{ $campaign->name }}</h3>
+                            <h3 class="text-wrap line-clamp-1 text-sm font-bold text-slate-900 dark:text-white">{{ $campaign->name }}</h3>
                             <p class="text-sm text-slate-500 dark:text-slate-400">Encerra em {{ $campaign->delivery_deadline->diffForHumans() }}</p>
                         </div>
                         <x-badge :text="$this->statusLabel($campaign)" :color="$this->statusColor($campaign)" light round="md" />
@@ -73,7 +73,7 @@ new class extends Component
                     <x-progress :percent="$this->progress($campaign)" color="primary" sm class="w-full" />
                 </div>
                 <div class="py-1">
-                    <x-button icon="chevron-right" color="dark" flat />
+                    <x-button :href="route('panel.campaigns.show', $campaign)" icon="chevron-right" color="dark" flat />
                 </div>
             </div>
         @empty
