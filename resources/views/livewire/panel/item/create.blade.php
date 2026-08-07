@@ -25,10 +25,10 @@
 
                 <x-number label="Quantidade necessária *"
                           wire:model="required_quantity"
-                          :min="1"
+                          :min="0.5"
+                          step="0.5"
                           centralized
-                          required
-                          hint="Apenas valores inteiros" />
+                          required />
     
                 <x-date label="Data limite de entrega"
                         wire:model="delivery_date"
