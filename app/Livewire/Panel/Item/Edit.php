@@ -79,7 +79,8 @@ class Edit extends Component
             'required_quantity' => [
                 'required',
                 'numeric',
-                'min:0.1',
+                'min:0.5',
+                'max:999.9',
             ],
             'delivery_date' => [
                 'nullable',
