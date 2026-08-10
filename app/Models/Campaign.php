@@ -38,6 +38,11 @@ class Campaign extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function infos(): HasMany
+    {
+        return $this->hasMany(CampaignInfo::class);
+    }
+
     public function items(): HasMany
     {
         return $this->hasMany(CampaignItem::class);
