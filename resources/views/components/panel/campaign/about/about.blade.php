@@ -18,7 +18,7 @@
     </div>
 
     <div class="space-y-3">
-        <h2 class="text font-semibold text-gray-700 dark:text-gray-300">Detalhes da campanha</h2>
-
+        <h2 class="text font-semibold text-gray-700 dark:text-gray-300">Informações da campanha</h2>
+        <livewire:panel.campaign.infos :campaignId="$this->campaignId" />
     </div>
 </div>
