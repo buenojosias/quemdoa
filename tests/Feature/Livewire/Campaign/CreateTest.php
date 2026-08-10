@@ -24,6 +24,13 @@ it('initializes with a new active campaign', function () {
         ->assertSet('is_active', true);
 });
 
+it('opens the modal when the create campaign event is dispatched', function () {
+    Livewire::test(Create::class)
+        ->assertSet('modal', false)
+        ->dispatch('open-campaign-create')
+        ->assertSet('modal', true);
+});
+
 it('creates a campaign for the authenticated user', function () {
     $user = User::factory()->create();
     $confirmationDeadline = today()->addDays(10)->toDateString();

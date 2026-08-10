@@ -45,6 +45,21 @@ it('renders campaigns in a table with the requested columns', function () {
         ->assertSee('Ativa');
 });
 
+it('renders the empty campaign state', function () {
+    $user = User::factory()->create();
+
+    actingAs($user);
+
+    Livewire::test(Index::class)
+        ->assertOk()
+        ->assertSee('Você ainda não criou nenhuma campanha')
+        ->assertSee('Crie sua primeira campanha e comece a organizar doações de forma simples, prática e transparente.')
+        ->assertSee('assets/images/empty-illustration.webp')
+        ->assertSee('open-campaign-create')
+        ->assertSee('Criar minha primeira campanha')
+        ->assertDontSee('Itens por página');
+});
+
 it('filters campaigns by status and controls the page quantity', function () {
     $user = User::factory()->create();
 

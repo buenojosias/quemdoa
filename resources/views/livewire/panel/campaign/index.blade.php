@@ -7,10 +7,64 @@
     </div>
 
     @if ($status == '' && $this->campaigns->isEmpty())
-        <div class="mb-4">
-            <x-alert color="secondary" light icon="heart" title="Você ainda não tem campanhas">
-                Que tal criar sua primeira campanha? Clique no botão acima para começar!
-            </x-alert>
+        <div class="rounded-lg border border-gray-200 bg-white px-6 py-10 shadow-sm dark:border-gray-700 dark:bg-gray-900 sm:px-8 lg:px-12 lg:py-14">
+            <div class="mx-auto flex max-w-5xl flex-col items-center text-center">
+                <img
+                    src="{{ asset('assets/images/empty-illustration.webp') }}"
+                    alt=""
+                    class="h-auto w-full max-w-md"
+                    aria-hidden="true">
+
+                <h2 class="mt-8 text-2xl font-bold text-primary-900 dark:text-gray-100 sm:text-3xl">
+                    Você ainda não criou nenhuma campanha
+                </h2>
+                <p class="mt-3 max-w-xl text-base leading-7 text-gray-600 dark:text-gray-300">
+                    Crie sua primeira campanha e comece a organizar doações de forma simples, prática e transparente.
+                </p>
+
+                <div class="mt-9 grid w-full max-w-4xl grid-cols-1 gap-6 text-left lg:grid-cols-3">
+                    <div class="flex items-start gap-4">
+                        <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-secondary-100 text-secondary-600 dark:bg-secondary-900 dark:text-secondary-200">
+                            <x-icon name="shopping-bag" class="h-6 w-6" />
+                        </span>
+                        <div>
+                            <h3 class="font-semibold text-primary-900 dark:text-gray-100">Organize doações</h3>
+                            <p class="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-300">Monte sua lista de itens e receba doações de forma organizada.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-blue-100 text-blue-600 dark:bg-blue-900 dark:text-blue-200">
+                            <x-icon name="users" class="h-6 w-6" />
+                        </span>
+                        <div>
+                            <h3 class="font-semibold text-primary-900 dark:text-gray-100">Compartilhe facilmente</h3>
+                            <p class="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-300">Envie o link da sua campanha e alcance mais doadores.</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <span class="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-purple-100 text-purple-600 dark:bg-purple-900 dark:text-purple-200">
+                            <x-icon name="chart-bar" class="h-6 w-6" />
+                        </span>
+                        <div>
+                            <h3 class="font-semibold text-primary-900 dark:text-gray-100">Acompanhe tudo</h3>
+                            <p class="mt-1 text-sm leading-6 text-gray-600 dark:text-gray-300">Veja o que já foi doado e o que ainda falta.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 w-full max-w-4xl border-t border-gray-200 pt-8 dark:border-gray-700">
+                    <div class="flex flex-col items-center justify-center gap-4">
+                        <x-button text="Criar minha primeira campanha" icon="plus" wire:click="$dispatchTo('panel.campaign.create', 'open-campaign-create')" class="w-full sm:w-auto" />
+
+                        {{-- <a href="{{ route('welcome') }}#como-funciona" class="inline-flex items-center gap-2 text-sm font-semibold text-secondary-600 transition hover:text-secondary-700 dark:text-secondary-300 dark:hover:text-secondary-200">
+                            <x-icon name="play-circle" class="h-5 w-5" />
+                            Saiba como funciona
+                        </a> --}}
+                    </div>
+                </div>
+            </div>
         </div>
     @else
         <div class="space-y-4">

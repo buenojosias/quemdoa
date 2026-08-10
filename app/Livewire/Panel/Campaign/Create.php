@@ -5,6 +5,7 @@ namespace App\Livewire\Panel\Campaign;
 use App\Models\Campaign;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use TallStackUi\Traits\Interactions;
 
@@ -82,6 +83,14 @@ class Create extends Component
             'confirmation_deadline' => 'data limite de confirmação',
             'delivery_deadline' => 'data limite de entrega',
         ];
+    }
+
+    #[On('open-campaign-create')]
+    public function openModal(): void
+    {
+        $this->resetValidation();
+
+        $this->modal = true;
     }
 
     public function save(): void
