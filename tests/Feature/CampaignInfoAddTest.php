@@ -181,3 +181,32 @@ it('deletes a campaign information after confirmation', function () {
 
     $this->assertModelMissing($info);
 });
+
+it('reorders campaign information using wire sort positions', function () {
+    $campaign = campaignForInfoAdd();
+    $firstInfo = $campaign->infos()->create([
+        'title' => 'Primeira',
+        'content' => 'Primeira informação.',
+        'order' => 1,
+    ]);
+    $secondInfo = $campaign->infos()->create([
+        'title' => 'Segunda',
+        'content' => 'Segunda informação.',
+        'order' => 2,
+    ]);
+    $thirdInfo = $campaign->infos()->create([
+        'title' => 'Terceira',
+        'content' => 'Terceira informação.',
+        'order' => 3,
+    ]);
+
+    actingAs($campaign->user);
+
+    Livewire::test('panel.campaign.infos', ['campaignId' => $campaign->id])
+        ->call('sortInfo', $thirdInfo->id, 0)
+        ->assertHasNoErrors();
+
+    expect($thirdInfo->refresh()->order)->toBe(1)
+        ->and($firstInfo->refresh()->order)->toBe(2)
+        ->and($secondInfo->refresh()->order)->toBe(3);
+});

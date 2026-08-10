@@ -3,6 +3,7 @@
 use App\Models\Campaign;
 use App\Models\CampaignInfo;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -124,6 +125,32 @@ new class () extends Component {
         $this->reset('deletingInfoId');
 
         $this->toast()->success('Informação excluída com sucesso!')->send();
+    }
+
+    public function sortInfo(int|string $info, int $position): void
+    {
+        $campaignInfo = $this->findInfo((int) $info);
+
+        $orderedInfoIds = CampaignInfo::query()
+            ->where('campaign_id', $this->campaignId)
+            ->orderBy('order')
+            ->oldest()
+            ->pluck('id')
+            ->reject(fn (int $infoId): bool => $infoId === $campaignInfo->id)
+            ->values();
+
+        $orderedInfoIds->splice($position, 0, [$campaignInfo->id]);
+
+        DB::transaction(function () use ($orderedInfoIds): void {
+            $orderedInfoIds->each(function (int $infoId, int $index): void {
+                CampaignInfo::query()
+                    ->where('campaign_id', $this->campaignId)
+                    ->whereKey($infoId)
+                    ->update(['order' => $index + 1]);
+            });
+        });
+
+        unset($this->infos);
     }
 
     #[Computed]
