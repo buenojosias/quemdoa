@@ -1,15 +1,15 @@
 <div class="p-4 space-y-4 rounded-lg border border-gray-200 dark:border-gray-500">
     @forelse($this->infos as $info)
         {{-- <x-inline-info :label="$info->title" :value="$info->content" /> --}}
-        <div class="flex gap-4 text-sm items-center">
+        <div wire:key="campaign-info-{{ $info->id }}" class="flex gap-4 text-sm items-center">
             <div class="flex-1">
                 <p class="text-gray-800 dark:text-gray-300 font-medium">{{ $info->title }}</p>
                 <p class="text-gray-600 dark:text-gray-400">{{ $info->content }}</p>
             </div>
             <div class="flex">
                 <x-dropdown icon="ellipsis-vertical" static>
-                    <x-dropdown.items text="Editar" icon="pencil-square" />
-                    <x-dropdown.items text="Excluir" icon="trash" />
+                    <x-dropdown.items text="Editar" icon="pencil-square" wire:click="openEditModal({{ $info->id }})" />
+                    <x-dropdown.items text="Excluir" icon="trash" wire:click="askToDelete({{ $info->id }})" />
                 </x-dropdown>
             </div>
         </div>
@@ -23,4 +23,6 @@
     </div>
 
     <x-panel.campaign.infos.add-info />
+    <x-panel.campaign.infos.edit-info />
+    <x-panel.campaign.infos.delete-info />
 </div>
