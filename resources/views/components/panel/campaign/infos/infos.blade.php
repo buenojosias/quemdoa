@@ -7,7 +7,8 @@
         </p>
     @endforelse
     <div class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-500 text-right">
-        <x-button text="Adicionar informação" outline sm />
+        <x-button text="Adicionar informação" icon="plus" outline sm wire:click="openModal" />
     </div>
-    <livewire:panel.campaign.infos.add-info :campaignId="$this->campaignId" />
+
+    <x-panel.campaign.infos.add-info />
 </div>
