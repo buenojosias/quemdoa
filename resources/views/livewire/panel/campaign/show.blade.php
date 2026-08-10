@@ -4,12 +4,12 @@
     <livewire:panel.campaign.edit :campaign="$this->campaign" @updated="$refresh" />
 
     <x-tab wire:model.live="tab" scroll-on-mobile x-on:navigate="$dispatch('navigated')">
-        <x-tab.items tab="info" title="Informações">
+        <x-tab.items tab="about" title="Sobre">
             <x-slot:left>
                 <x-icon name="information-circle" class="w-5 h-5" />
             </x-slot:left>
             {{-- @island(lazy: true) --}}
-                <livewire:panel.campaign.info :campaign="$this->campaign" />
+                <livewire:panel.campaign.about :campaign="$this->campaign" />
             {{-- @endisland --}}
         </x-tab.items>
         <x-tab.items tab="items" title="Itens">

@@ -12,7 +12,7 @@ use Livewire\Component;
 class Show extends Component
 {
     #[Url]
-    public string $tab = 'info';
+    public string $tab = 'about';
     
     #[Locked]
     public string $campaignId;
