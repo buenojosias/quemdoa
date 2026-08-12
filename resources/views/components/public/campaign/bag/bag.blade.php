@@ -33,13 +33,13 @@
                                 icon="minus"
                                 color="neutral"
                                 flat
-                                :disabled="$item['quantity'] <= 0.1"
+                                :disabled="$item['quantity'] <= 0.5"
                                 x-on:click="$dispatch('public-campaign-bag-decrement.{{ $campaignId }}', { item: {{ $item['id'] }} })" />
                             <x-button
                                 icon="plus"
                                 color="neutral"
                                 flat
-                                :disabled="$item['quantity'] >= $item['pendingBaggedQuantity']"
+                                :disabled="$item['quantity'] >= ($item['pendingBaggedQuantity'] + 1)"
                                 x-on:click="$dispatch('public-campaign-bag-increment.{{ $campaignId }}', { item: {{ $item['id'] }} })" />
                         </x-button.group>
                         <x-button
