@@ -142,13 +142,29 @@
         @endforelse
     </div>
     @slot('footer')
-        <div class="w-full flex justify-center py-0.5">
+        <div
+            x-data="{ bagItemCount: {{ count($bagItems) }} }"
+            x-on:public-campaign-bag-count-updated.window="bagItemCount = $event.detail.count"
+            class="w-full flex justify-center py-0.5">
             <x-button
                 text="Ver sacola"
                 icon="shopping-bag"      
                 x-on:click="$dispatch('open-bag-slide')"
                 {{-- wire:click="openBag" --}}
-                class="w-full md:w-1/3" />
+                class="w-full md:w-1/3">
+                <x-slot:right>
+                    <x-badge
+                        color="yellow"
+                        x-show="bagItemCount > 0"
+                        x-bind:data-count="bagItemCount"
+                        data-testid="bag-item-count"
+                        round
+                        light
+                        x-cloak>
+                        <span x-text="bagItemCount"></span>
+                    </x-badge>
+                </x-slot:right>
+            </x-button>
         </div>
     @endslot
     

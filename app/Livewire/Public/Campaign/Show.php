@@ -128,6 +128,8 @@ class Show extends Component
         $this->persistBagItems();
 
         unset($this->itemsByCategory);
+
+        $this->dispatch('public-campaign-bag-count-updated', count: count($this->bagItems));
     }
 
     #[On('public-campaign-item-removed.{campaignId}')]
@@ -145,6 +147,8 @@ class Show extends Component
         unset($this->itemsByCategory);
 
         $this->bagSlide = true;
+
+        $this->dispatch('public-campaign-bag-count-updated', count: count($this->bagItems));
     }
 
     #[On('public-campaign-bag-item-quantity-updated.{campaignId}')]

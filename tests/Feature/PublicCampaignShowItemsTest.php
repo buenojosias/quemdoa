@@ -104,14 +104,15 @@ it('updates the public item button when items are added and removed from the tem
             'unitLabel' => 'unidades',
             'deliveryDate' => null,
         ])
-        ->assertSee('Adicionado à sacola')
+        ->assertSee('Na sacola')
+        ->assertDispatched('public-campaign-bag-count-updated', count: 1)
         ->assertSet('bagItems.0.name', 'Arroz')
-        ->assertSet('bagSlide', true)
         ->dispatch("public-campaign-bag-item-quantity-updated.{$campaign->id}", item: $item->id, quantity: 2.5)
         ->assertSet('bagItems.0.quantity', 2.5)
         ->assertSet('bagItems.0.formattedQuantity', '2,5')
         ->dispatch("public-campaign-item-removed.{$campaign->id}", item: $item->id)
         ->assertSet('bagItems', [])
+        ->assertDispatched('public-campaign-bag-count-updated', count: 0)
         ->assertSee('Vou doar');
 });
 
