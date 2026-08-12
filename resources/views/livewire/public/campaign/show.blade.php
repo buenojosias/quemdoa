@@ -65,11 +65,16 @@
                                                     {{ $item['pending_quantity_label'] }}
                                                 </span>
                                             </span>
-                                            <x-icon
-                                                name="chevron-down"
-                                                outline
-                                                x-bind:class="{ 'rotate-180': expanded }"
-                                                class="h-4 w-4 shrink-0 text-gray-700 transition-transform dark:text-gray-200" />
+                                            <div class="flex items-center gap-2">
+                                                @if ($item['delivery_date'] || $item['note'])
+                                                    <x-icon name="exclamation-triangle" color="orange" class="h-4 w-4" outline />
+                                                @endif
+                                                <x-icon
+                                                    name="chevron-down"
+                                                    outline
+                                                    x-bind:class="{ 'rotate-180': expanded }"
+                                                    class="h-4 w-4 shrink-0 text-gray-700 transition-transform dark:text-gray-200" />
+                                            </div>
                                         </button>
 
                                         @if (!$item['is_added'] && !$item['is_complete'])
@@ -87,8 +92,59 @@
                                     </div>
 
                                     <div x-show="expanded" x-collapse x-cloak class="pt-4">
-                                        <div class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
-                                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                        <div class="rounded-lg border border-gray-200 bg-white grid grid-cols-1 md:grid-cols-2 gap-4 p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+                                            
+                                            <div class="space-y-2">
+                                                <div>
+                                                    <p class="text-gray-500 dark:text-gray-400">Necessário</p>
+                                                    <p class="font-medium text-gray-800 dark:text-gray-100">
+                                                        {{ $item['required_quantity'] }} {{ $item['unit_label'] }}
+                                                    </p>
+                                                </div>
+                                                <div>
+                                                    <p class="text-gray-500 dark:text-gray-400">Prometido</p>
+                                                    <div class="flex items-center gap-4 font-medium text-gray-800 dark:text-gray-100">
+                                                        <span>{{ $item['promised_quantity'] }} / {{ $item['required_quantity'] }}</span>
+                                                        <div class="flex-1">
+                                                            <x-progress :percent="$item['promised_progress']" color="blue" xs />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <p class="text-gray-500 dark:text-gray-400">Recebido</p>
+                                                    <div class="flex items-center gap-4 font-medium text-gray-800 dark:text-gray-100">
+                                                        <span>{{ $item['received_quantity'] }} / {{ $item['required_quantity'] }}</span>
+                                                        <div class="flex-1">
+                                                            <x-progress :percent="$item['received_progress']" color="green" xs />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div class="space-y-4">
+                                                @if ($item['delivery_date'])
+                                                <div class="flex gap-2 text-sm text-gray-700 dark:text-gray-200">
+                                                    <x-icon name="calendar" outline class="mt-0.5 h-4 w-4 shrink-0 text-gray-500 dark:text-gray-400" />
+                                                    <div>
+                                                        <p class="text-gray-600 dark:text-gray-300">
+                                                            Entregar até
+                                                            <span class="font-medium">{{ $item['delivery_date'] }}</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            @endif
+
+                                            @if ($item['note'])
+                                                <div class="text-sm text-gray-700 dark:text-gray-200">
+                                                    <p class="font-medium text-gray-500 dark:text-gray-400">Observação:</p>
+                                                    <p class="mt-1">{{ $item['note'] }}</p>
+                                                </div>
+                                            @endif                                                
+                                            </div>
+
+
+                                            {{-- <div class="grid grid-cols-2 gap-4 text-sm">
                                                 <div>
                                                     <p class="text-gray-500 dark:text-gray-400">Necessário</p>
                                                     <p class="mt-1 text-lg font-semibold text-gray-800 dark:text-gray-100">
@@ -124,7 +180,7 @@
                                                     <p class="font-medium text-gray-500 dark:text-gray-400">Observações:</p>
                                                     <p class="mt-1">{{ $item['note'] }}</p>
                                                 </div>
-                                            @endif
+                                            @endif --}}
                                         </div>
                                     </div>
                                 </div>
