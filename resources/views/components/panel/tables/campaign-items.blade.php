@@ -79,7 +79,8 @@ new class extends Component
             'headers' => [
                 ['index' => 'item', 'label' => 'Item'],
                 ['index' => 'category', 'label' => 'Categoria'],
-                ['index' => 'quantity', 'label' => 'Quantidade'],
+                ['index' => 'promised', 'label' => 'Prometido'],
+                ['index' => 'received', 'label' => 'Recebido'],
                 ['index' => 'date', 'label' => 'Prazo de entrega'],
                 ['index' => 'actions'],
             ],
@@ -108,17 +109,27 @@ new class extends Component
 
     <x-table :$headers :$rows paginate loading>
         @interact('column_item', $row)
-            <div class="text-sm font-medium text-gray-700 dark:text-gray-100">
-                {{ $row->name }}
-                @if ($row->complement)
-                    <p class="text-sm font-normal text-gray-500 dark:text-gray-400">{{ $row->note }}</p>
+            <div class="flex items-center gap-2">
+                <div class="flex-1 text-sm font-medium text-gray-700 dark:text-gray-100">
+                    {{ $row->name }}
+                    @if ($row->complement)
+                        <p class="text-sm font-normal text-gray-500 dark:text-gray-400">{{ $row->complement }}</p>
+                    @endif
+                </div>
+                @if($row->note)
+                    <x-tooltip :text="$row->note" icon="information-circle" color="amber" />
                 @endif
             </div>
         @endinteract
-        @interact('column_quantity', $row)
-            <div class="space-y-0.5">
-                {{ number_format($row->required_quantity, 0) }} {{ $row->unit->label() }}
+        @interact('column_promised', $row)
+            <div class="space-y-0.5 text-sm">
+                {{ number_format($row->bagged_quantity, 0) }} / {{ number_format($row->required_quantity, 0) }} {{ $row->unit->abbreviation() }}
                 <x-progress :percent="$row->bagged_quantity / $row->required_quantity * 100" color="cyan" sm />
+            </div>
+        @endinteract
+        @interact('column_received', $row)
+            <div class="space-y-0.5 text-sm">
+                {{ number_format($row->received_quantity, 0) }} / {{ number_format($row->required_quantity, 0) }} {{ $row->unit->abbreviation() }}
                 <x-progress :percent="$row->received_quantity / $row->required_quantity * 100" color="green" sm />
             </div>
         @endinteract
