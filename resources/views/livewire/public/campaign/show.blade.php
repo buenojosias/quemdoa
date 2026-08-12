@@ -145,7 +145,7 @@
         <div
             x-data="{ bagItemCount: {{ count($bagItems) }} }"
             x-on:public-campaign-bag-count-updated.window="bagItemCount = $event.detail.count"
-            class="w-full flex justify-center py-0.5">
+            class="w-full flex justify-center gap-x-4 py-0.5">
             <x-button
                 text="Ver sacola"
                 icon="shopping-bag"      
@@ -165,6 +165,7 @@
                     </x-badge>
                 </x-slot:right>
             </x-button>
+            <x-button icon="information-circle" outline l x-on:click="$dispatch('open-infos-modal')" />
         </div>
     @endslot
     
@@ -175,4 +176,5 @@
         :slide="$bagSlide"
         :key="'public-campaign-bag-'.$campaignId.'-'.count($bagItems).'-'.(int) $bagSlide" />
     <livewire:public.campaign.confirm-bag :campaign-id="$campaignId" />
+    <livewire:public.campaign.infos :campaign="$campaign" />
 </div>
