@@ -1,7 +1,7 @@
 <x-slide id="public-campaign-bag-slide" title="Itens da sacola" size="sm" wire>
     <div class="space-y-3">
         @forelse ($bagItems as $item)
-            <div wire:key="public-campaign-bag-item-{{ $item['id'] }}" class="rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+            <x-card wire:key="public-campaign-bag-item-{{ $item['id'] }}">
                 <div class="flex items-start justify-between gap-4">
                     <div class="min-w-0">
                         <h3 class="truncate text-sm font-semibold text-gray-800 dark:text-gray-100">{{ $item['name'] }}</h3>
@@ -51,9 +51,9 @@
                             x-on:click="$dispatch('public-campaign-bag-remove.{{ $campaignId }}', { item: {{ $item['id'] }} })" />
                     </div>
                 </div>
-            </div>
+            </x-card>
         @empty
-            <div class="rounded-lg border border-dashed border-gray-300 bg-white p-6 text-center text-sm text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400">
+            <div class="rounded-lg border border-dashed border-gray-300 bg-white p-6 text-center text-sm text-gray-500 dark:border-dark-600 dark:bg-dark-700 dark:text-gray-400">
                 Sua sacola ainda está vazia.
             </div>
         @endforelse

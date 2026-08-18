@@ -18,7 +18,7 @@
         x-cloak
         {{-- x-data="{ name: @js(auth()->user()->name) }" --}}
         x-on:name-updated.window="name = $event.detail.name"
-        x-bind:class="{ 'dark bg-gray-800': darkTheme, 'bg-gray-100': !darkTheme }">
+        x-bind:class="{ 'dark bg-dark-900': darkTheme, 'bg-gray-50': !darkTheme }">
         <div class="dark:bg-dark-700 dark:border-dark-600 sticky top-0 z-40 flex h-18 shrink-0 items-center gap-x-4 border-b border-gray-300/10 bg-white shadow-sm">
             <div class="container mx-auto flex justify-between px-6 lg:px-16">
                 <a href="{{ route('welcome') }}" class="flex items-end gap-3">
@@ -31,7 +31,7 @@
             {{ $slot }}
         </div>
         @if (@$footer)
-            <div class="z-40 sticky bottom-0 py-2 bg-white dark:bg-gray-700 shadow">
+            <div class="z-40 sticky bottom-0 py-2 bg-white dark:bg-dark-800 shadow">
                 <div class="container mx-auto px-6 lg:px-16">
                     {{ $footer }}
                 </div>
